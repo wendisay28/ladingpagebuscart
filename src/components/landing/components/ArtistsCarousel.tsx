@@ -1,3 +1,4 @@
+"use client";
 import { useState } from 'react';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight, Search, Filter, Zap, Check } from 'lucide-react';

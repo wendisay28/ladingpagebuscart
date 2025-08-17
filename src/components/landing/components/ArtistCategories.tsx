@@ -1,3 +1,4 @@
+"use client";
 import { useState, useEffect, useRef, useCallback, useMemo } from "react";
 import { artistsByCategory } from "../shared/artists-data";
 import { eventsData, Event } from "../shared/events-data";

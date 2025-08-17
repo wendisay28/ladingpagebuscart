@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useRef } from 'react';
 import { Sparkles, Shield, Zap, Users } from 'lucide-react';
 

@@ -8,43 +8,43 @@ const destinations = [
   {
     title: 'Palacio de la Cultura',
     subtitle: 'Medellín · Colombia',
-    image: '/images/Medellin/palaciodelacultura.jpg',
+    image: '/Medellin/palaciodelacultura.jpg',
     description: 'Icono arquitectónico y centro cultural en el corazón de Medellín.'
   },
   {
     title: 'Jardín Botánico',
     subtitle: 'Medellín · Colombia',
-    image: '/images/Medellin/jardinbotanico.jpg',
+    image: '/Medellin/jardinbotanico.jpg',
     description: 'Un oasis de biodiversidad en medio de la ciudad, hogar de miles de especies de flora.'
   },
   {
     title: 'Pueblito Paisa',
     subtitle: 'Medellín · Colombia',
-    image: '/images/Medellin/pueblitopaisa.jpg',
+    image: '/Medellin/pueblitopaisa.jpg',
     description: 'Réplica de un típico pueblo antioqueño con impresionantes vistas panorámicas de la ciudad.'
   },
   {
     title: 'Museo de Antioquia',
     subtitle: 'Medellín · Colombia',
-    image: '/images/Medellin/museodeantioquia.jpg',
+    image: '/Medellin/museodeantioquia.jpg',
     description: 'Alberga una importante colección de arte, incluyendo obras de Fernando Botero.'
   },
   {
     title: 'Plaza Botero',
     subtitle: 'Medellín · Colombia',
-    image: '/images/Medellin/plazaboteroantioquia.jpg',
+    image: '/Medellin/plazaboteroantioquia.jpg',
     description: 'Famosa por sus 23 esculturas del maestro Fernando Botero.'
   },
   {
     title: 'Biblioteca Pública Piloto',
     subtitle: 'Medellín · Colombia',
-    image: '/images/Medellin/BibliotecaPublicaPiloto.jpg',
+    image: '/Medellin/BibliotecaPublicaPiloto.jpg',
     description: 'Centro cultural y biblioteca que promueve la lectura y la cultura en la ciudad.'
   },
   {
     title: 'Palacio de Bellas Artes',
     subtitle: 'Medellín · Colombia',
-    image: '/images/Medellin/PalaciodeBellasArtes.jpeg',
+    image: '/Medellin/PalaciodeBellasArtes.jpeg',
     description: 'Joya arquitectónica que alberga importantes eventos culturales y artísticos.'
   }
 ];

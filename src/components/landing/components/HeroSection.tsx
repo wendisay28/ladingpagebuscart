@@ -29,6 +29,9 @@ export default function HeroSection() {
       .animate-glow {
         animation: glow 3s ease-in-out infinite;
       }
+      .tight-line-height {
+        line-height: 0.85 !important;
+      }
     `;
     
     // Agregar los estilos al head del documento
@@ -57,7 +60,7 @@ export default function HeroSection() {
         {/* Contenedor de texto - Abajo en móvil, a la izquierda en desktop */}
         <div className="w-full lg:w-1/2 mt-8 lg:mt-0 lg:pr-12">
           <div className="max-w-2xl mx-auto text-left animate-fade-in-up">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-tight tracking-tight mb-6 lg:mb-8">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 lg:mb-8 tight-line-height" style={{ lineHeight: '0.9' }}>
               Busca, <span className="bg-gradient-to-r from-pink-400 to-purple-500 bg-clip-text text-transparent">compara</span>, contrata y vive el{" "}
               <span className="bg-gradient-to-r from-purple-500 to-pink-400 bg-clip-text text-transparent">arte</span> en tu ciudad
             </h1>
@@ -85,7 +88,7 @@ export default function HeroSection() {
         <div className="w-full lg:w-1/2 flex items-center justify-center px-2 sm:px-4">
           <div className="relative w-full max-w-2xl lg:max-w-3xl h-[350px] sm:h-[450px] md:h-[550px] lg:h-[750px] animate-zoom-in-up">
             <img 
-              src="images/landing/tango.png" 
+              src="/landing/tango.png" 
               alt="Arte y cultura" 
               className="w-full h-full object-contain"
               onError={(e) => {
