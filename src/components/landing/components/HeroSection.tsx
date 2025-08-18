@@ -45,7 +45,7 @@ export default function HeroSection() {
 
   return (
     <section
-      className="relative min-h-[100vh] bg-black text-white overflow-hidden flex items-center py-16"
+      className="relative h-screen bg-black text-white overflow-hidden flex items-center"
       role="region"
       aria-label="Hero section"
     >
@@ -56,27 +56,27 @@ export default function HeroSection() {
       </div>
 
       {/* Content - Orden invertido en móvil */}
-      <div className="container mx-auto px-6 sm:px-8 md:px-12 lg:px-16 xl:px-20 relative z-10 flex flex-col-reverse lg:flex-row items-center pt-16 lg:pt-0">
+      <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 relative z-10 flex flex-col-reverse lg:flex-row items-center h-full -mt-8 lg:-mt-12">
         {/* Contenedor de texto - Abajo en móvil, a la izquierda en desktop */}
-        <div className="w-full lg:w-1/2 mt-8 lg:mt-0 lg:pr-12">
-          <div className="max-w-2xl mx-auto text-left animate-fade-in-up">
-            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight mb-6 lg:mb-8 tight-line-height" style={{ lineHeight: '0.9' }}>
+        <div className="w-full lg:w-2/5 flex items-center">
+          <div className="max-w-xl lg:max-w-2xl mx-auto lg:mx-0 text-left animate-fade-in-up">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold tracking-tight mb-2 lg:mb-3 tight-line-height" style={{ lineHeight: '0.9' }}>
               Busca, <span className="bg-gradient-to-r from-pink-400 to-purple-500 bg-clip-text text-transparent">compara</span>, contrata y vive el{" "}
               <span className="bg-gradient-to-r from-purple-500 to-pink-400 bg-clip-text text-transparent">arte</span> en tu ciudad
             </h1>
-            <p className="text-base sm:text-lg md:text-xl text-gray-300 leading-relaxed mb-8 lg:mb-10 font-sans tracking-wide max-w-3xl">
+            <p className="text-sm sm:text-base md:text-lg lg:text-xl text-gray-300 leading-relaxed mb-4 lg:mb-5 font-sans tracking-wide">
               BuscArt te conecta con artistas, eventos y espacios culturales. Contrata en tiempo real, publica ofertas, proyectos, convocatorias y descubre experiencias cerca de ti de forma rápida y segura.
             </p>
 
-            <div className="flex flex-row gap-3 max-w-md">
+            <div className="flex flex-row gap-3 max-w-sm lg:max-w-md">
               <a href="/busco-artistas" aria-label="Busco artistas" className="w-1/2">
-                <Button className="w-full bg-gradient-to-r from-purple-600 to-pink-500 hover:from-pink-500 hover:to-purple-600 text-white text-sm sm:text-base py-2 sm:py-3 rounded-xl shadow-xl transition-all duration-300 hover:scale-[1.02]">
+                <Button className="w-full bg-gradient-to-r from-purple-600 to-pink-500 hover:from-pink-500 hover:to-purple-600 text-white text-xs sm:text-sm lg:text-base py-2 sm:py-2.5 lg:py-3 rounded-xl shadow-xl transition-all duration-300 hover:scale-[1.02]">
                   Busco artistas
                 </Button>
               </a>
 
               <a href="/soy-artista" aria-label="Soy artista" className="w-1/2">
-                <Button className="w-full bg-gradient-to-r from-purple-600 to-pink-500 hover:from-pink-500 hover:to-purple-600 text-white text-sm sm:text-base py-2 sm:py-3 rounded-xl shadow-xl transition-all duration-300 hover:scale-[1.02]">
+                <Button className="w-full bg-gradient-to-r from-purple-600 to-pink-500 hover:from-pink-500 hover:to-purple-600 text-white text-xs sm:text-sm lg:text-base py-2 sm:py-2.5 lg:py-3 rounded-xl shadow-xl transition-all duration-300 hover:scale-[1.02]">
                   Soy artista
                 </Button>
               </a>
@@ -85,8 +85,8 @@ export default function HeroSection() {
         </div>
 
         {/* Contenedor de imagen - Arriba en móvil, a la derecha en desktop */}
-        <div className="w-full lg:w-1/2 flex items-center justify-center px-2 sm:px-4">
-          <div className="relative w-full max-w-2xl lg:max-w-3xl h-[350px] sm:h-[450px] md:h-[550px] lg:h-[750px] animate-zoom-in-up">
+        <div className="w-full lg:w-3/5 flex items-center justify-center mb-4 lg:mb-0">
+          <div className="relative w-full max-w-2xl sm:max-w-3xl md:max-w-4xl lg:max-w-5xl xl:max-w-6xl h-96 sm:h-[500px] md:h-[600px] lg:h-[650px] xl:h-[700px] animate-zoom-in-up lg:transform lg:translate-x-8 xl:translate-x-12">
             <img 
               src="/landing/tango.png" 
               alt="Arte y cultura" 

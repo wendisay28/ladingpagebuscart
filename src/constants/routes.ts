@@ -10,6 +10,7 @@ export const APP_ROUTES = {
   TIENDA: '/tienda',
   LUGARES: '/lugares',
   ARTISTS: '/artistas',
+  BUSCO_ARTISTAS: '/busco-artistas',
   CONTACT: '/contacto',
 };
 

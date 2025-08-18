@@ -21,7 +21,7 @@ export default function Home() {
 
   return (
     <NavigationProvider>
-      <div className="bg-black text-white overflow-x-hidden font-space border-2 border-red-500">
+      <div className="bg-black text-white overflow-x-hidden font-space">
         <CustomCursor />
         <div className="scroll-progress"></div>
         <Navigation />
