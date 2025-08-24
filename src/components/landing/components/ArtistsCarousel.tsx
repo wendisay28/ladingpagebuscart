@@ -1,7 +1,6 @@
 "use client";
 import { useState } from 'react';
-import Image from 'next/image';
-import { ChevronLeft, ChevronRight, Search, Filter, Zap, Check } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Search, Filter, Zap, Check, Star, MapPin, Heart, Share2, Info, Music, CalendarCheck } from 'lucide-react';
 
 interface Artist {
   id: string;
@@ -10,10 +9,12 @@ interface Artist {
   price: string;
   location: string;
   image: string;
+  rating: number;
+  reviews: number;
 }
 
 const HowItWorksSection = () => (
-  <div className="lg:w-1/2 px-6 lg:px-12">
+  <div className="lg:w-1/2 px-0">
     <div className="mb-10">
       <h2 className="text-4xl font-bold text-white mb-4">
         Encuentra el talento perfecto para tu evento y ocasión
@@ -71,12 +72,6 @@ const HowItWorksSection = () => (
         </p>
       </div>
     </div>
-    
-    <div className="mt-10">
-      <button className="bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white font-medium py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105">
-        Comenzar a explorar
-      </button>
-    </div>
   </div>
 );
 
@@ -86,8 +81,10 @@ const featuredArtists: Artist[] = [
     name: 'María González',
     profession: 'Cantante de boleros',
     price: 'Desde $1,200,000',
-    location: 'Bogotá, Colombia',
-    image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=688&q=80'
+    location: 'Medellín, Colombia',
+    image: 'https://images.unsplash.com/photo-1494790108755-2616c613d8e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    rating: 4.9,
+    reviews: 127
   },
   {
     id: '2',
@@ -95,23 +92,29 @@ const featuredArtists: Artist[] = [
     profession: 'Músico profesional',
     price: 'Desde $800,000',
     location: 'Medellín, Colombia',
-    image: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80'
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    rating: 4.8,
+    reviews: 89
   },
   {
     id: '3',
     name: 'Laura Torres',
     profession: 'Bailarina profesional',
     price: 'Desde $1,000,000',
-    location: 'Cali, Colombia',
-    image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653a3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80'
+    location: 'Medellín, Colombia',
+    image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    rating: 5.0,
+    reviews: 203
   },
   {
     id: '4',
     name: 'Javier Ramírez',
     profession: 'DJ profesional',
     price: 'Desde $1,500,000',
-    location: 'Barranquilla, Colombia',
-    image: 'https://images.unsplash.com/photo-1514525252781-ee673c0d6e7e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80'
+    location: 'Medellín, Colombia',
+    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    rating: 4.7,
+    reviews: 156
   }
 ];
 
@@ -138,82 +141,160 @@ export default function ArtistsCarousel() {
 
   return (
     <section className="py-20 bg-black">
-      <div className="container mx-auto px-6 lg:px-12">
-        <div className="flex flex-col lg:flex-row items-center">
-          {/* Sección de Cómo Funciona */}
+      <div className="w-full max-w-[1250px] mx-auto px-0 overflow-visible">
+        {/* Layout en dos columnas lado a lado */}
+        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8 lg:gap-16">
+          {/* Columna izquierda - Sección "Cómo Funciona" */}
           <HowItWorksSection />
-          
-          {/* Carrusel de Artistas */}
-          <div className="lg:w-1/2 relative overflow-hidden mt-12 lg:mt-0">
-            {/* 3D Carousel */}
-            <div className="carousel-container relative">
-              <div className="flex items-center justify-center min-h-[550px] lg:min-h-[700px] overflow-hidden">
-                <div className="relative w-full max-w-6xl">
+
+          {/* Columna derecha - Carrusel de Artistas */}
+          <div className="lg:w-1/2 relative">
+            <div className="carousel-container relative w-full h-[500px] lg:h-[650px] overflow-visible">
+              <div className="flex items-center justify-center h-full">
+                <div className="relative w-full max-w-sm ml-44">
                   {featuredArtists.map((artist, index) => {
                     const position = getCardPosition(index);
                     let transformStyle = '';
                     let zIndex = 1;
-                    let opacity = 0.7;
-                    const scale = position === 'center' ? 1.05 : 
-                                  position === 'left' || position === 'right' ? 0.9 : 0.7;
+                    let opacity = 0.4;
                     
                     if (position === 'center') {
-                      transformStyle = `translateX(0) scale(${scale}) translateZ(0)`;
+                      transformStyle = `translateX(60px) translateY(180px) scale(1.05) translateZ(0)`;
                       zIndex = 10;
                       opacity = 1;
                     } else if (position === 'left') {
-                      transformStyle = `translateX(-120px) scale(${scale}) rotateY(15deg) translateZ(-60px)`;
+                      transformStyle = `translateX(-60px) translateY(180px) scale(0.85) rotateY(15deg) translateZ(-60px)`;
                       zIndex = 5;
-                      opacity = 0.8;
+                      opacity = 0.6;
                     } else if (position === 'right') {
-                      transformStyle = 'translateX(100px) scale(0.9) rotateY(-15deg) translateZ(-50px)';
+                      transformStyle = `translateX(180px) translateY(180px) scale(0.85) rotateY(-15deg) translateZ(-60px)`;
                       zIndex = 5;
-                      opacity = 0.8;
+                      opacity = 0.6;
                     } else {
-                      transformStyle = 'translateX(0) scale(0.7) rotateY(25deg) translateZ(-100px)';
+                      transformStyle = 'translateX(60px) translateY(180px) scale(0.7) translateZ(-120px)';
                       zIndex = 1;
-                      opacity = 0.5;
+                      opacity = 0.3;
                     }
                     
                     return (
                       <div
                         key={artist.id}
-                        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-500 ease-out"
+                        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 transition-all duration-700 ease-out cursor-pointer"
                         style={{
                           transform: `translate(-50%, -50%) ${transformStyle}`,
                           zIndex: zIndex,
                           opacity: opacity
                         }}
+                        onClick={() => setCurrentIndex(index)}
                       >
-                        <div className={`bg-gradient-to-b from-gray-800 to-gray-900 rounded-2xl overflow-hidden w-72 h-[28rem] flex flex-col ${
-                          position === 'center' ? 'border-2 border-pink-500 shadow-xl shadow-pink-500/30' : 'border border-gray-700'
+                        <div className={`bg-gray-900 rounded-[20px] overflow-hidden w-80 h-[28rem] shadow-xl transition-all duration-300 ${
+                          position === 'center' ? 'border-2 border-pink-500 shadow-pink-500/30 hover:shadow-pink-500/50' : 'border border-gray-700/50'
                         }`}>
-                          <div className="relative h-72">
-                            <div className="relative w-full h-full">
-                              <Image
-                                src={artist.image}
-                                alt={artist.name}
-                                fill
-                                className="object-cover"
-                                onError={() => {
-                                  console.error('Error loading image:', artist.image);
-                                  // El manejo de errores se manejará con el placeholder
+                          {/* Imagen del artista - 60% del height */}
+                          <div className="relative h-[60%] overflow-hidden">
+                            <img
+                              src={artist.image}
+                              alt={artist.name}
+                              className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                              onError={(e) => {
+                                e.currentTarget.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMWYyYTM1Ii8+PHRleHQgeD0iNTAlIiB5PSI0NSUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZiI+QXJ0aXN0YTwvdGV4dD48dGV4dCB4PSI1MCUiIHk9IjU1JSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIiBmaWxsPSIjOWNhM2FmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5JbWFnZW4gbm8gZGlzcG9uaWJsZTwvdGV4dD48L3N2Zz4=';
+                              }}
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                            
+                            {/* Badge de rating - esquina superior derecha */}
+                            <div className="absolute top-4 right-4 bg-black/70 backdrop-blur-md rounded-full px-3 py-1 flex items-center space-x-1">
+                              <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                              <span className="text-white text-sm font-semibold">{artist.rating}</span>
+                            </div>
+
+                            {/* Botones de acción en esquina inferior derecha */}
+                            <div className="absolute right-3 bottom-3 flex flex-col gap-2">
+                              <button 
+                                onClick={(e) => {
+                                  e.stopPropagation();
                                 }}
-                                placeholder="blur"
-                                blurDataURL="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MDAiIGhlaWdodD0iNTAwIiB2aWV3Qm94PSIwIDAgNDAwIDUwMCI+CiAgPHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0iIzFhMWIxZSIgLz4KICA8dGV4dCB4PSI1MCUiIHk9IjUwJSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSJ3aGl0ZSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZHk9Ii0yIj5JbWFnZSBub3QgYXZhaWxhYmxlPC90ZXh0PgogIDx0ZXh0IHg9IjUwJSIgeT0iNTAlIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiM4YzhlOGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIxNCI+Q2FyZ2FuZG8gY29udGVuaWRvIGRlIG11ZXN0cmEgZGVsIGFydGlzdGE8L3RleHQ+Cjwvc3ZnPg=="
-                              />
+                                className="p-2 rounded-full text-gray-300 bg-gray-900/80 hover:bg-gray-800/90 hover:text-red-500 transition-all"
+                                aria-label="Añadir a favoritos"
+                              >
+                                <Heart className="w-4 h-4" />
+                              </button>
+                              <button 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                }}
+                                className="p-2 rounded-full bg-gray-900/80 text-gray-300 hover:bg-gray-800/90 transition-all"
+                                aria-label="Compartir"
+                              >
+                                <Share2 className="w-4 h-4" />
+                              </button>
                             </div>
-                            {position === 'center' && (
-                              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
-                            )}
                           </div>
-                          <div className="p-4 flex-1 flex flex-col justify-between bg-gradient-to-b from-gray-900 to-black">
-                            <div>
-                              <h3 className="font-bold text-white mb-1">{artist.name}</h3>
-                              <p className="text-sm text-gray-300 mb-2">{artist.profession}</p>
-                              <p className="text-sm text-pink-500 font-semibold">{artist.price}</p>
+                          
+                          {/* Contenido de la tarjeta - 40% del height */}
+                          <div className="flex flex-col h-[40%] overflow-hidden">
+                            <div className="p-4 pb-2">
+                              <div className="flex items-baseline gap-2">
+                                <h3 className="font-semibold text-lg text-white line-clamp-1">
+                                  {artist.name}
+                                </h3>
+                                <span className="text-xs text-pink-500 font-medium">
+                                  • {artist.profession}
+                                </span>
+                              </div>
+                              
+                              {/* Rating y reseñas */}
+                              <div className="flex items-center mt-1.5 text-sm text-gray-300">
+                                <div className="flex items-center space-x-1">
+                                  <Star className="w-3.5 h-3.5 text-yellow-400 fill-current" />
+                                  <span>{artist.rating}</span>
+                                </div>
+                                <span className="mx-2">•</span>
+                                <span>{artist.reviews} reseñas</span>
+                                <span className="flex items-center text-gray-400 ml-3 text-xs">
+                                  <MapPin className="w-3.5 h-3.5 mr-1 flex-shrink-0" />
+                                  <span className="truncate">{artist.location}</span>
+                                </span>
+                              </div>
                             </div>
-                            <p className="text-xs text-gray-400">{artist.location}</p>
+
+                            <div className="px-4 pb-3 flex-1 overflow-y-auto">
+                              {/* Descripción breve */}
+                              <p className="text-sm text-gray-300 mb-3 leading-relaxed line-clamp-2">
+                                Artista profesional con amplia experiencia en eventos y presentaciones únicas.
+                              </p>
+                            </div>
+
+                            {/* Pie de tarjeta con precio y botones */}
+                            <div className="border-t border-gray-700/50 px-4 py-3">
+                              <div className="flex justify-between items-center">
+                                <div className="flex items-center bg-gray-800/80 rounded-full px-3 py-1">
+                                  <Music className="w-3.5 h-3.5 mr-1.5 text-pink-500" />
+                                  <span className="text-sm text-white font-medium">{artist.price}</span>
+                                </div>
+                                
+                                <div className="flex gap-2">
+                                  <button 
+                                    className="w-8 h-8 rounded-full border border-pink-500 text-white flex items-center justify-center hover:bg-pink-500/20 transition-colors"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                    }}
+                                    aria-label="Ver más información"
+                                  >
+                                    <Info className="w-4 h-4" />
+                                  </button>
+                                  <button 
+                                    className="w-8 h-8 rounded-full bg-pink-500 text-white flex items-center justify-center hover:bg-pink-500/90 transition-colors"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                    }}
+                                    aria-label="Contratar"
+                                  >
+                                    <CalendarCheck className="w-4 h-4" />
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -221,22 +302,38 @@ export default function ArtistsCarousel() {
                   })}
                 </div>
 
-                {/* Navigation Arrows */}
+                {/* Botones de navegación - centrados a los lados */}
                 <button 
                   onClick={prevCard}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-pink-500/20 hover:bg-pink-500/40 backdrop-blur-sm rounded-full p-4 transition-all duration-300 hover:scale-110 z-20"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-pink-500/20 hover:bg-pink-500/40 backdrop-blur-md rounded-full p-3 transition-all duration-300 hover:scale-110 z-30 group"
                   aria-label="Artista anterior"
                 >
-                  <ChevronLeft className="w-6 h-6 text-white" />
+                  <ChevronLeft className="w-5 h-5 text-white group-hover:text-pink-300 transition-colors" />
                 </button>
                 <button 
                   onClick={nextCard}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-pink-500/20 hover:bg-pink-500/40 backdrop-blur-sm rounded-full p-4 transition-all duration-300 hover:scale-110 z-20"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-pink-500/20 hover:bg-pink-500/40 backdrop-blur-md rounded-full p-3 transition-all duration-300 hover:scale-110 z-30 group"
                   aria-label="Siguiente artista"
                 >
-                  <ChevronRight className="w-6 h-6 text-white" />
+                  <ChevronRight className="w-5 h-5 text-white group-hover:text-pink-300 transition-colors" />
                 </button>
               </div>
+            </div>
+
+            {/* Indicadores de posición */}
+            <div className="flex justify-center space-x-3 -mt-8">
+              {featuredArtists.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentIndex(index)}
+                  className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    index === currentIndex 
+                      ? 'bg-pink-500 scale-110' 
+                      : 'bg-gray-600 hover:bg-gray-500'
+                  }`}
+                  aria-label={`Ir al artista ${index + 1}`}
+                />
+              ))}
             </div>
           </div>
         </div>

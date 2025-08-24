@@ -4,11 +4,15 @@ import CustomCursor from './components/landing/components/CustomCursor';
 import { NavigationProvider } from './context/NavigationContext';
 import Navigation from './components/landing/components/Navigation';
 import HeroSection from './components/landing/components/HeroSection';
-import Universe from './components/landing/components/Universe';
 import CounterOffers from './components/landing/components/CounterOffers';
-import InteractiveMapSection from './components/landing/components/InteractiveMapSection';
 import Footer from './components/landing/components/Footer';
 import HowItWorks from './components/landing/components/HowItWorks';
+import ForCompaniesSection from './components/landing/components/ForCompaniesSection';
+import ForArtistsSection from './components/landing/components/ForArtistsSection';
+import ForUsersSection from './components/landing/components/ForUsersSection';
+import CommunityCollabSection from './components/landing/components/CommunityCollabSection';
+import ComingSoonSection from './components/landing/components/ComingSoonSection';
+import ArtistsCarousel from './components/landing/components/ArtistsCarousel';
 // LandingCarousel removed - now available at /lugares
 
 export default function Home() {
@@ -32,12 +36,15 @@ export default function Home() {
         {/* How It Works Section */}
         <HowItWorks />
         
-        {/* Universe Section with Impact Numbers */}
-        <Universe />
-        
-        {/* Interactive Map Section */}
-        <InteractiveMapSection />
-        
+        {/* New Sections */}
+        <ForCompaniesSection />
+        <ForArtistsSection />
+        <ForUsersSection />
+        {/* Artists carousel below Users section */}
+        <ArtistsCarousel />
+        <CommunityCollabSection />
+        <ComingSoonSection />
+
         {/* Counter Offers */}
         <section className="py-20 bg-black">
           <CounterOffers />

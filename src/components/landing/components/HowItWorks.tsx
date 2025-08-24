@@ -92,7 +92,7 @@ export default function HowItWorks() {
         <div className="morphing-blob absolute bottom-20 right-10 w-40 h-40 bg-gradient-to-r from-pink-600/20 to-transparent" style={{animationDelay: '2s'}}></div>
       </div>
       
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 w-full max-w-[1250px] mx-auto px-0">
         <div className="section-title text-center mb-12 md:mb-20">
           <h2 className="font-orbitron text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold gradient-text mb-4 md:mb-8">
             Cómo Funciona

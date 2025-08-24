@@ -18,8 +18,7 @@ const menuItems = [
   { name: 'Home', section: 'hero' as SectionType, icon: <Home className="w-5 h-5" /> },
   { name: 'Explorar', section: 'explorar' as SectionType, icon: <Compass className="w-5 h-5" /> },
   { name: 'Lugares', section: 'lugares' as SectionType, icon: <BookOpen className="w-5 h-5" /> },
-  { name: 'Tienda', section: 'tienda' as SectionType, icon: <ShoppingBag className="w-5 h-5" /> },
-  { name: 'Busco Artistas', section: 'busco-artistas' as SectionType, icon: <UserPlus className="w-5 h-5" /> }
+  { name: 'Tienda', section: 'tienda' as SectionType, icon: <ShoppingBag className="w-5 h-5" /> }
 ];
 
 const authItems = [

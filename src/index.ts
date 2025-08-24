@@ -9,7 +9,6 @@ export { default as Universe } from "./components/landing/components/Universe";
 
 // Componentes de Contenido
 export { default as CounterOffers } from "./components/landing/components/CounterOffers";
-export { default as InteractiveMapSection } from "./components/landing/components/InteractiveMapSection";
 export { default as Gallery } from "./components/landing/components/Gallery";
 export { default as HowItWorks } from "./components/landing/components/HowItWorks";
 

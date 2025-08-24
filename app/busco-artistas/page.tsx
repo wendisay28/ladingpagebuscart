@@ -15,6 +15,15 @@ import { EmergencyArtistSection } from './components/EmergencyArtistSection';
 import { HowItWorks as HowItWorksComponent } from './components/HowItWorks';
 
 export default function BuscoArtistasPage() {
+  // Agregar estilos globales para la página
+  useEffect(() => {
+    // Asegurar que el body tenga fondo negro
+    document.body.classList.add('bg-black');
+    
+    return () => {
+      document.body.classList.remove('bg-black');
+    };
+  }, []);
   const [showQuoteModal, setShowQuoteModal] = useState(false);
   const [formData, setFormData] = useState({
     eventType: '',
@@ -129,11 +138,20 @@ export default function BuscoArtistasPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white py-16 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-black text-white">
+      {/* Main Content */}
+      <main>
+      {/* Gradiente de fondo */}
+      <div className="fixed inset-0 -z-10 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black">
+          <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-5"></div>
+        </div>
+      </div>
+      
       {/* Quote Request Modal */}
       {showQuoteModal && (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-          <div className="bg-gray-800 rounded-2xl p-6 w-full max-w-2xl relative">
+          <div className="bg-gray-900/80 backdrop-blur-sm border border-gray-800 rounded-xl shadow-xl p-6 w-full max-w-2xl relative">
             <button 
               onClick={() => setShowQuoteModal(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-white"
@@ -153,7 +171,7 @@ export default function BuscoArtistasPage() {
                   value={formData.eventType}
                   onChange={handleInputChange}
                   placeholder="Ej: Boda, Fiesta de Cumpleaños, etc." 
-                  className="bg-gray-700 border-gray-600 text-white"
+                  className="bg-gray-800/80 backdrop-blur-sm border border-gray-700/50 border-gray-600 text-white"
                   required
                 />
               </div>
@@ -167,7 +185,7 @@ export default function BuscoArtistasPage() {
                     type="date" 
                     value={formData.eventDate}
                     onChange={handleInputChange}
-                    className="bg-gray-700 border-gray-600 text-white"
+                    className="bg-gray-800/80 backdrop-blur-sm border border-gray-700/50 border-gray-600 text-white"
                     required
                   />
                 </div>
@@ -180,7 +198,7 @@ export default function BuscoArtistasPage() {
                     value={formData.budget}
                     onChange={handleInputChange}
                     placeholder="$" 
-                    className="bg-gray-700 border-gray-600 text-white"
+                    className="bg-gray-800/80 backdrop-blur-sm border border-gray-700/50 border-gray-600 text-white"
                     required
                   />
                 </div>
@@ -195,7 +213,7 @@ export default function BuscoArtistasPage() {
                   onChange={handleInputChange}
                   placeholder="Cuéntanos más sobre tu evento, ubicación, número de invitados, etc." 
                   rows={4} 
-                  className="bg-gray-700 border-gray-600 text-white"
+                  className="bg-gray-800/80 backdrop-blur-sm border border-gray-700/50 border-gray-600 text-white"
                   required
                 />
               </div>
@@ -205,13 +223,13 @@ export default function BuscoArtistasPage() {
                   type="button" 
                   variant="outline" 
                   onClick={() => setShowQuoteModal(false)}
-                  className="border-gray-600 hover:bg-gray-700 text-white"
+                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 transition-all duration-300 text-white"
                 >
                   Cancelar
                 </Button>
                 <Button 
                   type="submit" 
-                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
+                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 transition-all duration-300 text-white"
                 >
                   Enviar Solicitud
                 </Button>
@@ -221,7 +239,7 @@ export default function BuscoArtistasPage() {
         </div>
       )}
       
-      <div className="max-w-7xl mx-auto">
+      <div className="container mx-auto px-4 py-12 relative z-10">
         {/* Hero Section */}
         <div className="text-center mb-16">
           <h1 className="text-5xl font-bold mb-6 bg-gradient-to-r from-purple-400 to-pink-600 text-transparent bg-clip-text">
@@ -232,7 +250,7 @@ export default function BuscoArtistasPage() {
           </p>
           <Button 
             onClick={() => setShowQuoteModal(true)}
-            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-3 text-lg"
+            className="bg-white text-gray-900 hover:bg-gray-100 px-8 py-3 text-lg font-semibold"
           >
             Solicitar Cotización
           </Button>
@@ -264,7 +282,7 @@ export default function BuscoArtistasPage() {
                 description: "Firma el contrato digital y realiza el pago protegido."
               }
             ].map((step) => (
-              <div key={step.number} className="bg-gray-800 rounded-xl p-6 text-center">
+              <div key={step.number} className="bg-gray-900/80 backdrop-blur-sm border border-gray-800 rounded-xl shadow-xl p-6 text-center">
                 <div className="w-12 h-12 bg-purple-900/50 rounded-full flex items-center justify-center text-xl font-bold text-purple-400 mb-4 mx-auto">
                   {step.number}
                 </div>
@@ -280,7 +298,7 @@ export default function BuscoArtistasPage() {
           <h2 className="text-3xl font-bold text-center mb-12">Beneficios</h2>
           <div className="grid md:grid-cols-3 gap-8">
             {benefits.map((benefit, index) => (
-              <div key={index} className="bg-gray-800/50 rounded-xl p-6">
+              <div key={index} className="bg-gray-900/80 backdrop-blur-sm border border-gray-800/50 rounded-xl shadow-xl p-6">
                 <div className="w-12 h-12 rounded-full bg-gray-700 flex items-center justify-center mb-4">
                   {benefit.icon}
                 </div>
@@ -342,7 +360,7 @@ export default function BuscoArtistasPage() {
               {/* Info Section */}
               <div className="w-full lg:w-1/2 space-y-6">
                 <h3 className="text-2xl font-bold">Artistas disponibles ahora en tu zona</h3>
-                <p className="text-gray-300">
+                <p className="text-gray-300 leading-relaxed">
                   Nuestra plataforma en tiempo localiza automáticamente a los artistas más cercanos a tu ubicación que están disponibles ahora mismo.
                 </p>
                 
@@ -392,7 +410,7 @@ export default function BuscoArtistasPage() {
                 {!isSearching ? (
                   <Button 
                     onClick={() => setShowEmergencyModal(true)}
-                    className="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white px-8 py-3 text-lg font-semibold"
+                    className="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 transition-all duration-300 text-white"
                   >
                     ¡Necesito un artista YA!
                   </Button>
@@ -415,7 +433,7 @@ export default function BuscoArtistasPage() {
                         {artistsFound} artistas disponibles encontrados
                       </div>
                       <p className="text-sm text-gray-400 mt-2">
-                        Nuestro equipo está contactando a los artistas más cercanos a tu ubicación
+                        Nuestro equipo está contactando a artistas disponibles en tu zona
                       </p>
                     </div>
                   </div>
@@ -467,10 +485,12 @@ export default function BuscoArtistasPage() {
       {/* Emergency Request Modal */}
       {showEmergencyModal && (
         <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-          <div className="bg-gray-800 rounded-2xl p-6 w-full max-w-md relative">
+          <div className="bg-gray-900/80 backdrop-blur-sm border border-gray-800 rounded-xl shadow-xl p-6 w-full max-w-md relative">
             <button 
               onClick={() => setShowEmergencyModal(false)}
               className="absolute top-4 right-4 text-gray-400 hover:text-white"
+              aria-label="Cerrar modal"
+              type="button"
             >
               <X className="w-6 h-6" />
             </button>
@@ -489,7 +509,7 @@ export default function BuscoArtistasPage() {
                   value={emergencyRequest.location}
                   onChange={(e) => setEmergencyRequest({...emergencyRequest, location: e.target.value})}
                   placeholder="Dirección o barrio" 
-                  className="bg-gray-700 border-gray-600 text-white"
+                  className="bg-gray-800/80 backdrop-blur-sm border border-gray-700/50 border-gray-600 text-white"
                   required
                 />
               </div>
@@ -500,7 +520,7 @@ export default function BuscoArtistasPage() {
                   id="eventType"
                   value={emergencyRequest.eventType}
                   onChange={(e) => setEmergencyRequest({...emergencyRequest, eventType: e.target.value})}
-                  className="w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg text-white focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                  className="w-full px-4 py-2 bg-gray-800/80 backdrop-blur-sm border border-gray-700/50 border-gray-600 text-white"
                 >
                   <option value="fiesta">Fiesta privada</option>
                   <option value="boda">Boda</option>
@@ -520,7 +540,7 @@ export default function BuscoArtistasPage() {
                     value={emergencyRequest.budget}
                     onChange={(e) => setEmergencyRequest({...emergencyRequest, budget: e.target.value})}
                     placeholder="Ej: 500.000" 
-                    className="pl-8 bg-gray-700 border-gray-600 text-white"
+                    className="pl-8 bg-gray-800/80 backdrop-blur-sm border border-gray-700/50 border-gray-600 text-white"
                     required
                   />
                 </div>
@@ -534,7 +554,7 @@ export default function BuscoArtistasPage() {
                   onChange={(e) => setEmergencyRequest({...emergencyRequest, details: e.target.value})}
                   placeholder="Ej: Necesito un DJ para 3 horas, evento al aire libre, 100 personas..." 
                   rows={3}
-                  className="bg-gray-700 border-gray-600 text-white"
+                  className="bg-gray-800/80 backdrop-blur-sm border border-gray-700/50 border-gray-600 text-white"
                 />
               </div>
               
@@ -547,13 +567,13 @@ export default function BuscoArtistasPage() {
                   type="button" 
                   variant="outline" 
                   onClick={() => setShowEmergencyModal(false)}
-                  className="border-gray-600 hover:bg-gray-700 text-white"
+                  className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 transition-all duration-300 text-white"
                 >
                   Cancelar
                 </Button>
                 <Button 
                   type="submit" 
-                  className="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 text-white"
+                  className="bg-gradient-to-r from-orange-500 to-red-600 hover:from-orange-600 hover:to-red-700 transition-all duration-300 text-white"
                 >
                   Buscar Artistas
                 </Button>
@@ -562,6 +582,7 @@ export default function BuscoArtistasPage() {
           </div>
         </div>
       )}
+      </main>
     </div>
   );
 }

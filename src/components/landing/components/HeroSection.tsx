@@ -56,7 +56,7 @@ export default function HeroSection() {
       </div>
 
       {/* Content - Orden invertido en móvil */}
-      <div className="container mx-auto px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 relative z-10 flex flex-col-reverse lg:flex-row items-center h-full -mt-8 lg:-mt-12">
+      <div className="w-full max-w-[1250px] mx-auto px-0 relative z-10 flex flex-col-reverse lg:flex-row items-center h-full -mt-8 lg:-mt-12">
         {/* Contenedor de texto - Abajo en móvil, a la izquierda en desktop */}
         <div className="w-full lg:w-2/5 flex items-center">
           <div className="max-w-xl lg:max-w-2xl mx-auto lg:mx-0 text-left animate-fade-in-up">
