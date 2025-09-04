@@ -157,8 +157,6 @@ const ProductCard: React.FC<{
   artist?: string;
   variant?: "product" | "category";
 }> = ({ id, title, meta, tag, image, rating, price, stock, artist, variant = "product" }) => {
-  const priceRef = useRef<HTMLDivElement>(null);
-  
   const bg = {
     product: "from-rose-600/40 via-pink-500/30 to-fuchsia-600/30",
     category: "from-slate-600/40 via-zinc-500/30 to-stone-600/30",
@@ -166,39 +164,6 @@ const ProductCard: React.FC<{
   
   const imageUrl = image || '/placeholder-product.jpg';
   const delay = (id || 0) * 50;
-  
-  useEffect(() => {
-    // Price counter animation
-    const animatePrice = () => {
-      if (!priceRef.current || !price) return;
-      
-      const target = priceRef.current;
-      const priceValue = parseInt(price);
-      if (isNaN(priceValue)) return;
-      let current = 0;
-      const increment = Math.max(1, Math.floor(priceValue / 60));
-      
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const timer = setInterval(() => {
-              current += increment;
-              if (current >= priceValue) {
-                current = priceValue;
-                clearInterval(timer);
-              }
-              target.textContent = '$' + current.toLocaleString('es-CO');
-            }, 25);
-            observer.disconnect();
-          }
-        });
-      }, { threshold: 0.5 });
-      
-      observer.observe(target);
-    };
-
-    animatePrice();
-  }, [price]);
   
   return (
     <div 
@@ -242,50 +207,45 @@ const ProductCard: React.FC<{
           )}
         </div>
 
-        {/* Stock info - Simplificado */}
+        {/* Stock info */}
         {stock !== undefined && (
           <div className="absolute top-3 left-1/2 -translate-x-1/2">
             <div className={`flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full ${
               stock > 0 ? 'bg-black/70 text-green-400' : 'bg-red-900/70 text-red-300'
             } backdrop-blur-sm`}>
-              <Package className="h-3.5 w-3.5" />
-              <span className="font-medium">
-                {stock > 0 ? 'Disponible' : 'Agotado'}
-              </span>
+              {stock > 0 ? (
+                <>
+                  <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                  {stock} en stock
+                </>
+              ) : 'Agotado'}
             </div>
           </div>
         )}
 
-        {/* Hover actions - Simplificado */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300 bg-black/40">
-          <button 
-            className="h-10 w-10 rounded-full bg-black/80 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-rose-600 hover:border-rose-400 transition-all duration-200"
-            aria-label="Añadir al carrito"
-          >
-            <ShoppingCart className="h-4 w-4" />
-          </button>
-        </div>
-
-        {/* Content */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black/90 via-black/50 to-transparent">
-          <h3 className="text-base font-bold leading-tight line-clamp-2 text-white mb-1">
-            {title}
-          </h3>
-          
-          <div className="flex items-center justify-between mt-2">
+        {/* Bottom content */}
+        <div className="absolute inset-x-0 bottom-0 p-4 text-white">
+          <div className="flex justify-between items-start">
+            <div className="flex-1 min-w-0">
+              <h3 className="font-bold text-lg truncate">{title}</h3>
+              {artist && (
+                <p className="text-xs text-gray-300 truncate">por {artist}</p>
+              )}
+              {meta && (
+                <p className="text-xs text-gray-300/90 line-clamp-1">
+                  {meta}
+                </p>
+              )}
+            </div>
             {price && (
-              <div 
-                ref={priceRef}
-                className="text-lg font-bold text-rose-400"
-              >
-                ${parseInt(price).toLocaleString('es-CO')}
+              <div className="ml-2 flex flex-col items-end">
+                <span className="text-sm text-gray-300 line-through">
+                  ${(parseInt(price) * 1.2).toLocaleString('es-CO')}
+                </span>
+                <span className="text-lg font-bold text-white">
+                  ${parseInt(price).toLocaleString('es-CO')}
+                </span>
               </div>
-            )}
-            
-            {artist && (
-              <p className="text-xs text-rose-300/90 truncate max-w-[50%]">
-                {artist}
-              </p>
             )}
           </div>
         </div>

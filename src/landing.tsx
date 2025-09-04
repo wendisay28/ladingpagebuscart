@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import CustomCursor from './components/landing/components/CustomCursor';
 import { NavigationProvider } from './context/NavigationContext';
 import Navigation from './components/landing/components/Navigation';
@@ -11,16 +11,33 @@ import ForCompaniesSection from './components/landing/components/ForCompaniesSec
 import ForArtistsSection from './components/landing/components/ForArtistsSection';
 import ForUsersSection from './components/landing/components/ForUsersSection';
 import CommunityCollabSection from './components/landing/components/CommunityCollabSection';
-import ComingSoonSection from './components/landing/components/ComingSoonSection';
+import Universe from './components/landing/components/Universe';
 import ArtistsCarousel from './components/landing/components/ArtistsCarousel';
+// WelcomeModal removed as requested
 // LandingCarousel removed - now available at /lugares
 
 export default function Home() {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
   useEffect(() => {
     // Initialize GSAP ScrollTrigger
     if (typeof window !== 'undefined' && window.gsap && window.ScrollTrigger) {
       window.gsap.registerPlugin(window.ScrollTrigger);
     }
+
+    // Inicializar el audio con el archivo local en la carpeta sounds
+    const audio = new Audio("/sounds/mi-sonido.mp3");
+    audio.volume = 0.5; // Ajusta este valor entre 0.0 y 1.0 según prefieras
+    audio.load();
+    audioRef.current = audio;
+
+    return () => {
+      // Limpiar el audio al desmontar
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
   }, []);
 
   return (
@@ -43,7 +60,7 @@ export default function Home() {
         {/* Artists carousel below Users section */}
         <ArtistsCarousel />
         <CommunityCollabSection />
-        <ComingSoonSection />
+        <Universe />
 
         {/* Counter Offers */}
         <section className="py-20 bg-black">

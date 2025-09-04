@@ -6,7 +6,7 @@ import { Home, Compass, BookOpen, ShoppingBag, LogIn, UserPlus } from 'lucide-re
 import { ConstructionModal } from '../../ui/modal';
 
 // Tipos locales
-type SectionType = 'hero' | 'explorar' | 'lugares' | 'tienda';
+type SectionType = 'hero' | 'explorar' | 'nosotros' | 'tienda';
 
 // Constantes locales
 const AUTH_ROUTES = {
@@ -17,7 +17,7 @@ const AUTH_ROUTES = {
 const menuItems = [
   { name: 'Home', section: 'hero' as SectionType, icon: <Home className="w-5 h-5" /> },
   { name: 'Explorar', section: 'explorar' as SectionType, icon: <Compass className="w-5 h-5" /> },
-  { name: 'Lugares', section: 'lugares' as SectionType, icon: <BookOpen className="w-5 h-5" /> },
+  { name: 'Nosotros', section: 'nosotros' as SectionType, icon: <BookOpen className="w-5 h-5" /> },
   { name: 'Tienda', section: 'tienda' as SectionType, icon: <ShoppingBag className="w-5 h-5" /> }
 ];
 
@@ -25,14 +25,6 @@ const authItems = [
   { name: 'Ingresar', section: 'login', icon: <LogIn className="w-5 h-5" /> },
   { name: 'Registrarse', section: 'register', icon: <UserPlus className="w-5 h-5" /> }
 ];
-
-// Props para el componente ClientNavigation
-interface ClientNavigationProps {
-  showAuthModal: boolean;
-  setShowAuthModal: (show: boolean) => void;
-  authModalTitle: string;
-  setAuthModalTitle: (title: string) => void;
-}
 
 // Componente de navegación del lado del cliente
 function ClientNavigation() {
@@ -75,7 +67,6 @@ function ClientNavigation() {
   }, []);
 
   const handleSectionClick = (section: SectionType) => {
-    // Si es la sección de inicio, hacer scroll al inicio de la página
     if (section === 'hero') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -87,13 +78,13 @@ function ClientNavigation() {
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-40 bg-black shadow-lg border-b border-gray-800">
+    <nav className="fixed top-0 left-0 right-0 z-40 bg-black/90 backdrop-blur-md shadow-lg border-b border-gray-800">
       <div className="max-w-[1250px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/" className="block">
-              <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent hover:from-purple-300 hover:to-pink-300 transition-all duration-200">
+              <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-emerald-400 bg-clip-text text-transparent hover:from-purple-300 hover:to-emerald-300 transition-colors duration-200">
                 BuscArt
               </span>
             </Link>
@@ -108,10 +99,10 @@ function ClientNavigation() {
                   key={item.section}
                   href={`/${item.section === 'hero' ? '' : item.section}`}
                   onClick={() => handleSectionClick(item.section)}
-                  className={`px-4 py-2 text-sm font-medium transition-colors flex items-center ${
+                  className={`px-4 py-2 text-sm font-medium transition-colors duration-200 flex items-center rounded-md ${
                     activeSection === item.section
-                      ? 'text-white bg-gradient-to-r from-purple-600 to-pink-600 rounded-md'
-                      : 'text-gray-300 hover:text-white hover:bg-gray-800/50 hover:rounded-md'
+                      ? 'text-white bg-purple-600'
+                      : 'text-gray-300 hover:text-white hover:bg-gray-800'
                   }`}
                 >
                   <span className="inline-flex items-center justify-center w-5 h-5 mr-2">
@@ -131,10 +122,10 @@ function ClientNavigation() {
                     setAuthModalTitle(item.name);
                     setShowAuthModal(true);
                   }}
-                  className={`px-4 py-2 text-sm font-medium transition-colors flex items-center ${
+                  className={`px-4 py-2 text-sm font-medium transition-colors duration-200 flex items-center rounded-md ${
                     item.section === 'login'
-                      ? 'text-gray-300 hover:text-white hover:bg-gray-800/50 hover:rounded-md'
-                      : 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:opacity-90 rounded-md'
+                      ? 'text-gray-300 hover:text-white hover:bg-gray-800'
+                      : 'bg-gradient-to-r from-emerald-600 to-purple-600 text-white hover:from-emerald-500 hover:to-purple-500'
                   }`}
                 >
                   <span className="inline-flex items-center justify-center w-5 h-5 mr-2">
@@ -147,8 +138,8 @@ function ClientNavigation() {
           </div>
 
           {/* Menú móvil desplegable */}
-          <div className={`md:hidden transition-all duration-300 ease-in-out overflow-hidden ${mobileMenuOpen ? 'max-h-96' : 'max-h-0'}`}>
-            <div className="px-2 py-2 space-y-1 bg-gray-900/95 backdrop-blur-lg shadow-2xl border-t border-gray-800">
+          <div className={`md:hidden absolute top-16 left-0 right-0 transition-all duration-300 ease-in-out overflow-hidden ${mobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+            <div className="mx-4 mt-2 px-2 py-4 space-y-2 bg-gray-900/95 backdrop-blur-lg shadow-2xl border border-gray-800 rounded-lg">
               {menuItems.map((item) => (
                 <Link
                   key={item.section}
@@ -157,9 +148,9 @@ function ClientNavigation() {
                     handleSectionClick(item.section);
                     setMobileMenuOpen(false);
                   }}
-                  className={`flex items-center px-4 py-3 text-base font-medium w-full ${
+                  className={`flex items-center px-4 py-3 text-base font-medium w-full rounded-md transition-colors duration-200 ${
                     activeSection === item.section
-                      ? 'text-white bg-gradient-to-r from-purple-600 to-pink-600'
+                      ? 'text-white bg-purple-600'
                       : 'text-gray-300 hover:bg-gray-800 hover:text-white'
                   }`}
                 >
@@ -170,7 +161,7 @@ function ClientNavigation() {
                 </Link>
               ))}
               
-              <div className="border-t border-gray-800 my-1"></div>
+              <div className="border-t border-gray-800 my-2"></div>
               
               {authItems.map((item) => (
                 <button
@@ -180,10 +171,10 @@ function ClientNavigation() {
                     setShowAuthModal(true);
                     setMobileMenuOpen(false);
                   }}
-                  className={`flex items-center w-full px-4 py-3 text-base font-medium ${
+                  className={`flex items-center w-full px-4 py-3 text-base font-medium rounded-md transition-colors duration-200 ${
                     item.section === 'login'
                       ? 'text-gray-300 hover:bg-gray-800 hover:text-white'
-                      : 'text-white bg-gradient-to-r from-purple-600 to-pink-600 hover:opacity-90'
+                      : 'text-white bg-gradient-to-r from-emerald-600 to-purple-600 hover:from-emerald-500 hover:to-purple-500'
                   }`}
                 >
                   <span className="inline-flex items-center justify-center w-5 h-5 mr-3">
@@ -200,11 +191,11 @@ function ClientNavigation() {
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-gray-300 hover:text-white p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-inset focus:ring-purple-500"
+              className="text-gray-300 hover:text-white p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-pink-500 transition-colors duration-200"
               aria-expanded="false"
             >
               <span className="sr-only">Abrir menú principal</span>
-              <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className={`h-6 w-6 transition-transform duration-200 ${mobileMenuOpen ? 'rotate-90' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
@@ -216,7 +207,6 @@ function ClientNavigation() {
       <ConstructionModal 
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
-        featureName={`${authModalTitle} (Autenticación)`}
       />
     </nav>
   );
@@ -235,12 +225,12 @@ export default function Navigation() {
   // En el servidor, renderizar una versión simplificada
   if (!isClient) {
     return (
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-gray-800">
+      <nav className="fixed top-0 left-0 right-0 z-50 bg-black/90 backdrop-blur-md border-b border-gray-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             {/* Logo para SSR */}
             <div className="flex-shrink-0">
-              <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-emerald-400 bg-clip-text text-transparent">
                 BuscArt
               </span>
             </div>
@@ -252,7 +242,7 @@ export default function Navigation() {
                   <Link
                     key={item.section}
                     href={`/${item.section === 'hero' ? '' : item.section}`}
-                    className="flex items-center space-x-1 px-3 py-2 text-sm font-medium text-gray-300 hover:text-white"
+                    className="flex items-center space-x-1 px-3 py-2 text-sm font-medium text-gray-300 hover:text-white rounded-md transition-colors duration-200"
                   >
                     {item.icon}
                     <span>{item.name}</span>
@@ -268,7 +258,7 @@ export default function Navigation() {
                       setAuthModalTitle(item.name);
                       setShowAuthModal(true);
                     }}
-                    className="flex items-center space-x-1 px-3 py-2 text-sm font-medium text-gray-300 hover:text-white"
+                    className="flex items-center space-x-1 px-3 py-2 text-sm font-medium text-gray-300 hover:text-white rounded-md transition-colors duration-200"
                   >
                     {item.icon}
                     <span>{item.name}</span>

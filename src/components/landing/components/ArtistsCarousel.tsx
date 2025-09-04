@@ -1,6 +1,7 @@
 "use client";
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Search, Filter, Zap, Check, Star, MapPin, Heart, Share2, Info, Music, CalendarCheck } from 'lucide-react';
+import { motion, useInView, useAnimation, Variants } from 'framer-motion';
 
 interface Artist {
   id: string;
@@ -13,67 +14,121 @@ interface Artist {
   reviews: number;
 }
 
-const HowItWorksSection = () => (
-  <div className="lg:w-1/2 px-0">
-    <div className="mb-10">
-      <h2 className="text-4xl font-bold text-white mb-4">
-        Encuentra el talento perfecto para tu evento y ocasión
-      </h2>
-      <p className="text-lg text-gray-300 mb-8">
-        Conectamos organizadores con los mejores artistas y profesionales del entretenimiento
-      </p>
-    </div>
-    
-    <div className="space-y-8">
-      {/* Paso 1 */}
-      <div className="group relative pl-4 border-l-2 border-pink-500">
-        <div className="absolute -left-[10px] top-0 w-4 h-4 rounded-full bg-pink-500"></div>
-        <h3 className="text-xl font-semibold text-white mb-2 flex items-center">
-          <Search className="text-pink-500 mr-3 w-5 h-5" />
-          Busca
-        </h3>
-        <p className="text-gray-300 pl-8">
-          Explora entre cientos de artistas y profesionales calificados. Filtra por categoría, ubicación y presupuesto.
+const HowItWorksSection = () => {
+  const controls1 = useAnimation();
+  const controls2 = useAnimation();
+  const controls3 = useAnimation();
+  const ref1 = useRef(null);
+  const ref2 = useRef(null);
+  const ref3 = useRef(null);
+  const inView1 = useInView(ref1, { once: true, amount: 0.5 });
+  const inView2 = useInView(ref2, { once: true, amount: 0.5 });
+  const inView3 = useInView(ref3, { once: true, amount: 0.5 });
+
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: { 
+      opacity: 1, 
+      y: 0,
+      transition: { 
+        duration: 0.6,
+        ease: "easeOut"
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (inView1) controls1.start("visible");
+  }, [controls1, inView1]);
+
+  useEffect(() => {
+    if (inView2) controls2.start("visible");
+  }, [controls2, inView2]);
+
+  useEffect(() => {
+    if (inView3) controls3.start("visible");
+  }, [controls3, inView3]);
+
+  return (
+    <div className="lg:w-1/2 px-0">
+      <div className="mb-10">
+        <h2 className="text-4xl font-bold text-white mb-4">
+          Encuentra el talento perfecto para tu evento y ocasión
+        </h2>
+        <p className="text-lg text-gray-300 mb-8">
+          Conectamos organizadores con los mejores artistas y profesionales del entretenimiento
         </p>
       </div>
       
-      {/* Paso 2 */}
-      <div className="group relative pl-4 border-l-2 border-purple-500">
-        <div className="absolute -left-[10px] top-0 w-4 h-4 rounded-full bg-purple-500"></div>
-        <h3 className="text-xl font-semibold text-white mb-2 flex items-center">
-          <Filter className="text-purple-500 mr-3 w-5 h-5" />
-          Compara
-        </h3>
-        <ul className="space-y-2 pl-8">
-          <li className="flex items-start">
-            <Check className="text-green-400 w-4 h-4 mt-1 mr-2 flex-shrink-0" />
-            <span className="text-gray-300">Revisa portafolios y reseñas</span>
-          </li>
-          <li className="flex items-start">
-            <Check className="text-green-400 w-4 h-4 mt-1 mr-2 flex-shrink-0" />
-            <span className="text-gray-300">Compara presupuestos</span>
-          </li>
-          <li className="flex items-start">
-            <Check className="text-green-400 w-4 h-4 mt-1 mr-2 flex-shrink-0" />
-            <span className="text-gray-300">Guarda tus favoritos</span>
-          </li>
-        </ul>
-      </div>
-      
-      {/* Paso 3 */}
-      <div className="group relative pl-4 border-l-2 border-blue-500">
-        <div className="absolute -left-[10px] top-0 w-4 h-4 rounded-full bg-blue-500"></div>
-        <h3 className="text-xl font-semibold text-white mb-2 flex items-center">
-          <Zap className="text-blue-500 mr-3 w-5 h-5" />
-          Contrata con confianza
-        </h3>
-        <p className="text-gray-300 pl-8">
-          Realiza pagos seguros a través de nuestra plataforma. Tu dinero está protegido hasta que el servicio sea completado.
-        </p>
+      <div className="space-y-8">
+        {/* Paso 1 */}
+        <motion.div 
+          ref={ref1}
+          initial="hidden"
+          animate={controls1}
+          variants={itemVariants}
+          className="group relative pl-4 border-l-2 border-pink-500"
+        >
+          <div className="absolute -left-[10px] top-0 w-4 h-4 rounded-full bg-pink-500"></div>
+          <h3 className="text-xl font-semibold text-white mb-2 flex items-center">
+            <Search className="text-pink-500 mr-3 w-5 h-5" />
+            Busca
+          </h3>
+          <p className="text-gray-300 pl-8">
+            Explora entre cientos de artistas y profesionales calificados. Filtra por categoría, ubicación y presupuesto.
+          </p>
+        </motion.div>
+        
+        {/* Paso 2 */}
+        <motion.div 
+          ref={ref2}
+          initial="hidden"
+          animate={controls2}
+          variants={itemVariants}
+          className="group relative pl-4 border-l-2 border-purple-500"
+        >
+          <div className="absolute -left-[10px] top-0 w-4 h-4 rounded-full bg-purple-500"></div>
+          <h3 className="text-xl font-semibold text-white mb-2 flex items-center">
+            <Filter className="text-purple-500 mr-3 w-5 h-5" />
+            Compara
+          </h3>
+          <ul className="space-y-2 pl-8">
+            <li className="flex items-start">
+              <Check className="text-green-400 w-4 h-4 mt-1 mr-2 flex-shrink-0" />
+              <span className="text-gray-300">Revisa portafolios y reseñas</span>
+            </li>
+            <li className="flex items-start">
+              <Check className="text-green-400 w-4 h-4 mt-1 mr-2 flex-shrink-0" />
+              <span className="text-gray-300">Compara presupuestos</span>
+            </li>
+            <li className="flex items-start">
+              <Check className="text-green-400 w-4 h-4 mt-1 mr-2 flex-shrink-0" />
+              <span className="text-gray-300">Guarda tus favoritos</span>
+            </li>
+          </ul>
+        </motion.div>
+        
+        {/* Paso 3 */}
+        <motion.div 
+          ref={ref3}
+          initial="hidden"
+          animate={controls3}
+          variants={itemVariants}
+          className="group relative pl-4 border-l-2 border-blue-500"
+        >
+          <div className="absolute -left-[10px] top-0 w-4 h-4 rounded-full bg-blue-500"></div>
+          <h3 className="text-xl font-semibold text-white mb-2 flex items-center">
+            <Zap className="text-blue-500 mr-3 w-5 h-5" />
+            Contrata con confianza
+          </h3>
+          <p className="text-gray-300 pl-8">
+            Realiza pagos seguros a través de nuestra plataforma. Tu dinero está protegido hasta que el servicio sea completado.
+          </p>
+        </motion.div>
       </div>
     </div>
-  </div>
-);
+  );
+};
 
 const featuredArtists: Artist[] = [
   {
@@ -82,7 +137,7 @@ const featuredArtists: Artist[] = [
     profession: 'Cantante de boleros',
     price: 'Desde $1,200,000',
     location: 'Medellín, Colombia',
-    image: 'https://images.unsplash.com/photo-1494790108755-2616c613d8e8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    image: '/artistastop/modelo.jpg',
     rating: 4.9,
     reviews: 127
   },
@@ -92,7 +147,7 @@ const featuredArtists: Artist[] = [
     profession: 'Músico profesional',
     price: 'Desde $800,000',
     location: 'Medellín, Colombia',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    image: '/artistastop/pianista.png',
     rating: 4.8,
     reviews: 89
   },
@@ -102,7 +157,7 @@ const featuredArtists: Artist[] = [
     profession: 'Bailarina profesional',
     price: 'Desde $1,000,000',
     location: 'Medellín, Colombia',
-    image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    image: '/artistastop/bailarina.jpg',
     rating: 5.0,
     reviews: 203
   },
@@ -112,7 +167,7 @@ const featuredArtists: Artist[] = [
     profession: 'DJ profesional',
     price: 'Desde $1,500,000',
     location: 'Medellín, Colombia',
-    image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    image: '/artistastop/djs.jpg',
     rating: 4.7,
     reviews: 156
   }

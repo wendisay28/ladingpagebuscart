@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Zap } from 'lucide-react';
 
 // Mapeo de colores a clases de Tailwind
@@ -46,6 +46,18 @@ export default function CounterOffers() {
   const isAnimating = useRef(false);
   const gsapRef = useRef<any | null>(null);
   const scrollTriggerRef = useRef<any | null>(null);
+  const [isClient, setIsClient] = useState(false);
+
+  // Format number consistently between server and client
+  const formatNumber = (num: number): string => {
+    // Use a simple string replacement that works the same on server and client
+    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  };
+
+  // Add this effect to set isClient
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const addToTimerRefs = (el: HTMLDivElement) => {
     if (el && !timersRef.current.includes(el)) {
@@ -257,7 +269,7 @@ export default function CounterOffers() {
       color: "purple",
       client: {
         name: "TechCorp Solutions",
-        avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150",
+        avatar: "/artists/artist1.svg",
         company: "Empresa Tecnológica",
         rating: 4.8,
         projects: 23
@@ -272,7 +284,7 @@ export default function CounterOffers() {
       color: "pink",
       client: {
         name: "Sofia & Miguel",
-        avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b766?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150",
+        avatar: "/artists/artist2.svg",
         company: "Evento Privado",
         rating: 5.0,
         projects: 1
@@ -287,10 +299,10 @@ export default function CounterOffers() {
       color: "purple-700",
       client: {
         name: "Museo de Arte Moderno",
-        avatar: "https://images.unsplash.com/photo-1511798616182-aab3698ac53e?ixlib=rb-4.0.3&auto=format&fit=crop&w=150&h=150",
+        avatar: "/artists/artist3.svg",
         company: "Institución Cultural",
         rating: 4.9,
-        projects: 47
+        projects: 15
       }
     }
   ];
@@ -306,10 +318,11 @@ export default function CounterOffers() {
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="counter-title text-center mb-12 md:mb-16">
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-purple-600 mb-4">
-            Contraofertas Activas
+            Contraofertas en Tiempo Real
           </h2>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
-            Conoce a los clientes detrás de cada oportunidad
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            Negocia directamente con los artistas y recibe respuestas instantáneas. 
+            Encuentra el mejor talento para tu evento en tiempo real.
           </p>
         </div>
         
@@ -353,8 +366,11 @@ export default function CounterOffers() {
                   
                   <div className="absolute bottom-6 left-6 right-6">
                     <div className="flex justify-between items-center mb-4">
-                      <span className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-purple-600">
-                        ${offer.price.toLocaleString()}
+                      <span 
+                        className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-purple-600"
+                        suppressHydrationWarning={true}
+                      >
+                        ${formatNumber(offer.price)}
                       </span>
                       <button className={`bg-gradient-to-r ${colors.bg} hover:opacity-90 px-4 py-2 rounded-lg text-sm font-semibold text-white transition-all duration-300 transform hover:scale-[1.03]`}>
                         Ofertar
@@ -395,7 +411,7 @@ export default function CounterOffers() {
                     
                     <div className="flex justify-between items-center">
                       <span className="text-gray-400">Proyectos:</span>
-                      <span className="text-white font-semibold">{offer.client.projects}</span>
+                      <span className="text-white font-semibold">{formatNumber(offer.client.projects)}</span>
                     </div>
                   </div>
 

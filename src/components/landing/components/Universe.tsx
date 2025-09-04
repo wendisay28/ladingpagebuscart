@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { useEffect, useRef } from 'react';
 import { Sparkles, Shield, Zap, Users } from 'lucide-react';
 
@@ -6,7 +6,6 @@ export default function Universe() {
   const timelineRef = useRef<HTMLElement>(null);
   const itemsRef = useRef<HTMLDivElement[]>([]);
   const countersRef = useRef<HTMLDivElement[]>([]);
-  // Referencias para gsap/ScrollTrigger y el contexto
   const gsapRef = useRef<any>(null);
   const scrollTriggerRef = useRef<any>(null);
   const ctxRef = useRef<any>(null);
@@ -40,7 +39,6 @@ export default function Universe() {
         gsapRef.current = gsapLib;
         scrollTriggerRef.current = scrollTriggerLib;
 
-        // Contexto GSAP limitado al contenedor si existe la API context
         const hasContext = typeof (gsapLib as any).context === 'function';
         let localCleanup: (() => void) | null = null;
 
@@ -128,7 +126,6 @@ export default function Universe() {
           ctx = (gsapLib as any).context(runAnimations, timelineRef);
           ctxRef.current = ctx;
         } else {
-          // Fallback: ejecutar sin context y guardar cleanup
           localCleanup = runAnimations();
           ctxRef.current = { revert: () => { try { localCleanup && localCleanup(); } catch {} } };
         }
@@ -158,7 +155,7 @@ export default function Universe() {
         <div className="relative z-10 max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
             <h2 className="font-orbitron text-5xl font-bold mb-6 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-600 bg-clip-text text-transparent">
-              Nuestro Ecosistema
+            Próximamente en BuscArt
             </h2>
             <div className="w-32 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto mb-4" />
             <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
@@ -259,14 +256,17 @@ export default function Universe() {
       {/* Impacto en Números */}
       <section className="relative py-20 md:py-32 bg-black z-10">
         <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
-          <h3 className="text-3xl md:text-4xl font-bold text-white mb-12 md:mb-16">Impacto en Números</h3>
+          <h3 className="text-3xl md:text-4xl font-bold text-white mb-6 md:mb-8">Impacto en Números</h3>
+          <p className="text-gray-400 mb-12 max-w-3xl mx-auto text-lg">
+            Estas cifras representan nuestras <strong>metas y proyecciones</strong> mientras seguimos conectando artistas y proyectos en todo el mundo.
+          </p>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {[
-              { count: 1247, label: 'Artistas Verificados' },
-              { count: 892, label: 'Proyectos Exitosos' },
-              { count: 156, label: 'Ciudades Activas' },
-              { count: 98, label: '% Satisfacción' },
-            ].map(({ count, label }, i) => (
+              { count: 1200, label: 'Artistas Verificados', note: 'Meta 2025' },
+              { count: 900, label: 'Proyectos Exitosos', note: 'Proyección' },
+              { count: 150, label: 'Ciudades Activas', note: 'Objetivo' },
+              { count: 98, label: '% Satisfacción', note: 'Proyección' },
+            ].map(({ count, label, note }, i) => (
               <div
                 key={i}
                 className="bg-gradient-to-br from-gray-800/30 to-gray-900/30 backdrop-blur-sm p-8 rounded-2xl border border-purple-500/20"
@@ -274,11 +274,12 @@ export default function Universe() {
                 <div
                   ref={addToCountersRefs}
                   data-count={count}
-                  className="text-4xl md:text-5xl font-orbitron font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-3 md:mb-4"
+                  className="text-4xl md:text-5xl font-orbitron font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent mb-2 md:mb-3"
                 >
                   0
                 </div>
                 <div className="text-gray-300 text-lg">{label}</div>
+                <div className="text-gray-500 text-sm mt-1">{note}</div>
               </div>
             ))}
           </div>
