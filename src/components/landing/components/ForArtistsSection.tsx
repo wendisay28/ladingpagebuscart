@@ -160,7 +160,7 @@ export default function ForArtistsSection() {
         <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-pink-600/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}} />
       </div>
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-6">
+      <div className="relative z-10 w-full max-w-[1250px] mx-auto px-0">
         <div className="grid lg:grid-cols-2 gap-12 items-stretch min-h-[500px]">
           {/* Text column */}
           <div className="flex flex-col justify-between h-full m-4">

@@ -71,7 +71,7 @@ export default function HeroSection() {
 
   return (
     <section 
-      className="relative min-h-screen text-white overflow-hidden flex items-center"
+      className="relative min-h-screen text-white overflow-hidden flex items-center pt-8 lg:pt-16"
       style={{backgroundColor: '#000000'}}
     >
       {/* Background Effects */}
@@ -91,12 +91,12 @@ export default function HeroSection() {
       </div>
 
       {/* Main Content */}
-      <div className="w-full max-w-7xl mx-auto px-0 relative z-10">
+      <div className="w-full max-w-[1250px] mx-auto px-0 relative z-10">
         <div className="flex flex-col lg:flex-row items-center min-h-screen">
           
           {/* Text Content */}
-          <div className={`w-full lg:w-1/2 lg:pl-0 pt-0 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
-            <div className="max-w-2xl mx-auto lg:mx-0 text-center lg:text-left -mt-16">
+          <div className={`w-full lg:w-1/2 lg:pl-0 pt-16 lg:pt-0 ${isVisible ? 'animate-fade-in-up' : 'opacity-0'}`}>
+            <div className="max-w-2xl mx-auto lg:mx-0 text-center lg:text-left lg:translate-y-[-5%]">
               
               {/* Badge */}
               <div className="inline-flex items-center px-4 py-2 rounded-full glass-effect mb-6 animate-pulse-glow">

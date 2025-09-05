@@ -22,17 +22,24 @@ export async function POST(request: Request) {
 
     const { email, name, source } = validation.data;
 
-    // For now, just log the subscription
-    // TODO: Uncomment and implement database insertion when schema is ready
-    /*
-    await db.insert(subscribers).values({
-      email,
-      name: name || null,
-      source: source || 'unknown',
-    });
-    */
+    // Insertar en Supabase
+    const { data, error } = await db
+      .from('subscribers')
+      .insert([
+        {
+          email,
+          name: name || null,
+          source: source || 'web',
+        },
+      ])
+      .select();
 
-    console.log('Nueva suscripción:', { email, name, source });
+    if (error) {
+      console.error('Error al insertar en Supabase:', error);
+      throw error;
+    }
+
+    console.log('Nueva suscripción registrada:', data);
 
     return NextResponse.json(
       { message: '¡Gracias por suscribirte! Pronto te contactaremos.' },
@@ -43,7 +50,10 @@ export async function POST(request: Request) {
     
     if (error instanceof Error) {
       return NextResponse.json(
-        { error: 'Error al procesar la solicitud', details: error.message },
+        { 
+          error: 'Error al procesar la solicitud', 
+          details: process.env.NODE_ENV === 'development' ? error.message : undefined 
+        },
         { status: 500 }
       );
     }

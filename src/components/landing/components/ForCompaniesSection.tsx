@@ -57,7 +57,7 @@ export default function ForCompaniesSection() {
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-gray-950 to-black">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto">
         {/* Grid con altura mínima fija */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 min-h-screen lg:min-h-[800px]">
           {/* Columna izquierda - Usando flex para centrar contenido */}

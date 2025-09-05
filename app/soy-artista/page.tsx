@@ -96,9 +96,19 @@ export default function SoyArtistaPage() {
     setSubmitStatus('idle');
     
     try {
-      // Aquí iría la llamada a tu API
-      // Ejemplo: await submitArtistForm(formData);
-      await new Promise(resolve => setTimeout(resolve, 1500)); // Simulación de API call
+      const response = await fetch('/api/artistas', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+      
+      const result = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(result.error || 'Error al enviar el formulario');
+      }
       
       setSubmitStatus('success');
       // Limpiar el formulario después de un envío exitoso

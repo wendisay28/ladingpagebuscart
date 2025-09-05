@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, ReactNode } from 'react';
-import { X, Star, Sparkles, ArrowRight, CheckCircle, Mail } from 'lucide-react';
+import { X, Star, Sparkles, ArrowRight, CheckCircle, Mail, User, Phone, Building } from 'lucide-react';
 import { createPortal } from 'react-dom';
 
 interface PortalProps {
@@ -93,25 +93,52 @@ export function Modal({ isOpen, onClose, title, children }: ModalProps) {
   );
 }
 
+interface FormData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  userType: string;
+}
+
 interface ConstructionModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
 export function ConstructionModal({ isOpen, onClose }: ConstructionModalProps) {
-  const [email, setEmail] = useState('');
+  const [formData, setFormData] = useState<FormData>({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: '',
+    userType: ''
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email.trim()) return;
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleSubmit = async () => {
+    if (!formData.firstName.trim() || !formData.lastName.trim() || !formData.email.trim() || !formData.phone.trim() || !formData.userType) return;
 
     setIsSubmitting(true);
     try {
       await new Promise(resolve => setTimeout(resolve, 1500));
       setIsSuccess(true);
-      setEmail('');
+      setFormData({
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
+        userType: ''
+      });
       setTimeout(() => {
         onClose();
         setIsSuccess(false);
@@ -137,6 +164,13 @@ export function ConstructionModal({ isOpen, onClose }: ConstructionModalProps) {
       text: 'Sistema de pagos seguro',
       color: 'text-purple-300'
     }
+  ];
+
+  const userTypes = [
+    { value: '', label: 'Selecciona tu perfil' },
+    { value: 'artista', label: 'Soy artista' },
+    { value: 'empresa', label: 'Empresa cultural' },
+    { value: 'contratante', label: 'Busco contratar artistas' }
   ];
 
   return (
@@ -165,31 +199,111 @@ export function ConstructionModal({ isOpen, onClose }: ConstructionModalProps) {
             <span className="text-white block">está naciendo</span>
           </h1>
           
-          <p className="text-lg text-gray-400 mb-8 leading-relaxed">
+          <p className="text-base text-gray-400 mb-8 leading-relaxed">
             Estamos creando una plataforma revolucionaria que transformará la forma de conectar artistas con el mundo. Únete a nuestra lista de espera para ser de los primeros en descubrir la mejor forma de gestionar tu talento.
           </p>
 
           {!isSuccess ? (
-            <form onSubmit={handleSubmit} className="w-full">
-              <div className="space-y-4">
+            <div className="w-full">
+              <div className="space-y-3">
+                {/* Nombre y Apellido en la misma fila */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                      <User className="w-5 h-5 text-gray-400" />
+                    </div>
+                    <input
+                      type="text"
+                      name="firstName"
+                      placeholder="Nombre"
+                      value={formData.firstName}
+                      onChange={handleInputChange}
+                      className="w-full pl-12 pr-4 py-2.5 bg-gray-800/50 border border-gray-700/50 rounded-xl text-white placeholder-gray-500 focus:ring-2 focus:ring-emerald-300/50 focus:border-emerald-300/50 transition-all duration-300 text-sm"
+                      required
+                      disabled={isSubmitting}
+                    />
+                  </div>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                      <User className="w-5 h-5 text-gray-400" />
+                    </div>
+                    <input
+                      type="text"
+                      name="lastName"
+                      placeholder="Apellido"
+                      value={formData.lastName}
+                      onChange={handleInputChange}
+                      className="w-full pl-12 pr-4 py-2.5 bg-gray-800/50 border border-gray-700/50 rounded-xl text-white placeholder-gray-500 focus:ring-2 focus:ring-emerald-300/50 focus:border-emerald-300/50 transition-all duration-300 text-sm"
+                      required
+                      disabled={isSubmitting}
+                    />
+                  </div>
+                </div>
+
+                {/* Email y Teléfono en la misma fila */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                      <Mail className="w-5 h-5 text-gray-400" />
+                    </div>
+                    <input
+                      type="email"
+                      name="email"
+                      placeholder="tu@email.com"
+                      value={formData.email}
+                      onChange={handleInputChange}
+                      className="w-full pl-12 pr-4 py-2.5 bg-gray-800/50 border border-gray-700/50 rounded-xl text-white placeholder-gray-500 focus:ring-2 focus:ring-emerald-300/50 focus:border-emerald-300/50 transition-all duration-300 text-sm"
+                      required
+                      disabled={isSubmitting}
+                    />
+                  </div>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                      <Phone className="w-5 h-5 text-gray-400" />
+                    </div>
+                    <input
+                      type="tel"
+                      name="phone"
+                      placeholder="Teléfono"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      className="w-full pl-12 pr-4 py-2.5 bg-gray-800/50 border border-gray-700/50 rounded-xl text-white placeholder-gray-500 focus:ring-2 focus:ring-emerald-300/50 focus:border-emerald-300/50 transition-all duration-300 text-sm"
+                      required
+                      disabled={isSubmitting}
+                    />
+                  </div>
+                </div>
+
+                {/* Tipo de usuario */}
                 <div className="relative">
                   <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                    <Mail className="w-5 h-5 text-gray-400" />
+                    <Building className="w-5 h-5 text-gray-400" />
                   </div>
-                  <input
-                    type="email"
-                    placeholder="tu@email.com"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    className="w-full pl-12 pr-4 py-4 bg-gray-800/50 border border-gray-700/50 rounded-xl text-white placeholder-gray-500 focus:ring-2 focus:ring-emerald-300/50 focus:border-emerald-300/50 transition-all duration-300"
+                  <select
+                    name="userType"
+                    value={formData.userType}
+                    onChange={handleInputChange}
+                    className="w-full pl-12 pr-4 py-2.5 bg-gray-800/50 border border-gray-700/50 rounded-xl text-white placeholder-gray-500 focus:ring-2 focus:ring-emerald-300/50 focus:border-emerald-300/50 transition-all duration-300 appearance-none cursor-pointer text-sm"
                     required
                     disabled={isSubmitting}
-                  />
+                  >
+                    {userTypes.map((type) => (
+                      <option key={type.value} value={type.value} className="bg-gray-800 text-white">
+                        {type.label}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="absolute inset-y-0 right-0 pr-4 flex items-center pointer-events-none">
+                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
                 </div>
+
                 <button
-                  type="submit"
+                  onClick={handleSubmit}
                   disabled={isSubmitting}
-                  className="group w-full px-6 py-4 bg-gradient-to-r from-emerald-400 to-purple-400 text-white font-semibold rounded-xl hover:from-emerald-300 hover:to-purple-300 transition-all duration-300 transform hover:scale-105 disabled:opacity-70 disabled:transform-none"
+                  className="group w-full px-6 py-2.5 bg-gradient-to-r from-emerald-400 to-purple-400 text-white font-semibold rounded-xl hover:from-emerald-300 hover:to-purple-300 transition-all duration-300 transform hover:scale-105 disabled:opacity-70 disabled:transform-none text-sm"
                 >
                   <span className="flex items-center justify-center gap-3">
                     {isSubmitting ? (
@@ -206,7 +320,7 @@ export function ConstructionModal({ isOpen, onClose }: ConstructionModalProps) {
                   </span>
                 </button>
               </div>
-            </form>
+            </div>
           ) : (
             <div className="bg-emerald-400/10 border border-emerald-400/30 rounded-xl p-6 backdrop-blur-sm">
               <div className="flex items-center gap-3 text-emerald-300">
@@ -253,7 +367,7 @@ export function ConstructionModal({ isOpen, onClose }: ConstructionModalProps) {
               ))}
             </div>
 
-            <div className="p-6 rounded-xl backdrop-blur-sm border" style={{backgroundImage: 'linear-gradient(to right, #bb00aa10, #a855f710, #ec489910)', borderColor: '#bb00aa30'}}>
+            <div className="p-4 rounded-xl backdrop-blur-sm border" style={{backgroundImage: 'linear-gradient(to right, #bb00aa10, #a855f710, #ec489910)', borderColor: '#bb00aa30'}}>
               <div className="flex items-center gap-2 mb-3">
                 <Star className="w-5 h-5" style={{color: '#bb00aa'}} />
                 <span className="font-semibold" style={{color: '#bb00aa'}}>Acceso Beta Exclusivo</span>

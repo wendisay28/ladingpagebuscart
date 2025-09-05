@@ -1,19 +1,18 @@
-import { drizzle } from 'drizzle-orm/better-sqlite3';
-import Database from 'better-sqlite3';
+import { createClient } from '@supabase/supabase-js';
 
-// For development, we'll use SQLite with a file-based database
-const sqlite = new Database('buscart.db');
+// Inicializar el cliente de Supabase
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-export const db = drizzle(sqlite);
+if (!supabaseUrl || !supabaseAnonKey) {
+  throw new Error('Missing Supabase environment variables');
+}
 
-// You can add your schema definitions here when needed
-// Example:
-// import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
-// 
-// export const subscribers = sqliteTable('subscribers', {
-//   id: integer('id').primaryKey({ autoIncrement: true }),
-//   email: text('email').notNull().unique(),
-//   name: text('name'),
-//   source: text('source'),
-//   createdAt: integer('created_at', { mode: 'timestamp' }).notNull().$defaultFn(() => new Date()),
-// });
+export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+  auth: {
+    persistSession: false
+  }
+});
+
+// Exportar el cliente para usarlo en las rutas de API
+export const db = supabase;
