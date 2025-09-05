@@ -1,6 +1,7 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import { Filter, CalendarDays, MapPin, Sparkles, Heart, ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 export default function ForUsersSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -162,11 +163,13 @@ export default function ForUsersSection() {
         <div className={`text-center transition-all duration-1000 delay-500 ${
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}>
-          <div className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full hover:from-purple-500 hover:to-pink-500 transition-all duration-300 group cursor-pointer hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25">
-            <Heart className="w-5 h-5 text-white group-hover:animate-pulse" />
-            <span className="text-white font-semibold">Comenzar a explorar</span>
-            <ArrowRight className="w-5 h-5 text-white group-hover:translate-x-1 transition-transform duration-300" />
-          </div>
+          <Link href="/explorar" className="inline-block">
+            <div className="inline-flex items-center gap-3 px-8 py-4 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full hover:from-purple-500 hover:to-pink-500 transition-all duration-300 group cursor-pointer hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25">
+              <Heart className="w-5 h-5 text-white group-hover:animate-pulse" />
+              <span className="text-white font-semibold">Comenzar a explorar</span>
+              <ArrowRight className="w-5 h-5 text-white group-hover:translate-x-1 transition-transform duration-300" />
+            </div>
+          </Link>
         </div>
       </div>
 

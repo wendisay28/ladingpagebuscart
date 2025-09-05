@@ -2,11 +2,11 @@
 
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { Home, Compass, BookOpen, ShoppingBag, LogIn, UserPlus } from 'lucide-react';
+import { Home, Compass, BookOpen, Mail, ShoppingBag, LogIn, UserPlus } from 'lucide-react';
 import { ConstructionModal } from '../../ui/modal';
 
 // Tipos locales
-type SectionType = 'hero' | 'explorar' | 'nosotros' | 'tienda';
+type SectionType = 'hero' | 'servicios' | 'nosotros' | 'contacto';
 
 // Constantes locales
 const AUTH_ROUTES = {
@@ -16,9 +16,9 @@ const AUTH_ROUTES = {
 
 const menuItems = [
   { name: 'Home', section: 'hero' as SectionType, icon: <Home className="w-5 h-5" /> },
-  { name: 'Explorar', section: 'explorar' as SectionType, icon: <Compass className="w-5 h-5" /> },
+  { name: 'Servicios', section: 'servicios' as SectionType, icon: <Compass className="w-5 h-5" /> },
   { name: 'Nosotros', section: 'nosotros' as SectionType, icon: <BookOpen className="w-5 h-5" /> },
-  { name: 'Tienda', section: 'tienda' as SectionType, icon: <ShoppingBag className="w-5 h-5" /> }
+  { name: 'Contacto', section: 'contacto' as SectionType, icon: <Mail className="w-5 h-5" /> }
 ];
 
 const authItems = [
@@ -84,7 +84,7 @@ function ClientNavigation() {
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/" className="block">
-              <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-emerald-400 bg-clip-text text-transparent hover:from-purple-300 hover:to-emerald-300 transition-colors duration-200">
+              <span className="text-2xl font-bold bg-gradient-to-r from-pink-400 to-purple-500 bg-clip-text text-transparent hover:from-pink-300 hover:to-purple-500 transition-colors duration-200">
                 BuscArt
               </span>
             </Link>
@@ -230,7 +230,7 @@ export default function Navigation() {
           <div className="flex items-center justify-between h-16">
             {/* Logo para SSR */}
             <div className="flex-shrink-0">
-              <span className="text-2xl font-bold bg-gradient-to-r from-purple-400 to-emerald-400 bg-clip-text text-transparent">
+              <span className="text-2xl font-bold bg-gradient-to-r from-pink-400 to-purple-500 bg-clip-text text-transparent">
                 BuscArt
               </span>
             </div>

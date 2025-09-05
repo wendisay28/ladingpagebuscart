@@ -4,6 +4,7 @@ import { Music, Camera, Palette, Calendar, Star, Sparkles } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion } from "framer-motion";
+import Link from "next/link";
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -198,21 +199,23 @@ export default function ForArtistsSection() {
                   </p>
                 </div>
               ))}
-              <motion.button
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.98 }}
-                className="mt-6 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium shadow-lg hover:shadow-xl hover:shadow-purple-900/30 transition-all duration-300 flex items-center justify-center gap-2 group"
-              >
-                <span>Explorar artistas</span>
-                <svg 
-                  className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" 
-                  fill="none" 
-                  viewBox="0 0 24 24" 
-                  stroke="currentColor"
+              <Link href="/tienda" className="block w-full">
+                <motion.button
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.98 }}
+                  className="w-full mt-6 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium shadow-lg hover:shadow-xl hover:shadow-purple-900/30 transition-all duration-300 flex items-center justify-center gap-2 group"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-              </motion.button>
+                  <span>Explorar</span>
+                  <svg 
+                    className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </motion.button>
+              </Link>
             </div>
           </div>
           {/* Visual column */}

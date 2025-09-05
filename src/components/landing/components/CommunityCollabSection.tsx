@@ -9,63 +9,78 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function CommunityCollabSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const [isClient, setIsClient] = useState(false);
+  const [mounted, setMounted] = useState(false);
+  const animationTimeline = useRef<gsap.core.Timeline | null>(null);
 
   useEffect(() => {
-    setIsClient(true);
+    setMounted(true);
+    
+    return () => {
+      // Cleanup function
+      if (animationTimeline.current) {
+        animationTimeline.current.kill();
+      }
+      ScrollTrigger.getAll().forEach(trigger => {
+        if (trigger.trigger === sectionRef.current) {
+          trigger.kill();
+        }
+      });
+    };
   }, []);
 
   useEffect(() => {
-    if (!isClient || !sectionRef.current) return;
+    if (!mounted || !sectionRef.current) return;
 
-    // Initial setup
-    gsap.set('.section-header', { y: 50, opacity: 0 });
-    gsap.set('.feature-card', { 
-      y: 30, 
-      opacity: 0,
-      scale: 0.98
-    });
-
-    // Create timeline
-    const animationTimeline = gsap.timeline({
+    // Store references to all elements
+    const sectionElement = sectionRef.current;
+    const headerElement = sectionElement.querySelector('.section-header');
+    const cardElements = sectionElement.querySelectorAll('.feature-card');
+    
+    // Create timeline with proper scope
+    animationTimeline.current = gsap.timeline({
       scrollTrigger: {
-        trigger: sectionRef.current,
+        trigger: sectionElement,
         start: 'top 85%',
         toggleActions: 'play none none none',
+        invalidateOnRefresh: true
       }
     });
 
-    // Header animation
-    animationTimeline.to('.section-header', {
-      y: 0,
-      opacity: 1,
-      duration: 0.6,
-      ease: "power3.out"
-    });
+    // Only proceed if elements exist
+    if (headerElement) {
+      gsap.set(headerElement, { y: 50, opacity: 0 });
+      animationTimeline.current.to(headerElement, {
+        y: 0,
+        opacity: 1,
+        duration: 0.6,
+        ease: "power3.out"
+      });
+    }
 
-    // Cards animation
-    animationTimeline.to('.feature-card', {
-      y: 0,
-      opacity: 1,
-      scale: 1,
-      duration: 0.6,
-      stagger: 0.15,
-      ease: "back.out(1.2)"
-    }, 0.2);
-
-    // Cleanup
-    return () => {
-      animationTimeline.kill();
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
-  }, [isClient]);
+    if (cardElements.length > 0) {
+      gsap.set(cardElements, { 
+        y: 30, 
+        opacity: 0,
+        scale: 0.98
+      });
+      
+      animationTimeline.current.to(cardElements, {
+        y: 0,
+        opacity: 1,
+        scale: 1,
+        duration: 0.6,
+        stagger: 0.15,
+        ease: "back.out(1.2)"
+      }, 0.2);
+    }
+  }, [mounted]);
 
   const features = [
     {
       icon: <Users2 className="w-6 h-6 text-pink-500" />,
       title: "Feed de comunidad",
       description: "Descubre publicaciones, proyectos y showcases de artistas y empresas.",
-      stats: "+1K publicaciones diarias"
+      stats: "2 ciudades activas"
     },
     {
       icon: <Link2 className="w-6 h-6 text-purple-500" />,
@@ -81,20 +96,16 @@ export default function CommunityCollabSection() {
     },
     {
       icon: <Heart className="w-6 h-6 text-red-400" />,
-      title: "Proyectos destacados",
+      title: "Proyectos exitosos",
       description: "Colabora en iniciativas seleccionadas por la comunidad.",
-      stats: "100+ proyectos activos"
+      stats: "100+ proyectos exitosos"
     }
   ];
-
-  if (!isClient) {
-    return null;
-  }
 
   return (
     <section ref={sectionRef} className="relative py-20 bg-gradient-to-b from-gray-900 to-black overflow-hidden">
       <div className="absolute inset-0 opacity-20">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgxMDIsIDEyNixlLzQpIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3BhdHRlcm4pIi8+PC9zdmc+')]"></div>
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgxMDIsIDEyNixlLzQpIi8+PC9wYXR0ZXNuPjwvZGVmcz48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3BhdHRlcm4pIi8+PC9zdmc+')]"></div>
       </div>
       
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
