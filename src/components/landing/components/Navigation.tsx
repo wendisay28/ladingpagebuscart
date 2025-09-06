@@ -27,9 +27,13 @@ const authItems = [
 ];
 
 // Componente de navegación del lado del cliente
-function ClientNavigation() {
+interface ClientNavigationProps {
+  activeSection?: string;
+}
+
+function ClientNavigation({ activeSection = '' }: ClientNavigationProps) {
   const [isMounted, setIsMounted] = useState(false);
-  const [activeSection, setActiveSection] = useState<SectionType>('hero');
+  const [currentSection, setCurrentSection] = useState<SectionType>('hero');
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authModalTitle, setAuthModalTitle] = useState('');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -44,7 +48,7 @@ function ClientNavigation() {
           if (entry.isIntersecting) {
             const sectionId = entry.target.id as SectionType;
             if (menuItems.some(item => item.section === sectionId)) {
-              setActiveSection(sectionId);
+              setCurrentSection(sectionId);
             }
           }
         });
@@ -66,11 +70,19 @@ function ClientNavigation() {
     return () => observer.disconnect();
   }, []);
 
+  const handleNavClick = (section: SectionType) => {
+    setCurrentSection(section);
+    setMobileMenuOpen(false);
+    if (section === 'hero') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   const handleSectionClick = (section: SectionType) => {
     if (section === 'hero') {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-    setActiveSection(section);
+    setCurrentSection(section);
   };
 
   if (!isMounted) {
@@ -100,7 +112,7 @@ function ClientNavigation() {
                   href={`/${item.section === 'hero' ? '' : item.section}`}
                   onClick={() => handleSectionClick(item.section)}
                   className={`px-4 py-2 text-sm font-medium transition-colors duration-200 flex items-center rounded-md ${
-                    activeSection === item.section
+                    (activeSection || currentSection) === item.section
                       ? 'text-white bg-purple-600'
                       : 'text-gray-300 hover:text-white hover:bg-gray-800'
                   }`}
@@ -145,13 +157,13 @@ function ClientNavigation() {
                   key={item.section}
                   href={`/${item.section === 'hero' ? '' : item.section}`}
                   onClick={() => {
-                    handleSectionClick(item.section);
+                    handleNavClick(item.section);
                     setMobileMenuOpen(false);
                   }}
-                  className={`flex items-center px-4 py-3 text-base font-medium w-full rounded-md transition-colors duration-200 ${
-                    activeSection === item.section
-                      ? 'text-white bg-purple-600'
-                      : 'text-gray-300 hover:bg-gray-800 hover:text-white'
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+                    (activeSection || currentSection) === item.section
+                      ? 'bg-white/10 text-white'
+                      : 'text-gray-400 hover:bg-white/5 hover:text-white'
                   }`}
                 >
                   <span className="inline-flex items-center justify-center w-5 h-5 mr-3">
@@ -213,7 +225,11 @@ function ClientNavigation() {
 }
 
 // Componente principal de navegación que maneja el renderizado del servidor
-export default function Navigation() {
+interface NavigationProps {
+  activeSection?: string;
+}
+
+export default function Navigation({ activeSection = '' }: NavigationProps) {
   const [isClient, setIsClient] = useState(false);
   const [showAuthModal, setShowAuthModal] = useState(false);
   const [authModalTitle, setAuthModalTitle] = useState('');
@@ -273,5 +289,5 @@ export default function Navigation() {
   }
 
   // En el cliente, mover la lógica del modal al ClientNavigation
-  return <ClientNavigation />;
+  return <ClientNavigation activeSection={activeSection} />;
 }

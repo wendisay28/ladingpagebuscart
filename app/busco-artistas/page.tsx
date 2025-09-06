@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import Navigation from '@/src/components/landing/components/Navigation';
 import { X, Search, CalendarCheck, Handshake, Shield, Tag, MessageSquare, Star, Award, FileSignature, MapPin, Clock, Users, Zap, CheckCircle, AlertTriangle, Music, Mic, Volume2, Phone } from 'lucide-react';
 
 export default function BuscoArtistasPage() {
@@ -77,22 +78,23 @@ export default function BuscoArtistasPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-black text-white overflow-x-hidden">
-      {/* Animated Background */}
-      <div className="fixed inset-0 -z-10">
-        <div className="absolute inset-0 bg-gradient-to-br from-black via-purple-900/20 to-black">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(120,119,198,0.3),transparent)] animate-pulse"></div>
+    <div className="min-h-screen bg-black">
+      <Navigation activeSection="busco-artistas" />
+      <div className="pt-16">
+        {/* Solid Black Background */}
+        <div className="fixed inset-0 -z-10 bg-black">
         </div>
-        {/* Floating orbs */}
-        <div className="absolute top-20 left-10 w-72 h-72 bg-purple-500/10 rounded-full filter blur-3xl animate-blob"></div>
-        <div className="absolute top-40 right-10 w-72 h-72 bg-pink-500/10 rounded-full filter blur-3xl animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-32 left-1/2 w-72 h-72 bg-blue-500/10 rounded-full filter blur-3xl animate-blob animation-delay-4000"></div>
-      </div>
 
-      {/* Quote Modal */}
-      {showQuoteModal && (
-        <div className="fixed inset-0 bg-black/90 backdrop-blur-md flex items-center justify-center z-50 p-4 animate-fadeIn">
-          <div className="bg-gray-900/90 backdrop-blur-xl border border-gray-700/50 rounded-2xl shadow-2xl p-8 w-full max-w-2xl relative transform animate-scaleIn">
+        {/* Quote Modal */}
+        {showQuoteModal && (
+          <div className="fixed inset-0 bg-black/90 backdrop-blur-md flex items-center justify-center z-50 p-4 animate-fadeIn">
+            <div className="bg-gray-900/90 backdrop-blur-xl border border-gray-700/50 rounded-2xl shadow-2xl p-8 w-full max-w-2xl relative transform animate-scaleIn">
+              <button 
+                onClick={() => setShowQuoteModal(false)}
+                className="absolute top-6 right-6 text-gray-400 hover:text-white transition-colors duration-200 hover:rotate-90 transform"
+              >
+                <X className="w-6 h-6" />
+              </button>
             <button 
               onClick={() => setShowQuoteModal(false)}
               className="absolute top-6 right-6 text-gray-400 hover:text-white transition-colors duration-200 hover:rotate-90 transform"
@@ -831,6 +833,7 @@ export default function BuscoArtistasPage() {
           animation-delay: 4s;
         }
       `}</style>
+      </div>
     </div>
   );
 }

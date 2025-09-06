@@ -130,7 +130,19 @@ export function ConstructionModal({ isOpen, onClose }: ConstructionModalProps) {
 
     setIsSubmitting(true);
     try {
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      const response = await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Error al enviar el formulario');
+      }
+
       setIsSuccess(true);
       setFormData({
         firstName: '',
@@ -139,10 +151,16 @@ export function ConstructionModal({ isOpen, onClose }: ConstructionModalProps) {
         phone: '',
         userType: ''
       });
+      
+      // Cerrar el modal después de 2 segundos
       setTimeout(() => {
         onClose();
         setIsSuccess(false);
       }, 2500);
+    } catch (error) {
+      console.error('Error al enviar el formulario:', error);
+      // Aquí podrías mostrar un mensaje de error al usuario
+      alert('Ocurrió un error al enviar el formulario. Por favor, inténtalo de nuevo.');
     } finally {
       setIsSubmitting(false);
     }
