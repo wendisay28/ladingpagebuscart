@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ArtBusCart - Arte y Cultura en Medellín",
-  description: "Descubre arte, cultura y eventos en Medellín. Tienda de arte, lugares turísticos y experiencias únicas.",
+  title: "BuscArt - Busca, compara y contrata arte cerca de ti",
+  description: "Encuentra y contrata artistas locales. Compara precios, estilos y disponibilidad para tu próximo evento o proyecto.",
 };
 
 export default function RootLayout({
