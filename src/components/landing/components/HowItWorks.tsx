@@ -1,17 +1,15 @@
 'use client';
 import { useEffect, useRef } from 'react';
-import { Search, CalendarDays, Megaphone, Images, MapPin, Shield } from 'lucide-react';
+import { Palette, Building2, Ticket, Landmark } from 'lucide-react';
 
 export default function HowItWorks() {
   const sectionRef = useRef<HTMLElement>(null);
 
   const features = [
-    { icon: Search, title: "Buscar Artistas", description: "Filtra por tipo, ciudad, precio o categoría." },
-    { icon: CalendarDays, title: "Comparar Perfiles", description: "Compara disponibilidad, precios y reputación." },
-    { icon: Megaphone, title: "Ofertas en Tiempo Real", description: "Publica tu oferta y recibe respuestas inmediatas." },
-    { icon: Images, title: "Portafolios Completos", description: "Ve fotos, videos y valoraciones reales." },
-    { icon: MapPin, title: "Descubrir Eventos", description: "Encuentra eventos y sitios culturales cercanos." },
-    { icon: Shield, title: "Pagos Seguros", description: "Paga de forma segura y califica tu experiencia." },
+    { icon: Palette, title: "Artista", description: "Crea tu perfil, muestra tu portafolio y recibe contratos." },
+    { icon: Building2, title: "Empresa", description: "Encuentra y contrata talento verificado para tus campañas." },
+    { icon: Ticket, title: "Organizador de eventos", description: "Publica tu evento y recibe propuestas de artistas." },
+    { icon: Landmark, title: "Espacio cultural", description: "Da a conocer tu espacio y programa tu agenda cultural." },
   ];
 
   useEffect(() => {
@@ -172,7 +170,7 @@ export default function HowItWorks() {
         }
 
         .gradient-text {
-          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          background: linear-gradient(135deg, #7c3aed 0%, #2563eb 100%);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           background-clip: text;
@@ -198,28 +196,21 @@ export default function HowItWorks() {
       `}</style>
 
       <section ref={sectionRef} id="process" className="relative min-h-screen py-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900/30 to-black"></div>
+        <div className="absolute inset-0 bg-white"></div>
 
-        {/* Morphing Background Blobs con más movimiento */}
-        <div className="absolute inset-0 overflow-hidden">
-          <div className="morphing-blob absolute top-20 left-10 w-32 h-32 bg-gradient-to-r from-purple-600/20 to-transparent parallax-slow"></div>
-          <div className="morphing-blob absolute bottom-20 right-10 w-40 h-40 bg-gradient-to-r from-pink-600/20 to-transparent parallax-fast" style={{ animationDelay: '2s' }}></div>
-          <div className="morphing-blob absolute top-1/2 left-1/2 w-24 h-24 bg-gradient-to-r from-blue-600/15 to-transparent parallax-slow" style={{ animationDelay: '4s' }}></div>
-        </div>
-
-        <div className="relative z-10 w-full max-w-[1250px] mx-auto px-0">
+        <div className="relative z-10 w-full max-w-[1200px] mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
           {/* Título con animación desde arriba */}
           <div className="animate-on-scroll slide-down text-center mb-12 md:mb-20">
-            <h2 className="font-orbitron text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold gradient-text mb-4 md:mb-8">
-              Cómo Funciona
+            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold gradient-text mb-4 md:mb-8">
+              Elige cómo quieres usar Buscart
             </h2>
-            <p className="text-lg sm:text-xl text-gray-300 max-w-2xl mx-auto px-4">
-              Todo lo que necesitas para encontrar y contratar artistas
+            <p className="text-lg sm:text-xl text-[#6b7280] max-w-2xl mx-auto px-4">
+              Cuatro caminos, una misma plataforma. Encuentra el tuyo en segundos.
             </p>
           </div>
 
           {/* Features Grid con animaciones escalonadas */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 max-w-6xl mx-auto px-4">
             {features.map((feature, index) => {
               const IconComponent = feature.icon;
               const isEven = index % 2 === 0;
@@ -232,27 +223,27 @@ export default function HowItWorks() {
                   key={index} 
                   className={`feature-card group h-full animate-on-scroll ${animationClass} stagger-${index + 1}`}
                 >
-                  <div className="relative bg-gradient-to-br from-gray-800 to-black p-6 md:p-8 rounded-2xl border border-purple-600/30 hover:border-purple-600 transition-all duration-500 h-full flex flex-col">
+                  <div className="relative bg-gradient-to-br from-white to-[#f3f4f6] p-6 md:p-8 rounded-2xl border border-[#e9d5ff] hover:border-[#7c3aed] transition-all duration-500 h-full flex flex-col">
                     
                     {/* Icono con efecto flotante */}
-                    <div className="w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-purple-600 to-pink-600 rounded-2xl flex items-center justify-center mb-6 mx-auto floating-icon">
+                    <div className="w-14 h-14 md:w-16 md:h-16 bg-gradient-to-br from-[#7c3aed] to-[#2563eb] rounded-2xl flex items-center justify-center mb-6 mx-auto floating-icon">
                       <IconComponent className="icon w-8 h-8 text-white" strokeWidth={2.2} />
                     </div>
 
                     <div className="text-center flex-grow">
-                      <h3 className="text-lg md:text-xl font-orbitron font-bold gradient-text mb-3">
+                      <h3 className="text-lg md:text-xl font-bold gradient-text mb-3">
                         {feature.title}
                       </h3>
-                      <p className="text-sm md:text-base text-gray-400 leading-relaxed">
+                      <p className="text-sm md:text-base text-[#6b7280] leading-relaxed">
                         {feature.description}
                       </p>
                     </div>
 
                     {/* Efecto de brillo en hover */}
-                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-purple-500 via-pink-500 to-purple-500 opacity-0 group-hover:opacity-20 transition-opacity duration-500 -z-10"></div>
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#7c3aed] via-[#9333ea] to-[#2563eb] opacity-0 group-hover:opacity-10 transition-opacity duration-500 -z-10"></div>
                     
                     {/* Efecto de resplandor adicional */}
-                    <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-purple-600 to-pink-600 opacity-0 group-hover:opacity-30 blur-xl transition-opacity duration-500 -z-20"></div>
+                    <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-[#7c3aed] to-[#2563eb] opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500 -z-20"></div>
                   </div>
                 </div>
               );
@@ -261,19 +252,13 @@ export default function HowItWorks() {
 
           {/* Elementos decorativos que aparecen con fade-scale */}
           <div className="animate-on-scroll fade-scale stagger-4 mt-16 text-center">
-            <div className="inline-flex items-center space-x-2 px-6 py-3 rounded-full border border-purple-600/30 bg-gray-900/50">
-              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-              <span className="text-sm text-gray-300">Plataforma activa 24/7</span>
+            <div className="inline-flex items-center space-x-2 px-6 py-3 rounded-full border border-[#e9d5ff] bg-white/50">
+              <div className="w-2 h-2 rounded-full bg-[#10b981] animate-pulse"></div>
+              <span className="text-sm text-[#6b7280]">Plataforma activa 24/7</span>
             </div>
           </div>
         </div>
 
-        {/* Partículas flotantes adicionales */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 left-1/4 w-2 h-2 rounded-full bg-purple-500/50 animate-pulse" style={{ animationDelay: '1s' }}></div>
-          <div className="absolute top-3/4 right-1/4 w-1 h-1 rounded-full bg-pink-500/50 animate-pulse" style={{ animationDelay: '2s' }}></div>
-          <div className="absolute top-1/2 left-3/4 w-1.5 h-1.5 rounded-full bg-blue-500/50 animate-pulse" style={{ animationDelay: '0.5s' }}></div>
-        </div>
       </section>
     </>
   );

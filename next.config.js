@@ -1,5 +1,9 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Fija la raíz del proyecto para evitar la confusión por múltiples package-lock.json
+  turbopack: {
+    root: __dirname,
+  },
   eslint: {
     // 🚨 Ignora errores de ESLint al hacer build en Vercel
     ignoreDuringBuilds: true,

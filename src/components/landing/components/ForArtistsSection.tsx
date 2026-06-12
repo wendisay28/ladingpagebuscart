@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef } from "react";
-import { Music, Camera, Palette, Calendar, Star, Sparkles } from "lucide-react";
+import { Palette, Ticket, Landmark, Rocket, Compass } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion } from "framer-motion";
@@ -28,14 +28,14 @@ export default function ForArtistsSection() {
     }
 
     // Reset initial state with null checks
-    gsap.set(textItems, { 
-      y: 100, 
+    gsap.set(textItems, {
+      y: 100,
       opacity: 0,
       willChange: 'transform, opacity'
     });
 
-    gsap.set(imageItems, { 
-      y: 100, 
+    gsap.set(imageItems, {
+      y: 100,
       opacity: 0,
       willChange: 'transform, opacity'
     });
@@ -79,7 +79,7 @@ export default function ForArtistsSection() {
 
     // Only add scroll effect if section exists
     if (section) {
-      const scrollTween = gsap.to(section, {
+      gsap.to(section, {
         scrollTrigger: {
           trigger: el,
           start: "top bottom",
@@ -97,11 +97,11 @@ export default function ForArtistsSection() {
     imageItems.forEach((item) => {
       const image = item.querySelector('img');
       if (!image) return;
-      
+
       item.addEventListener('mouseenter', () => {
         gsap.to(image, { scale: 1.05, duration: 0.3 });
       });
-      
+
       item.addEventListener('mouseleave', () => {
         gsap.to(image, { scale: 1, duration: 0.3 });
       });
@@ -116,16 +116,16 @@ export default function ForArtistsSection() {
         animationRef.current = null;
       }
       ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-      
+
       // Cleanup hover event listeners
       imageItems.forEach((item) => {
         const image = item.querySelector('img');
         if (!image) return;
-        
+
         item.removeEventListener('mouseenter', () => {
           gsap.to(image, { scale: 1.05, duration: 0.3 });
         });
-        
+
         item.removeEventListener('mouseleave', () => {
           gsap.to(image, { scale: 1, duration: 0.3 });
         });
@@ -135,81 +135,75 @@ export default function ForArtistsSection() {
 
   const artistFeatures = [
     {
-      icon: <Palette className="w-6 h-6 text-pink-400" />,
-      text: "Publica servicios creativos únicos (música, fotografía, arte visual, performance)"
+      icon: <Palette className="w-6 h-6 text-[#7c3aed]" />,
+      text: "Artistas — talento verificado para cada disciplina creativa"
     },
     {
-      icon: <Star className="w-6 h-6 text-purple-400" />,
-      text: "Portafolio interactivo con trabajos destacados, reseñas y calificaciones"
+      icon: <Ticket className="w-6 h-6 text-[#9333ea]" />,
+      text: "Eventos — conciertos, festivales y experiencias cerca de ti"
     },
     {
-      icon: <Calendar className="w-6 h-6 text-pink-400" />,
-      text: "Sistema de reservas inteligente para contratos y colaboraciones"
+      icon: <Landmark className="w-6 h-6 text-[#7c3aed]" />,
+      text: "Espacios — lugares culturales con alma para cada ocasión"
     },
     {
-      icon: <Music className="w-6 h-6 text-purple-400" />,
-      text: "Gestiona ofertas y proyectos desde un dashboard profesional"
+      icon: <Rocket className="w-6 h-6 text-[#2563eb]" />,
+      text: "Oportunidades — convocatorias, contratos y trabajo para crecer"
     }
   ];
 
   return (
-    <section ref={sectionRef} className="relative py-16 bg-black overflow-hidden">
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-b from-black via-gray-900/40 to-black" />
-        <div className="absolute top-1/4 left-1/4 w-80 h-80 bg-purple-600/10 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-pink-600/10 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}} />
-      </div>
-
-      <div className="relative z-10 w-full max-w-[1250px] mx-auto px-0">
+    <section ref={sectionRef} className="relative py-24 md:py-32 bg-white overflow-hidden">
+      <div className="relative z-10 w-full max-w-[1200px] mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-stretch min-h-[500px]">
           {/* Text column */}
           <div className="flex flex-col justify-between h-full m-4">
             <div className="space-y-4">
               <div className="text-reveal flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-purple-400" />
-                <span className="uppercase tracking-widest text-xs text-purple-300 font-semibold">
-                  Para artistas
+                <Compass className="w-4 h-4 text-[#7c3aed]" />
+                <span className="uppercase tracking-widest text-xs text-[#7c3aed] font-semibold">
+                  Explora BuscArt
                 </span>
               </div>
-              
-              <h2 className="text-reveal font-bold text-4xl lg:text-5xl text-white leading-tight">
-                Haz brillar tu{" "}
-                <span className="relative inline-block bg-gradient-to-r from-fuchsia-400 via-pink-500 to-purple-500 bg-clip-text text-transparent">
-                  talento
-                  <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-fuchsia-400 via-pink-500 to-purple-500 rounded-full" />
+
+              <h2 className="text-reveal font-bold text-4xl lg:text-5xl text-[#1f2937] leading-tight">
+                Descubre exactamente lo que{" "}
+                <span className="relative inline-block bg-gradient-to-r from-[#7c3aed] via-[#9333ea] to-[#2563eb] bg-clip-text text-transparent">
+                  necesitas
+                  <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-[#7c3aed] via-[#9333ea] to-[#2563eb] rounded-full" />
                 </span>
               </h2>
-              
-              <p className="text-reveal text-base text-gray-300 leading-relaxed max-w-lg">
-                Conecta con tu audiencia, monetiza tu arte y construye una carrera sólida en nuestra plataforma diseñada especialmente para creadores.
+
+              <p className="text-reveal text-base text-[#6b7280] leading-relaxed max-w-lg">
+                Artistas, eventos, espacios y oportunidades en un mismo lugar. Encuentra exactamente lo que buscas y empieza a explorar.
               </p>
             </div>
 
             <div className="space-y-4 flex-grow flex flex-col justify-center">
               {artistFeatures.map((feature, index) => (
-                <div 
+                <div
                   key={index}
-                  className="text-reveal flex items-start gap-4 p-3 rounded-xl bg-gradient-to-r from-gray-900/50 to-gray-800/30 border border-gray-700/30 hover:border-purple-500/30 transition-all duration-300 hover:bg-gray-800/40"
+                  className="text-reveal flex items-start gap-4 p-3 rounded-xl bg-gradient-to-r from-white/50 to-[#f3f4f6]/30 border border-[#e9d5ff] hover:border-[#7c3aed] transition-all duration-300 hover:bg-white/40"
                 >
-                  <div className="flex-shrink-0 p-2 bg-gradient-to-br from-purple-600/20 to-pink-600/20 rounded-lg">
+                  <div className="flex-shrink-0 p-2 bg-gradient-to-br from-[#7c3aed]/20 to-[#9333ea]/20 rounded-lg">
                     {feature.icon}
                   </div>
-                  <p className="text-gray-300 leading-relaxed">
+                  <p className="text-[#6b7280] leading-relaxed">
                     {feature.text}
                   </p>
                 </div>
               ))}
-              <Link href="/tienda" className="block w-full">
+              <Link href="/explorar" className="block w-full">
                 <motion.button
                   whileHover={{ scale: 1.03 }}
                   whileTap={{ scale: 0.98 }}
-                  className="w-full mt-6 px-6 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 text-white font-medium shadow-lg hover:shadow-xl hover:shadow-purple-900/30 transition-all duration-300 flex items-center justify-center gap-2 group"
+                  className="w-full mt-6 px-6 py-3 rounded-xl bg-gradient-to-r from-[#7c3aed] via-[#9333ea] to-[#2563eb] text-white font-medium shadow-lg hover:shadow-xl hover:shadow-[#7c3aed]/30 transition-all duration-300 flex items-center justify-center gap-2 group"
                 >
                   <span>Explorar</span>
-                  <svg 
-                    className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" 
-                    fill="none" 
-                    viewBox="0 0 24 24" 
+                  <svg
+                    className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"
+                    fill="none"
+                    viewBox="0 0 24 24"
                     stroke="currentColor"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
@@ -222,23 +216,23 @@ export default function ForArtistsSection() {
           <div className="flex items-center justify-center h-full m-4">
             <div className="images-grid grid grid-cols-2 gap-4 w-full h-full">
               {[
-                { src: "/artistastop/saxofonista.png", alt: "Saxofonista en concierto", category: "Música" },
-                { src: "/artistastop/djs.jpg", alt: "DJ en presentación", category: "Música Electrónica" },
-                { src: "/artistastop/fotografo.jpg", alt: "Fotógrafo profesional", category: "Fotografía" },
-                { src: "/artistastop/bailarina.jpg", alt: "Bailarina en presentación", category: "Danza" },
+                { src: "/artistastop/bailarina.jpg", alt: "Artistas", category: "Artistas" },
+                { src: "/artistastop/djs.jpg", alt: "Eventos", category: "Eventos" },
+                { src: "/Medellin/PalaciodeBellasArtes.jpeg", alt: "Espacios", category: "Espacios" },
+                { src: "/artistastop/fotografo.jpg", alt: "Oportunidades", category: "Oportunidades" },
               ].map((item, i) => (
-                <div 
-                  key={i} 
+                <div
+                  key={i}
                   className="image-item relative group cursor-pointer aspect-square w-full h-full flex"
                 >
-                  <div className="relative w-full h-full rounded-2xl overflow-hidden border border-purple-500/20 bg-gradient-to-br from-gray-900 to-gray-800 flex">
-                    <img 
+                  <div className="relative w-full h-full rounded-2xl overflow-hidden border border-[#e9d5ff] bg-gradient-to-br from-white to-[#f3f4f6] flex">
+                    <img
                       src={item.src}
                       alt={item.alt}
                       className="w-full h-full object-cover transition-transform duration-500"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-purple-600/20" />
-                    <div className="hover-overlay absolute inset-0 bg-gradient-to-t from-purple-900/80 via-pink-900/40 to-transparent opacity-0 transition-opacity duration-300">
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#7c3aed]/60 via-transparent to-[#9333ea]/20" />
+                    <div className="hover-overlay absolute inset-0 bg-gradient-to-t from-[#7c3aed]/80 via-[#9333ea]/40 to-transparent opacity-0 transition-opacity duration-300">
                       <div className="absolute bottom-3 left-3 right-3">
                         <span className="inline-block px-2 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-medium text-white">
                           {item.category}
@@ -247,7 +241,7 @@ export default function ForArtistsSection() {
                     </div>
                     <div className="absolute top-2 right-2 w-6 h-6 bg-gradient-to-br from-white/40 to-transparent rounded-full opacity-60" />
                   </div>
-                  <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-300 blur-xl" />
+                  <div className="absolute -inset-1 bg-gradient-to-r from-[#7c3aed] to-[#2563eb] rounded-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-300 blur-xl" />
                 </div>
               ))}
             </div>

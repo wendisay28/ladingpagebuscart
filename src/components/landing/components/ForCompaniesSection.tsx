@@ -2,62 +2,61 @@
 import React from "react";
 import { motion } from "framer-motion";
 import {
-  Briefcase,
-  Megaphone,
-  BarChart3,
+  Search,
+  SlidersHorizontal,
   Handshake,
-  Building2,
-  MapPin,
+  CheckCircle2,
+  Compass,
 } from "lucide-react";
 import Link from "next/link";
 
 export default function ForCompaniesSection() {
   const features = [
     {
-      icon: Briefcase,
-      title: "Publicación de espacios",
+      icon: Search,
+      title: "1. Descubre",
       description:
-        "Publica lugares, eventos y convocatorias de manera profesional con herramientas que maximizan tu visibilidad.",
-      color: "text-pink-400",
-      bgColor: "bg-pink-500/10",
-      borderColor: "border-pink-500/20",
-      gradient: "from-pink-600/20 via-pink-500/10 to-transparent",
+        "Explora artistas, eventos y espacios culturales cerca de ti.",
+      color: "text-[#7c3aed]",
+      bgColor: "bg-[#7c3aed]/10",
+      borderColor: "border-[#e9d5ff]",
+      gradient: "from-[#7c3aed]/20 via-[#9333ea]/10 to-transparent",
     },
     {
-      icon: Megaphone,
-      title: "Gestión de campañas",
+      icon: SlidersHorizontal,
+      title: "2. Compara",
       description:
-        "Difunde promociones, estrenos y festivales con estrategias que impulsan tu alcance y engagement.",
-      color: "text-purple-400",
-      bgColor: "bg-purple-500/10",
-      borderColor: "border-purple-500/20",
-      gradient: "from-purple-600/20 via-purple-500/10 to-transparent",
-    },
-    {
-      icon: BarChart3,
-      title: "Métricas y análisis",
-      description:
-        "Accede a reportes claros de asistencia potencial, interacciones y crecimiento en tiempo real.",
-      color: "text-violet-400",
-      bgColor: "bg-violet-500/10",
-      borderColor: "border-violet-500/20",
-      gradient: "from-violet-600/20 via-violet-500/10 to-transparent",
+        "Revisa perfiles, precios y reseñas para elegir la mejor opción.",
+      color: "text-[#9333ea]",
+      bgColor: "bg-[#9333ea]/10",
+      borderColor: "border-[#d8b4fe]",
+      gradient: "from-[#9333ea]/20 via-[#a78bfa]/10 to-transparent",
     },
     {
       icon: Handshake,
-      title: "Networking directo",
+      title: "3. Conecta",
       description:
-        "Conecta con artistas y aliados estratégicos de manera rápida y confiable dentro de la red profesional.",
-      color: "text-emerald-400",
-      bgColor: "bg-emerald-500/10",
-      borderColor: "border-emerald-500/20",
-      gradient: "from-emerald-600/20 via-emerald-500/10 to-transparent",
+        "Contacta y coordina directamente dentro de la plataforma.",
+      color: "text-[#2563eb]",
+      bgColor: "bg-[#2563eb]/10",
+      borderColor: "border-[#bfdbfe]",
+      gradient: "from-[#2563eb]/20 via-[#3b82f6]/10 to-transparent",
+    },
+    {
+      icon: CheckCircle2,
+      title: "4. Haz que ocurra",
+      description:
+        "Cierra con pagos seguros y vive la experiencia.",
+      color: "text-[#10b981]",
+      bgColor: "bg-[#10b981]/10",
+      borderColor: "border-[#a7f3d0]",
+      gradient: "from-[#10b981]/20 via-[#34d399]/10 to-transparent",
     },
   ];
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-gray-950 to-black">
-      <div className="container mx-auto">
+    <section className="relative overflow-hidden bg-[#f0ebff]">
+      <div className="max-w-[1200px] mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
         {/* Grid con altura mínima fija */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 min-h-screen lg:min-h-[800px]">
           {/* Columna izquierda - Usando flex para centrar contenido */}
@@ -71,75 +70,76 @@ export default function ForCompaniesSection() {
             <div className="space-y-8">
               <div className="space-y-6">
                 <motion.div
-                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/20"
+                  className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#7c3aed]/10 border border-[#e9d5ff]"
                   initial={{ scale: 0.9, opacity: 0 }}
                   whileInView={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 0.2, duration: 0.5 }}
                   viewport={{ once: true }}
                 >
-                  <Building2 className="w-4 h-4 text-emerald-400" />
-                  <span className="text-emerald-400 text-sm font-medium">
-                    Para empresas
+                  <Compass className="w-4 h-4 text-[#7c3aed]" />
+                  <span className="text-[#7c3aed] text-sm font-medium">
+                    Simple y rápido
                   </span>
                 </motion.div>
 
-                <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight">
-                  Encuentra los mejores{" "}
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-pink-400 via-purple-500 to-violet-500">
-                    espacios
-                  </span>{" "}
-                  para tus eventos
+                <h2 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold leading-tight text-[#1f2937]">
+                  Cómo{" "}
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#7c3aed] via-[#9333ea] to-[#2563eb]">
+                    funciona
+                  </span>
                 </h2>
               </div>
 
-              <p className="text-gray-300 text-lg md:text-xl leading-relaxed max-w-xl">
-                Conecta con tu audiencia y maximiza el impacto de tus eventos con
-                herramientas profesionales diseñadas para tu crecimiento.
+              <p className="text-[#6b7280] text-lg md:text-xl leading-relaxed max-w-xl">
+                Cuatro pasos para pasar de la idea a la experiencia. Rápido, simple
+                y sin complicaciones.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/lugares">
+                <Link href="/register">
                   <motion.button
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="px-8 py-4 rounded-xl bg-gradient-to-r from-pink-600 via-purple-600 to-violet-600 text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 text-base"
+                    className="px-8 py-4 rounded-xl bg-gradient-to-r from-[#7c3aed] via-[#9333ea] to-[#2563eb] text-white font-semibold shadow-lg hover:shadow-xl transition-all duration-300 text-base"
                   >
-                    Ver lugares disponibles
+                    Empezar ahora
                   </motion.button>
                 </Link>
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="px-8 py-4 rounded-xl border-2 border-gray-600 text-gray-300 font-semibold hover:border-gray-500 hover:text-white transition-all duration-300 text-base"
-                >
-                  Solicitar demo
-                </motion.button>
+                <Link href="/explorar">
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className="px-8 py-4 rounded-xl border-2 border-[#e9d5ff] text-[#6b7280] font-semibold hover:border-[#7c3aed] hover:text-[#7c3aed] transition-all duration-300 text-base"
+                  >
+                    Explorar talento
+                  </motion.button>
+                </Link>
               </div>
 
               <motion.div
-                className="grid grid-cols-3 gap-8 pt-8 border-t border-gray-800"
+                className="grid grid-cols-3 gap-8 pt-8 border-t border-[#e9d5ff]"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.6 }}
                 viewport={{ once: true }}
               >
                 <div className="text-center">
-                  <div className="text-2xl md:text-3xl font-bold text-white">
+                  <div className="text-2xl md:text-3xl font-bold text-[#1f2937]">
                     500+
                   </div>
-                  <div className="text-gray-400 text-sm mt-1">Espacios</div>
+                  <div className="text-[#6b7280] text-sm mt-1">Espacios</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl md:text-3xl font-bold text-white">
+                  <div className="text-2xl md:text-3xl font-bold text-[#1f2937]">
                     50k+
                   </div>
-                  <div className="text-gray-400 text-sm mt-1">Eventos</div>
+                  <div className="text-[#6b7280] text-sm mt-1">Eventos</div>
                 </div>
                 <div className="text-center">
-                  <div className="text-2xl md:text-3xl font-bold text-white">
+                  <div className="text-2xl md:text-3xl font-bold text-[#1f2937]">
                     98%
                   </div>
-                  <div className="text-gray-400 text-sm mt-1">Satisfacción</div>
+                  <div className="text-[#6b7280] text-sm mt-1">Satisfacción</div>
                 </div>
               </motion.div>
             </div>
@@ -159,10 +159,10 @@ export default function ForCompaniesSection() {
                     ease: "easeOut",
                   }}
                   viewport={{ once: true, amount: 0.3 }}
-                  className={`flex-1 min-h-[130px] relative overflow-hidden rounded-2xl bg-gradient-to-br ${feature.gradient} backdrop-blur-lg border border-gray-700/50 shadow-xl hover:shadow-2xl transition-all duration-300 group`}
+                  className={`flex-1 min-h-[130px] relative overflow-hidden rounded-2xl bg-gradient-to-br ${feature.gradient} backdrop-blur-lg border border-[#e9d5ff] shadow-xl hover:shadow-2xl transition-all duration-300 group`}
                 >
                   {/* Overlay con hover effect */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-gray-900/90 via-gray-800/80 to-gray-900/90 group-hover:from-gray-900/80 group-hover:via-gray-800/70 group-hover:to-gray-900/80 transition-all duration-300" />
+                  <div className="absolute inset-0 bg-gradient-to-br from-white/90 via-white/80 to-white/90 group-hover:from-white/80 group-hover:via-white/70 group-hover:to-white/80 transition-all duration-300" />
 
                   {/* Content */}
                   <div className="relative z-10 flex flex-col justify-between h-full p-4">
@@ -173,30 +173,30 @@ export default function ForCompaniesSection() {
                         <feature.icon className={`w-5 h-5 ${feature.color}`} />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h4 className="text-lg font-semibold text-white mb-2 leading-tight group-hover:text-gray-100 transition-colors duration-300">
+                        <h4 className="text-lg font-semibold text-[#1f2937] mb-2 leading-tight group-hover:text-[#7c3aed] transition-colors duration-300">
                           {feature.title}
                         </h4>
-                        <p className="text-gray-300 text-sm leading-snug group-hover:text-gray-200 transition-colors duration-300">
+                        <p className="text-[#6b7280] text-sm leading-snug group-hover:text-[#4b5563] transition-colors duration-300">
                           {feature.description}
                         </p>
                       </div>
                     </div>
 
                     {/* Progress indicator mejorado */}
-                    <div className="w-full h-1 bg-gray-700/50 rounded-full overflow-hidden mt-3">
+                    <div className="w-full h-1 bg-[#e9d5ff]/50 rounded-full overflow-hidden mt-3">
                       <motion.div
                         initial={{ width: 0 }}
                         whileInView={{ width: `${85 + index * 5}%` }}
                         transition={{ delay: 0.5 + index * 0.1, duration: 1 }}
                         viewport={{ once: true }}
                         className={`h-full rounded-full ${
-                          feature.color.includes("pink")
-                            ? "bg-gradient-to-r from-pink-500 to-pink-400"
-                            : feature.color.includes("purple")
-                            ? "bg-gradient-to-r from-purple-500 to-purple-400"
-                            : feature.color.includes("violet")
-                            ? "bg-gradient-to-r from-violet-500 to-violet-400"
-                            : "bg-gradient-to-r from-emerald-500 to-emerald-400"
+                          feature.color.includes("#7c3aed")
+                            ? "bg-gradient-to-r from-[#7c3aed] to-[#9333ea]"
+                            : feature.color.includes("#9333ea")
+                            ? "bg-gradient-to-r from-[#9333ea] to-[#a78bfa]"
+                            : feature.color.includes("#2563eb")
+                            ? "bg-gradient-to-r from-[#2563eb] to-[#3b82f6]"
+                            : "bg-gradient-to-r from-[#10b981] to-[#34d399]"
                         } shadow-lg`}
                       />
                     </div>
@@ -204,7 +204,7 @@ export default function ForCompaniesSection() {
 
                   {/* Efecto de brillo en hover */}
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/5 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
+                    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-[#7c3aed]/5 to-transparent transform -skew-x-12 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
                   </div>
                 </motion.div>
               ))}

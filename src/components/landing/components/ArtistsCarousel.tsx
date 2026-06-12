@@ -52,10 +52,10 @@ const HowItWorksSection = () => {
   return (
     <div className="lg:w-1/2 px-0">
       <div className="mb-10">
-        <h2 className="text-4xl font-bold text-white mb-4">
+        <h2 className="text-4xl font-bold text-[#1f2937] mb-4">
           Encuentra el talento perfecto para tu evento y ocasión
         </h2>
-        <p className="text-lg text-gray-300 mb-8">
+        <p className="text-lg text-[#6b7280] mb-8">
           Conectamos organizadores con los mejores artistas y profesionales del entretenimiento
         </p>
       </div>
@@ -67,14 +67,14 @@ const HowItWorksSection = () => {
           initial="hidden"
           animate={controls1}
           variants={itemVariants}
-          className="group relative pl-4 border-l-2 border-pink-500"
+          className="group relative pl-4 border-l-2 border-[#7c3aed]"
         >
-          <div className="absolute -left-[10px] top-0 w-4 h-4 rounded-full bg-pink-500"></div>
-          <h3 className="text-xl font-semibold text-white mb-2 flex items-center">
-            <Search className="text-pink-500 mr-3 w-5 h-5" />
+          <div className="absolute -left-[10px] top-0 w-4 h-4 rounded-full bg-[#7c3aed]"></div>
+          <h3 className="text-xl font-semibold text-[#1f2937] mb-2 flex items-center">
+            <Search className="text-[#7c3aed] mr-3 w-5 h-5" />
             Busca
           </h3>
-          <p className="text-gray-300 pl-8">
+          <p className="text-[#6b7280] pl-8">
             Explora entre cientos de artistas y profesionales calificados. Filtra por categoría, ubicación y presupuesto.
           </p>
         </motion.div>
@@ -85,25 +85,25 @@ const HowItWorksSection = () => {
           initial="hidden"
           animate={controls2}
           variants={itemVariants}
-          className="group relative pl-4 border-l-2 border-purple-500"
+          className="group relative pl-4 border-l-2 border-[#9333ea]"
         >
-          <div className="absolute -left-[10px] top-0 w-4 h-4 rounded-full bg-purple-500"></div>
-          <h3 className="text-xl font-semibold text-white mb-2 flex items-center">
-            <Filter className="text-purple-500 mr-3 w-5 h-5" />
+          <div className="absolute -left-[10px] top-0 w-4 h-4 rounded-full bg-[#9333ea]"></div>
+          <h3 className="text-xl font-semibold text-[#1f2937] mb-2 flex items-center">
+            <Filter className="text-[#9333ea] mr-3 w-5 h-5" />
             Compara
           </h3>
           <ul className="space-y-2 pl-8">
             <li className="flex items-start">
-              <Check className="text-green-400 w-4 h-4 mt-1 mr-2 flex-shrink-0" />
-              <span className="text-gray-300">Revisa portafolios y reseñas</span>
+              <Check className="text-[#10b981] w-4 h-4 mt-1 mr-2 flex-shrink-0" />
+              <span className="text-[#6b7280]">Revisa portafolios y reseñas</span>
             </li>
             <li className="flex items-start">
-              <Check className="text-green-400 w-4 h-4 mt-1 mr-2 flex-shrink-0" />
-              <span className="text-gray-300">Compara presupuestos</span>
+              <Check className="text-[#10b981] w-4 h-4 mt-1 mr-2 flex-shrink-0" />
+              <span className="text-[#6b7280]">Compara presupuestos</span>
             </li>
             <li className="flex items-start">
-              <Check className="text-green-400 w-4 h-4 mt-1 mr-2 flex-shrink-0" />
-              <span className="text-gray-300">Guarda tus favoritos</span>
+              <Check className="text-[#10b981] w-4 h-4 mt-1 mr-2 flex-shrink-0" />
+              <span className="text-[#6b7280]">Guarda tus favoritos</span>
             </li>
           </ul>
         </motion.div>
@@ -114,14 +114,14 @@ const HowItWorksSection = () => {
           initial="hidden"
           animate={controls3}
           variants={itemVariants}
-          className="group relative pl-4 border-l-2 border-blue-500"
+          className="group relative pl-4 border-l-2 border-[#2563eb]"
         >
-          <div className="absolute -left-[10px] top-0 w-4 h-4 rounded-full bg-blue-500"></div>
-          <h3 className="text-xl font-semibold text-white mb-2 flex items-center">
-            <Zap className="text-blue-500 mr-3 w-5 h-5" />
+          <div className="absolute -left-[10px] top-0 w-4 h-4 rounded-full bg-[#2563eb]"></div>
+          <h3 className="text-xl font-semibold text-[#1f2937] mb-2 flex items-center">
+            <Zap className="text-[#2563eb] mr-3 w-5 h-5" />
             Contrata con confianza
           </h3>
-          <p className="text-gray-300 pl-8">
+          <p className="text-[#6b7280] pl-8">
             Realiza pagos seguros a través de nuestra plataforma. Tu dinero está protegido hasta que el servicio sea completado.
           </p>
         </motion.div>
@@ -195,14 +195,10 @@ export default function ArtistsCarousel() {
   };
 
   return (
-    <section className="py-20 bg-black">
-      <div className="w-full max-w-[1250px] mx-auto px-0 overflow-visible">
-        {/* Layout en dos columnas lado a lado */}
+    <section className="py-20 bg-[#f0ebff]">
+      <div className="w-full max-w-[1200px] mx-auto px-3 sm:px-4 md:px-6 lg:px-8 overflow-visible">
         <div className="flex flex-col lg:flex-row items-center lg:items-start gap-8 lg:gap-16">
-          {/* Columna izquierda - Sección "Cómo Funciona" */}
           <HowItWorksSection />
-
-          {/* Columna derecha - Carrusel de Artistas */}
           <div className="lg:w-1/2 relative">
             <div className="carousel-container relative w-full h-[500px] lg:h-[650px] overflow-visible">
               <div className="flex items-center justify-center h-full">
@@ -242,8 +238,8 @@ export default function ArtistsCarousel() {
                         }}
                         onClick={() => setCurrentIndex(index)}
                       >
-                        <div className={`bg-gray-900 rounded-[20px] overflow-hidden w-80 h-[28rem] shadow-xl transition-all duration-300 ${
-                          position === 'center' ? 'border-2 border-pink-500 shadow-pink-500/30 hover:shadow-pink-500/50' : 'border border-gray-700/50'
+                        <div className={`bg-white rounded-[20px] overflow-hidden w-80 h-[28rem] shadow-xl transition-all duration-300 ${
+                          position === 'center' ? 'border-2 border-[#7c3aed] shadow-[#7c3aed]/30 hover:shadow-[#7c3aed]/50' : 'border border-[#e9d5ff]'
                         }`}>
                           {/* Imagen del artista - 60% del height */}
                           <div className="relative h-[60%] overflow-hidden">
@@ -255,12 +251,12 @@ export default function ArtistsCarousel() {
                                 e.currentTarget.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjMWYyYTM1Ii8+PHRleHQgeD0iNTAlIiB5PSI0NSUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZmlsbD0iI2ZmZiI+QXJ0aXN0YTwvdGV4dD48dGV4dCB4PSI1MCUiIHk9IjU1JSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjEyIiBmaWxsPSIjOWNhM2FmIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5JbWFnZW4gbm8gZGlzcG9uaWJsZTwvdGV4dD48L3N2Zz4=';
                               }}
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#1e1b4b]/70 via-transparent to-transparent"></div>
                             
                             {/* Badge de rating - esquina superior derecha */}
-                            <div className="absolute top-4 right-4 bg-black/70 backdrop-blur-md rounded-full px-3 py-1 flex items-center space-x-1">
+                            <div className="absolute top-4 right-4 bg-white/70 backdrop-blur-md rounded-full px-3 py-1 flex items-center space-x-1">
                               <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                              <span className="text-white text-sm font-semibold">{artist.rating}</span>
+                              <span className="text-[#1f2937] text-sm font-semibold">{artist.rating}</span>
                             </div>
 
                             {/* Botones de acción en esquina inferior derecha */}
@@ -269,7 +265,7 @@ export default function ArtistsCarousel() {
                                 onClick={(e) => {
                                   e.stopPropagation();
                                 }}
-                                className="p-2 rounded-full text-gray-300 bg-gray-900/80 hover:bg-gray-800/90 hover:text-red-500 transition-all"
+                                className="p-2 rounded-full text-[#6b7280] bg-white/80 hover:bg-gray-100 hover:text-red-500 transition-all"
                                 aria-label="Añadir a favoritos"
                               >
                                 <Heart className="w-4 h-4" />
@@ -278,7 +274,7 @@ export default function ArtistsCarousel() {
                                 onClick={(e) => {
                                   e.stopPropagation();
                                 }}
-                                className="p-2 rounded-full bg-gray-900/80 text-gray-300 hover:bg-gray-800/90 transition-all"
+                                className="p-2 rounded-full bg-white/80 text-[#6b7280] hover:bg-gray-100 transition-all"
                                 aria-label="Compartir"
                               >
                                 <Share2 className="w-4 h-4" />
@@ -290,23 +286,23 @@ export default function ArtistsCarousel() {
                           <div className="flex flex-col h-[40%] overflow-hidden">
                             <div className="p-4 pb-2">
                               <div className="flex items-baseline gap-2">
-                                <h3 className="font-semibold text-lg text-white line-clamp-1">
+                                <h3 className="font-semibold text-lg text-[#1f2937] line-clamp-1">
                                   {artist.name}
                                 </h3>
-                                <span className="text-xs text-pink-500 font-medium">
+                                <span className="text-xs text-[#7c3aed] font-medium">
                                   • {artist.profession}
                                 </span>
                               </div>
                               
                               {/* Rating y reseñas */}
-                              <div className="flex items-center mt-1.5 text-sm text-gray-300">
+                              <div className="flex items-center mt-1.5 text-sm text-[#6b7280]">
                                 <div className="flex items-center space-x-1">
                                   <Star className="w-3.5 h-3.5 text-yellow-400 fill-current" />
                                   <span>{artist.rating}</span>
                                 </div>
                                 <span className="mx-2">•</span>
                                 <span>{artist.reviews} reseñas</span>
-                                <span className="flex items-center text-gray-400 ml-3 text-xs">
+                                <span className="flex items-center text-[#9ca3af] ml-3 text-xs">
                                   <MapPin className="w-3.5 h-3.5 mr-1 flex-shrink-0" />
                                   <span className="truncate">{artist.location}</span>
                                 </span>
@@ -315,22 +311,22 @@ export default function ArtistsCarousel() {
 
                             <div className="px-4 pb-3 flex-1 overflow-y-auto">
                               {/* Descripción breve */}
-                              <p className="text-sm text-gray-300 mb-3 leading-relaxed line-clamp-2">
+                              <p className="text-sm text-[#6b7280] mb-3 leading-relaxed line-clamp-2">
                                 Artista profesional con amplia experiencia en eventos y presentaciones únicas.
                               </p>
                             </div>
 
                             {/* Pie de tarjeta con precio y botones */}
-                            <div className="border-t border-gray-700/50 px-4 py-3">
+                            <div className="border-t border-[#e9d5ff] px-4 py-3">
                               <div className="flex justify-between items-center">
-                                <div className="flex items-center bg-gray-800/80 rounded-full px-3 py-1">
-                                  <Music className="w-3.5 h-3.5 mr-1.5 text-pink-500" />
-                                  <span className="text-sm text-white font-medium">{artist.price}</span>
+                                <div className="flex items-center bg-[#f3f4f6] rounded-full px-3 py-1">
+                                  <Music className="w-3.5 h-3.5 mr-1.5 text-[#7c3aed]" />
+                                  <span className="text-sm text-[#1f2937] font-medium">{artist.price}</span>
                                 </div>
                                 
                                 <div className="flex gap-2">
                                   <button 
-                                    className="w-8 h-8 rounded-full border border-pink-500 text-white flex items-center justify-center hover:bg-pink-500/20 transition-colors"
+                                    className="w-8 h-8 rounded-full border border-[#7c3aed] text-[#7c3aed] flex items-center justify-center hover:bg-[#7c3aed]/10 transition-colors"
                                     onClick={(e) => {
                                       e.stopPropagation();
                                     }}
@@ -339,7 +335,7 @@ export default function ArtistsCarousel() {
                                     <Info className="w-4 h-4" />
                                   </button>
                                   <button 
-                                    className="w-8 h-8 rounded-full bg-pink-500 text-white flex items-center justify-center hover:bg-pink-500/90 transition-colors"
+                                    className="w-8 h-8 rounded-full bg-[#7c3aed] text-white flex items-center justify-center hover:bg-[#9333ea] transition-colors"
                                     onClick={(e) => {
                                       e.stopPropagation();
                                     }}
@@ -360,17 +356,17 @@ export default function ArtistsCarousel() {
                 {/* Botones de navegación - centrados a los lados */}
                 <button 
                   onClick={prevCard}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-pink-500/20 hover:bg-pink-500/40 backdrop-blur-md rounded-full p-3 transition-all duration-300 hover:scale-110 z-30 group"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-[#7c3aed]/20 hover:bg-[#7c3aed]/40 backdrop-blur-md rounded-full p-3 transition-all duration-300 hover:scale-110 z-30 group"
                   aria-label="Artista anterior"
                 >
-                  <ChevronLeft className="w-5 h-5 text-white group-hover:text-pink-300 transition-colors" />
+                  <ChevronLeft className="w-5 h-5 text-[#7c3aed] group-hover:text-[#9333ea] transition-colors" />
                 </button>
                 <button 
                   onClick={nextCard}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-pink-500/20 hover:bg-pink-500/40 backdrop-blur-md rounded-full p-3 transition-all duration-300 hover:scale-110 z-30 group"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-[#7c3aed]/20 hover:bg-[#7c3aed]/40 backdrop-blur-md rounded-full p-3 transition-all duration-300 hover:scale-110 z-30 group"
                   aria-label="Siguiente artista"
                 >
-                  <ChevronRight className="w-5 h-5 text-white group-hover:text-pink-300 transition-colors" />
+                  <ChevronRight className="w-5 h-5 text-[#7c3aed] group-hover:text-[#9333ea] transition-colors" />
                 </button>
               </div>
             </div>
@@ -383,8 +379,8 @@ export default function ArtistsCarousel() {
                   onClick={() => setCurrentIndex(index)}
                   className={`w-3 h-3 rounded-full transition-all duration-300 ${
                     index === currentIndex 
-                      ? 'bg-pink-500 scale-110' 
-                      : 'bg-gray-600 hover:bg-gray-500'
+                      ? 'bg-[#7c3aed] scale-110' 
+                      : 'bg-[#d1d5db] hover:bg-[#9ca3af]'
                   }`}
                   aria-label={`Ir al artista ${index + 1}`}
                 />

@@ -77,25 +77,25 @@ export default function CommunityCollabSection() {
 
   const features = [
     {
-      icon: <Users2 className="w-6 h-6 text-pink-500" />,
+      icon: <Users2 className="w-6 h-6 text-[#7c3aed]" />,
       title: "Feed de comunidad",
       description: "Descubre publicaciones, proyectos y showcases de artistas y empresas.",
       stats: "2 ciudades activas"
     },
     {
-      icon: <Link2 className="w-6 h-6 text-purple-500" />,
+      icon: <Link2 className="w-6 h-6 text-[#9333ea]" />,
       title: "Match creativo",
       description: "Conecta con artistas complementarios para colaboraciones únicas.",
       stats: "+500 conexiones diarias"
     },
     {
-      icon: <MessageSquare className="w-6 h-6 text-blue-400" />,
+      icon: <MessageSquare className="w-6 h-6 text-[#2563eb]" />,
       title: "Foros temáticos",
       description: "Participa en discusiones especializadas por categorías artísticas.",
       stats: "50+ temas activos"
     },
     {
-      icon: <Heart className="w-6 h-6 text-red-400" />,
+      icon: <Heart className="w-6 h-6 text-[#ec4899]" />,
       title: "Proyectos exitosos",
       description: "Colabora en iniciativas seleccionadas por la comunidad.",
       stats: "100+ proyectos exitosos"
@@ -103,18 +103,18 @@ export default function CommunityCollabSection() {
   ];
 
   return (
-    <section ref={sectionRef} className="relative py-20 bg-gradient-to-b from-gray-900 to-black overflow-hidden">
+    <section ref={sectionRef} className="relative py-20 bg-gradient-to-b from-[#f0ebff] to-white overflow-hidden">
       <div className="absolute inset-0 opacity-20">
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgxMDIsIDEyNixlLzQpIi8+PC9wYXR0ZXNuPjwvZGVmcz48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3BhdHRlcm4pIi8+PC9zdmc+')]"></div>
+        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxkZWZzPjxwYXR0ZXJuIGlkPSJwYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPjxyZWN0IHg9IjAiIHk9IjAiIHdpZHRoPSIyMCIgaGVpZ2h0PSIyMCIgZmlsbD0icmdiYSgxMjQsIDU4LCAyMzcsIDAuMDQpIi8+PC9wYXR0ZXJuPjwvZGVmcz48cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3BhdHRlcm4pIi8+PC9zdmc+')]"></div>
       </div>
       
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-[1200px] mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
         <div className="section-header text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-600 bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-[#7c3aed] via-[#9333ea] to-[#2563eb] bg-clip-text text-transparent">
             Comunidad & Colaboraciones
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-purple-500 to-pink-500 mx-auto mb-4"></div>
-          <p className="text-xl text-gray-300 max-w-2xl mx-auto">
+          <div className="w-24 h-1 bg-gradient-to-r from-[#7c3aed] to-[#9333ea] mx-auto mb-4"></div>
+          <p className="text-xl text-[#6b7280] max-w-2xl mx-auto">
             Conecta, comparte y crea proyectos conjuntos en nuestra comunidad de artistas y creadores
           </p>
         </div>
@@ -123,18 +123,18 @@ export default function CommunityCollabSection() {
           {features.map((feature, index) => (
             <div 
               key={index} 
-              className="feature-card bg-gradient-to-br from-gray-800/50 to-gray-900/50 backdrop-blur-sm border border-purple-500/20 rounded-2xl p-6 hover:border-pink-500/40 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10"
+              className="feature-card bg-gradient-to-br from-white to-[#f3f4f6] backdrop-blur-sm border border-[#e9d5ff] rounded-2xl p-6 hover:border-[#7c3aed] transition-all duration-300 hover:shadow-lg hover:shadow-[#7c3aed]/10"
             >
               <div className="flex items-start gap-4">
-                <div className="p-2 bg-gradient-to-br from-purple-900/50 to-pink-900/50 rounded-lg">
+                <div className="p-2 bg-gradient-to-br from-[#7c3aed]/10 to-[#9333ea]/10 rounded-lg">
                   {feature.icon}
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-white mb-2">{feature.title}</h3>
-                  <p className="text-gray-300 mb-3">{feature.description}</p>
+                  <h3 className="text-xl font-bold text-[#1f2937] mb-2">{feature.title}</h3>
+                  <p className="text-[#6b7280] mb-3">{feature.description}</p>
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-pink-400 font-medium">{feature.stats}</span>
-                    <button className="text-purple-400 hover:text-white transition-colors flex items-center gap-1 text-sm font-medium">
+                    <span className="text-sm text-[#7c3aed] font-medium">{feature.stats}</span>
+                    <button className="text-[#9333ea] hover:text-[#7c3aed] transition-colors flex items-center gap-1 text-sm font-medium">
                       Ver más <ArrowRight className="w-4 h-4" />
                     </button>
                   </div>
@@ -145,10 +145,10 @@ export default function CommunityCollabSection() {
         </div>
 
         <div className="mt-16 text-center">
-          <button className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white rounded-full font-medium hover:opacity-90 transition-all transform hover:scale-105 shadow-lg hover:shadow-purple-500/30">
+          <button className="px-8 py-3 bg-gradient-to-r from-[#7c3aed] via-[#9333ea] to-[#2563eb] text-white rounded-full font-medium hover:opacity-90 transition-all transform hover:scale-105 shadow-lg hover:shadow-[#7c3aed]/30">
             Únete a la comunidad
           </button>
-          <p className="mt-4 text-gray-400 text-sm">
+          <p className="mt-4 text-[#9ca3af] text-sm">
             Más de 10,000 artistas y creadores ya forman parte
           </p>
         </div>

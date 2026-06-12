@@ -5,19 +5,19 @@ import { Zap } from 'lucide-react';
 // Mapeo de colores a clases de Tailwind
 const colorMap = {
   purple: {
-    bg: 'from-purple-600 to-purple-700',
-    text: 'text-purple-600',
-    border: 'border-purple-500/30'
+    bg: 'from-[#7c3aed] to-[#9333ea]',
+    text: 'text-[#7c3aed]',
+    border: 'border-[#e9d5ff]'
   },
   pink: {
-    bg: 'from-pink-600 to-pink-700',
-    text: 'text-pink-600',
-    border: 'border-pink-500/30'
+    bg: 'from-[#9333ea] to-[#a78bfa]',
+    text: 'text-[#9333ea]',
+    border: 'border-[#d8b4fe]'
   },
   'purple-700': {
-    bg: 'from-purple-700 to-purple-800',
-    text: 'text-purple-700',
-    border: 'border-purple-600/30'
+    bg: 'from-[#5b21b6] to-[#7c3aed]',
+    text: 'text-[#5b21b6]',
+    border: 'border-[#c4b5fd]'
   }
 };
 
@@ -46,7 +46,7 @@ export default function CounterOffers() {
   const isAnimating = useRef(false);
   const gsapRef = useRef<any | null>(null);
   const scrollTriggerRef = useRef<any | null>(null);
-  const [isClient, setIsClient] = useState(false);
+  const [, setIsClient] = useState(false);
 
   // Format number consistently between server and client
   const formatNumber = (num: number): string => {
@@ -308,19 +308,19 @@ export default function CounterOffers() {
   ];
 
   return (
-    <section ref={sectionRef} className="relative py-20 bg-black z-0">
+    <section ref={sectionRef} className="relative py-20 bg-[#f0ebff] z-0">
       {/* Efecto de humo */}
       <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-pink-600/10 to-transparent animate-pulse"></div>
-        <div className="absolute bottom-0 right-0 w-full h-32 bg-gradient-to-t from-purple-600/10 to-transparent animate-pulse" style={{animationDelay: '1s'}}></div>
+        <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#7c3aed]/10 to-transparent animate-pulse"></div>
+        <div className="absolute bottom-0 right-0 w-full h-32 bg-gradient-to-t from-[#2563eb]/10 to-transparent animate-pulse" style={{animationDelay: '1s'}}></div>
       </div>
       
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-[1200px] mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
         <div className="counter-title text-center mb-12 md:mb-16">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-purple-600 mb-4">
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#7c3aed] via-[#9333ea] to-[#2563eb] mb-4">
             Contraofertas en Tiempo Real
           </h2>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+          <p className="text-xl text-[#6b7280] max-w-3xl mx-auto">
             Negocia directamente con los artistas y recibe respuestas instantáneas. 
             Encuentra el mejor talento para tu evento en tiempo real.
           </p>
@@ -339,7 +339,7 @@ export default function CounterOffers() {
               >
                 {/* Parte delantera - Detalles de la oferta */}
                 <div 
-                  className="card-front absolute inset-0 bg-gradient-to-br from-gray-900 to-black p-6 rounded-2xl border border-purple-500/30"
+                  className="card-front absolute inset-0 bg-gradient-to-br from-white to-[#f3f4f6] p-6 rounded-2xl border border-[#e9d5ff]"
                   style={{ backfaceVisibility: 'hidden', transformStyle: 'preserve-3d' }}
                 >
                   <div className="flex items-center justify-between mb-4">
@@ -347,10 +347,10 @@ export default function CounterOffers() {
                       <div className={`w-12 h-12 ${colors.bg} rounded-full flex items-center justify-center text-xl font-bold text-white relative z-10`}>
                         <Zap className="w-6 h-6" fill="currentColor" />
                       </div>
-                      <div className="absolute -inset-1 bg-gradient-to-r from-pink-500 to-purple-600 rounded-full opacity-60 blur-[6px] -z-0"></div>
+                      <div className="absolute -inset-1 bg-gradient-to-r from-[#7c3aed] to-[#2563eb] rounded-full opacity-60 blur-[6px] -z-0"></div>
                     </div>
                     <div className="text-right">
-                      <div className="text-sm text-gray-400">Expira en</div>
+                      <div className="text-sm text-[#6b7280]">Expira en</div>
                       <div 
                         ref={addToTimerRefs}
                         className={`font-mono text-lg ${colors.text} font-bold`}
@@ -361,13 +361,13 @@ export default function CounterOffers() {
                     </div>
                   </div>
                   
-                  <h3 className="text-xl font-semibold text-white mb-3">{offer.title}</h3>
-                  <p className="text-gray-400 mb-6">{offer.description}</p>
+                  <h3 className="text-xl font-semibold text-[#1f2937] mb-3">{offer.title}</h3>
+                  <p className="text-[#6b7280] mb-6">{offer.description}</p>
                   
                   <div className="absolute bottom-6 left-6 right-6">
                     <div className="flex justify-between items-center mb-4">
                       <span 
-                        className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-pink-500 to-purple-600"
+                        className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#7c3aed] via-[#9333ea] to-[#2563eb]"
                         suppressHydrationWarning={true}
                       >
                         ${formatNumber(offer.price)}
@@ -376,7 +376,7 @@ export default function CounterOffers() {
                         Ofertar
                       </button>
                     </div>
-                    <div className="text-center text-sm text-gray-500">
+                    <div className="text-center text-sm text-[#9ca3af]">
                       Haz clic para ver más
                     </div>
                   </div>
@@ -384,11 +384,11 @@ export default function CounterOffers() {
 
                 {/* Parte trasera - Perfil del cliente */}
                 <div 
-                  className="card-back absolute inset-0 bg-gradient-to-br from-gray-900 to-black p-6 rounded-2xl border border-pink-500/30"
+                  className="card-back absolute inset-0 bg-gradient-to-br from-white to-[#f3f4f6] p-6 rounded-2xl border border-[#d8b4ff]"
                   style={{ backfaceVisibility: 'hidden', transformStyle: 'preserve-3d' }}
                 >
                   <div className="text-center mb-6">
-                    <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4 border-2 border-pink-500">
+                    <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4 border-2 border-[#9333ea]">
                       <img 
                         src={offer.client.avatar} 
                         alt={offer.client.name}
@@ -396,31 +396,31 @@ export default function CounterOffers() {
                         loading="lazy"
                       />
                     </div>
-                    <h3 className="text-xl font-semibold text-white mb-1">{offer.client.name}</h3>
-                    <p className="text-gray-400 text-sm">{offer.client.company}</p>
+                    <h3 className="text-xl font-semibold text-[#1f2937] mb-1">{offer.client.name}</h3>
+                    <p className="text-[#6b7280] text-sm">{offer.client.company}</p>
                   </div>
 
                   <div className="space-y-4 mb-6">
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-400">Rating:</span>
+                      <span className="text-[#6b7280]">Rating:</span>
                       <div className="flex items-center">
                         <span className="text-yellow-400 mr-1">★</span>
-                        <span className="text-white font-semibold">{offer.client.rating}</span>
+                        <span className="text-[#1f2937] font-semibold">{offer.client.rating}</span>
                       </div>
                     </div>
                     
                     <div className="flex justify-between items-center">
-                      <span className="text-gray-400">Proyectos:</span>
-                      <span className="text-white font-semibold">{formatNumber(offer.client.projects)}</span>
+                      <span className="text-[#6b7280]">Proyectos:</span>
+                      <span className="text-[#1f2937] font-semibold">{formatNumber(offer.client.projects)}</span>
                     </div>
                   </div>
 
                   <div className="absolute bottom-6 left-6 right-6 space-y-2">
-                    <button className="w-full bg-gradient-to-r from-pink-600 to-purple-600 hover:from-pink-700 hover:to-purple-700 px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 transform hover:scale-[1.02]">
+                    <button className="w-full bg-gradient-to-r from-[#7c3aed] via-[#9333ea] to-[#2563eb] hover:from-[#8b5cf6] hover:via-[#a78bfa] hover:to-[#3b82f6] px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 transform hover:scale-[1.02] text-white">
                       Ver Oferta
                     </button>
                     <button 
-                      className="w-full bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-lg text-sm font-semibold text-white transition-all duration-300"
+                      className="w-full bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-lg text-sm font-semibold text-[#1f2937] transition-all duration-300"
                       onClick={(e) => {
                         e.stopPropagation();
                         const card = (e.currentTarget as HTMLElement).closest('.flip-card');
