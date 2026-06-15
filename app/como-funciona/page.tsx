@@ -29,7 +29,7 @@ export default function ComoFuncionaPage() {
       <section className="px-4 pt-20 pb-16 text-center">
         <div className="max-w-3xl mx-auto">
           <div className={`${cx.pill} reveal mb-8`}>
-            <ShieldCheck className="w-4 h-4 text-[#a78bfa]" />
+            <ShieldCheck className="w-4 h-4 [color:var(--site-accent)]" />
             Pagos protegidos · Enrutamiento de procesos
           </div>
           <h1 className="reveal d1 text-5xl md:text-7xl font-bold mb-6 leading-[1.05]">
@@ -48,7 +48,7 @@ export default function ComoFuncionaPage() {
         <div className="max-w-6xl mx-auto grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {pasos.map(({ icon: Icon, t, d }, i) => (
             <div key={t} className={`reveal d${(i % 3) + 1} ${cx.card} ${cx.cardHover} p-7 relative`}>
-              <span className="absolute top-6 right-7 text-5xl font-bold text-[#7c3aed]/15">
+              <span className="absolute top-6 right-7 text-5xl font-bold [color:var(--site-accent)] opacity-15">
                 {String(i + 1).padStart(2, '0')}
               </span>
               <div className={`w-12 h-12 rounded-xl ${cx.gradBg} flex items-center justify-center mb-5`}>
@@ -70,7 +70,7 @@ export default function ComoFuncionaPage() {
           <div className="grid md:grid-cols-2 gap-6">
             <div className={`reveal d1 ${cx.card} p-8`}>
               <div className="w-14 h-14 rounded-2xl bg-[#7c3aed]/15 border border-[#7c3aed]/25 flex items-center justify-center mb-6">
-                <Users className="w-7 h-7 text-[#a78bfa]" />
+                <Users className="w-7 h-7 [color:var(--site-accent)]" />
               </div>
               <h3 className="text-2xl font-bold mb-4">Para artistas</h3>
               <ul className="space-y-3">
@@ -81,7 +81,7 @@ export default function ComoFuncionaPage() {
                   'Portafolio, servicios con precios y publicaciones en un solo perfil.',
                 ].map((li) => (
                   <li key={li} className={`flex gap-3 ${cx.muted} text-sm`}>
-                    <Wallet className="w-4 h-4 text-[#a78bfa] mt-0.5 shrink-0" />
+                    <Wallet className="w-4 h-4 [color:var(--site-accent)] mt-0.5 shrink-0" />
                     {li}
                   </li>
                 ))}
@@ -93,7 +93,7 @@ export default function ComoFuncionaPage() {
 
             <div className={`reveal d2 ${cx.card} p-8`}>
               <div className="w-14 h-14 rounded-2xl bg-[#2563eb]/15 border border-[#2563eb]/25 flex items-center justify-center mb-6">
-                <Building2 className="w-7 h-7 text-[#60a5fa]" />
+                <Building2 className="w-7 h-7 [color:var(--site-accent-2)]" />
               </div>
               <h3 className="text-2xl font-bold mb-4">Para empresas y eventos</h3>
               <ul className="space-y-3">
@@ -104,7 +104,7 @@ export default function ComoFuncionaPage() {
                   'Procesos claros con seguimiento y soporte dedicado.',
                 ].map((li) => (
                   <li key={li} className={`flex gap-3 ${cx.muted} text-sm`}>
-                    <TicketCheck className="w-4 h-4 text-[#60a5fa] mt-0.5 shrink-0" />
+                    <TicketCheck className="w-4 h-4 [color:var(--site-accent-2)] mt-0.5 shrink-0" />
                     {li}
                   </li>
                 ))}

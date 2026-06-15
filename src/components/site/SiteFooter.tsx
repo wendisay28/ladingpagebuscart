@@ -1,5 +1,9 @@
+'use client';
+
 import Link from 'next/link';
-import { Instagram, Facebook, Twitter, ArrowRight } from 'lucide-react';
+import { Instagram, Facebook, Youtube, ArrowRight } from 'lucide-react';
+import { useTheme } from '@/src/context/ThemeContext';
+import { cx } from './theme';
 
 const columns = [
   {
@@ -16,14 +20,13 @@ const columns = [
     links: [
       { name: 'Nosotros', href: '/nosotros' },
       { name: 'Contacto', href: '/contacto' },
-      { name: 'Preguntas frecuentes', href: '/preguntas-frecuentes' },
     ],
   },
   {
     title: 'Legal',
     links: [
-      { name: 'Términos y condiciones', href: '/terminos' },
-      { name: 'Política de privacidad', href: '/privacidad' },
+      { name: 'Términos y condiciones', href: '/contacto' },
+      { name: 'Política de privacidad', href: '/contacto' },
     ],
   },
 ];
@@ -31,36 +34,35 @@ const columns = [
 const socials = [
   { Icon: Instagram, href: '#', label: 'Instagram' },
   { Icon: Facebook, href: '#', label: 'Facebook' },
-  { Icon: Twitter, href: '#', label: 'Twitter' },
+  { Icon: Youtube, href: '#', label: 'YouTube' },
 ];
 
 export default function SiteFooter() {
+  const { isDark } = useTheme();
+
   return (
-    <footer className="relative z-10 border-t border-[#7c3aed]/15 bg-[#0a0618]">
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-10">
+    <footer
+      className="relative z-10"
+      style={{
+        borderTop: '1px solid var(--site-border)',
+        backgroundColor: isDark ? '#070410' : '#e9e0ff',
+      }}
+    >
+      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-10">
         {/* CTA */}
-        <div className="rounded-3xl border border-[#7c3aed]/20 bg-gradient-to-br from-[#130d2a] to-[#0a0618] p-10 md:p-14 text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4 leading-tight">
-            Conecta con la industria{' '}
-            <span className="bg-gradient-to-r from-[#a78bfa] via-[#8b5cf6] to-[#60a5fa] bg-clip-text text-transparent">
-              creativa
-            </span>
+        <div className={`${cx.card} p-10 md:p-14 text-center mb-16`}>
+          <h2 className={`text-3xl md:text-4xl font-bold mb-4 leading-tight ${cx.ink}`} style={{ fontFamily: 'var(--font-display), system-ui, sans-serif' }}>
+            Conecta con la industria <span className={cx.gradText}>creativa</span>
           </h2>
-          <p className="text-[#c9bdf0]/70 max-w-2xl mx-auto mb-8">
+          <p className={`max-w-2xl mx-auto mb-8 ${cx.muted}`}>
             Artistas, empresas, eventos y espacios culturales en una sola plataforma.
             Sin costo de entrada para artistas.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/explorar"
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-white bg-gradient-to-r from-[#7c3aed] to-[#2563eb] hover:from-[#8b5cf6] hover:to-[#3b82f6] transition-all duration-300 hover:scale-[1.03]"
-            >
+            <Link href="/explorar" className={cx.btnPrimary}>
               Explorar talento <ArrowRight className="w-4 h-4" />
             </Link>
-            <Link
-              href="/register"
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl font-semibold text-[#c9bdf0] border border-[#7c3aed]/30 hover:border-[#8b5cf6]/60 hover:bg-[#7c3aed]/10 hover:text-white transition-all duration-300"
-            >
+            <Link href="/register" className={cx.btnGhost}>
               Crear perfil gratis
             </Link>
           </div>
@@ -69,10 +71,10 @@ export default function SiteFooter() {
         {/* Columnas */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 mb-12">
           <div className="lg:col-span-2">
-            <span className="text-2xl font-bold bg-gradient-to-r from-[#a78bfa] to-[#60a5fa] bg-clip-text text-transparent">
+            <span className={`text-2xl font-bold ${cx.gradText}`} style={{ fontFamily: 'var(--font-display), system-ui, sans-serif' }}>
               BuscArt
             </span>
-            <p className="text-[#c9bdf0]/60 leading-relaxed mt-4 max-w-sm text-sm">
+            <p className={`leading-relaxed mt-4 max-w-sm text-sm ${cx.muted}`}>
               El sistema que organiza, protege y hace escalable la industria creativa.
               Descubre, conecta, reserva y vive el arte.
             </p>
@@ -82,7 +84,8 @@ export default function SiteFooter() {
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="w-10 h-10 rounded-xl border border-[#7c3aed]/25 bg-[#7c3aed]/10 flex items-center justify-center text-[#c9bdf0] hover:text-white hover:border-[#8b5cf6]/60 hover:bg-[#7c3aed]/20 transition-all duration-300"
+                  className="w-10 h-10 rounded-xl flex items-center justify-center transition-all duration-300 hover:-translate-y-0.5 [color:var(--site-muted)] hover:[color:var(--site-ink)]"
+                  style={{ background: 'var(--site-surface)', border: '1px solid var(--site-border)' }}
                 >
                   <Icon className="w-4 h-4" />
                 </a>
@@ -92,7 +95,7 @@ export default function SiteFooter() {
 
           {columns.map((col) => (
             <div key={col.title}>
-              <h4 className="text-sm font-semibold uppercase tracking-wider text-[#a78bfa] mb-5">
+              <h4 className={`text-sm font-semibold mb-5 ${cx.ink}`} style={{ fontFamily: 'var(--font-display), system-ui, sans-serif' }}>
                 {col.title}
               </h4>
               <ul className="space-y-3">
@@ -100,7 +103,7 @@ export default function SiteFooter() {
                   <li key={link.name}>
                     <Link
                       href={link.href}
-                      className="text-sm text-[#c9bdf0]/70 hover:text-white transition-colors duration-200"
+                      className="text-sm transition-colors duration-200 [color:var(--site-muted)] hover:[color:var(--site-ink)]"
                     >
                       {link.name}
                     </Link>
@@ -111,11 +114,11 @@ export default function SiteFooter() {
           ))}
         </div>
 
-        <div className="pt-8 border-t border-[#7c3aed]/15 flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-[#c9bdf0]/50 text-sm">
+        <div className="pt-8 flex flex-col md:flex-row items-center justify-between gap-4" style={{ borderTop: '1px solid var(--site-border)' }}>
+          <p className={`text-sm ${cx.muted}`}>
             © {new Date().getFullYear()} BuscArt. Todos los derechos reservados.
           </p>
-          <p className="text-[#c9bdf0]/40 text-xs">Hecho en Colombia 🇨🇴 · Economía naranja</p>
+          <p className={`text-xs ${cx.muted}`}>Hecho en Colombia · Economía naranja</p>
         </div>
       </div>
     </footer>

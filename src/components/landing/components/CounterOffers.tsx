@@ -1,439 +1,333 @@
 "use client";
-import { useEffect, useRef, useState } from 'react';
-import { Zap } from 'lucide-react';
-
-// Mapeo de colores a clases de Tailwind
-const colorMap = {
-  purple: {
-    bg: 'from-[#7c3aed] to-[#9333ea]',
-    text: 'text-[#7c3aed]',
-    border: 'border-[#e9d5ff]'
-  },
-  pink: {
-    bg: 'from-[#9333ea] to-[#a78bfa]',
-    text: 'text-[#9333ea]',
-    border: 'border-[#d8b4fe]'
-  },
-  'purple-700': {
-    bg: 'from-[#5b21b6] to-[#7c3aed]',
-    text: 'text-[#5b21b6]',
-    border: 'border-[#c4b5fd]'
-  }
-};
-
-interface Client {
-  name: string;
-  avatar: string;
-  company: string;
-  rating: number;
-  projects: number;
-}
+import { useEffect, useRef, useState } from "react";
+import { Zap, Star, Briefcase, ArrowLeftRight } from "lucide-react";
+import { useTheme } from "../../../context/ThemeContext";
 
 interface Offer {
   title: string;
   description: string;
-  price: number;
+  price: string;
   timer: number;
-  suit: string;
-  color: keyof typeof colorMap;
-  client: Client;
+  client: { initials: string; name: string; company: string; rating: string; projects: number };
 }
 
+const OFFERS: Offer[] = [
+  {
+    title: "Mural corporativo",
+    description: "Empresa tecnológica busca artista urbano para intervenir su lobby.",
+    price: "$3.500.000",
+    timer: 3600,
+    client: { initials: "TC", name: "TechCorp Solutions", company: "Empresa tecnológica", rating: "4.8", projects: 23 },
+  },
+  {
+    title: "Show para boda",
+    description: "Pareja busca un espectáculo único para su ceremonia y recepción.",
+    price: "$2.800.000",
+    timer: 7200,
+    client: { initials: "SM", name: "Sofía & Miguel", company: "Evento privado", rating: "5.0", projects: 1 },
+  },
+  {
+    title: "Instalación digital",
+    description: "Museo requiere una experiencia interactiva para su nueva sala.",
+    price: "$5.200.000",
+    timer: 1800,
+    client: { initials: "MA", name: "Museo de Arte Moderno", company: "Institución cultural", rating: "4.9", projects: 15 },
+  },
+];
+
 export default function CounterOffers() {
+  const { isDark } = useTheme();
   const sectionRef = useRef<HTMLElement>(null);
-  const timersRef = useRef<HTMLDivElement[]>([]);
-  const animationRef = useRef<any | null>(null);
-  const isAnimating = useRef(false);
-  const gsapRef = useRef<any | null>(null);
-  const scrollTriggerRef = useRef<any | null>(null);
-  const [, setIsClient] = useState(false);
-
-  // Format number consistently between server and client
-  const formatNumber = (num: number): string => {
-    // Use a simple string replacement that works the same on server and client
-    return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  };
-
-  // Add this effect to set isClient
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
-  const addToTimerRefs = (el: HTMLDivElement) => {
-    if (el && !timersRef.current.includes(el)) {
-      timersRef.current.push(el);
-    }
-  };
+  const gsapRef = useRef<any>(null);
+  const [staticMode, setStaticMode] = useState(false);
 
   useEffect(() => {
     let mounted = true;
+    let cleanup: (() => void) | undefined;
+
     const setup = async () => {
-      if (typeof window === 'undefined') return;
-      // Cargar GSAP dinámicamente en cliente
-      const gsapModule = await import('gsap');
-      const ScrollTriggerModule = await import('gsap/ScrollTrigger');
+      if (typeof window === "undefined") return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        setStaticMode(true);
+        return;
+      }
+
+      const gsapModule = await import("gsap");
+      const STModule = await import("gsap/ScrollTrigger");
       const gs = (gsapModule as any).default || (gsapModule as any).gsap || gsapModule;
-      const ST = (ScrollTriggerModule as any).default || (ScrollTriggerModule as any).ScrollTrigger || ScrollTriggerModule;
+      const ST = (STModule as any).default || (STModule as any).ScrollTrigger || STModule;
       gs.registerPlugin(ST);
-      if (!mounted) return;
+      if (!mounted || !sectionRef.current) return;
       gsapRef.current = gs;
-      scrollTriggerRef.current = ST;
 
-      // Timer Countdown
-      const startTimers = () => {
-        const timers: NodeJS.Timeout[] = [];
-        
-        timersRef.current.forEach(timer => {
-          if (!timer) return;
-          
-          let timeLeft = parseInt(timer.getAttribute('data-timer') || '0');
-          
-          const countdown = setInterval(() => {
-            const hours = Math.floor(timeLeft / 3600);
-            const minutes = Math.floor((timeLeft % 3600) / 60);
-            const seconds = timeLeft % 60;
-            
-            timer.textContent = 
-              String(hours).padStart(2, '0') + ':' +
-              String(minutes).padStart(2, '0') + ':' +
-              String(seconds).padStart(2, '0');
-            
-            if (timeLeft <= 0) {
-              clearInterval(countdown);
-              timer.textContent = 'EXPIRADO';
-              timer.classList.add('text-red-500');
-            }
-            timeLeft--;
-          }, 1000);
-          
-          timers.push(countdown);
-        });
-        
-        return timers;
-      };
-
-      const timers = startTimers();
-
-      // Configuración inicial de animaciones
-      gs.set('.counter-title', { y: 50, opacity: 0 });
-      gs.set('.flip-card', { y: 100, opacity: 0 });
-    
-      // Configurar el timeline de animación
-      const cards = gs.utils.toArray('.flip-card');
-    
-      // Configuración inicial de las caras de las tarjetas
-      cards.forEach((card: any) => {
-        const front = card.querySelector('.card-front');
-        const back = card.querySelector('.card-back');
-        
-        gs.set(front, { 
-          rotationY: 180,
-          backfaceVisibility: 'hidden',
-          transformStyle: 'preserve-3d'
-        });
-        
-        gs.set(back, { 
-          rotationY: 0,
-          backfaceVisibility: 'hidden',
-          transformStyle: 'preserve-3d'
-        });
+      // Cuenta regresiva de cada oferta
+      const intervals: ReturnType<typeof setInterval>[] = [];
+      sectionRef.current.querySelectorAll<HTMLElement>(".co-timer").forEach((timer) => {
+        let left = parseInt(timer.getAttribute("data-timer") || "0", 10);
+        intervals.push(
+          setInterval(() => {
+            const h = String(Math.floor(left / 3600)).padStart(2, "0");
+            const m = String(Math.floor((left % 3600) / 60)).padStart(2, "0");
+            const s = String(left % 60).padStart(2, "0");
+            timer.textContent = left <= 0 ? "EXPIRADO" : `${h}:${m}:${s}`;
+            left--;
+          }, 1000)
+        );
       });
 
-      // Crear timeline con scroll pinning
+      const cards = gs.utils.toArray(".co-card");
+      gs.set(".co-title", { y: 60, opacity: 0 });
+      gs.set(cards, { y: 120, opacity: 0 });
+      cards.forEach((card: any) => {
+        gs.set(card.querySelector(".co-front"), { rotationY: 180, backfaceVisibility: "hidden" });
+        gs.set(card.querySelector(".co-back"), { rotationY: 0, backfaceVisibility: "hidden" });
+      });
+
+      // Anclada al scroll: el título sube, las cartas entran y se voltean una a una
       const tl = gs.timeline({
         scrollTrigger: {
           trigger: sectionRef.current,
-          start: 'top top',
+          start: "top top",
           end: `+=${window.innerHeight * 2}`,
           scrub: 1,
           pin: true,
           anticipatePin: 1,
           invalidateOnRefresh: true,
-          id: 'counterOffers',
-          onEnter: () => {
-            if (!isAnimating.current) {
-              tl.play();
-              isAnimating.current = true;
-            }
-          },
-          onEnterBack: () => {
-            if (!isAnimating.current) {
-              tl.play().reverse();
-              isAnimating.current = true;
-            }
-          },
-          onLeave: () => {
-            isAnimating.current = false;
-          },
-          onLeaveBack: () => {
-            isAnimating.current = false;
-          }
-        }
+          id: "counterOffers",
+        },
       });
 
-      // Animación de entrada del título
-      tl.to('.counter-title', {
-        y: 0,
-        opacity: 1,
-        duration: 0.4,
-        ease: 'power3.out'
-      }, 0);
-
-      // Animación de entrada de las tarjetas
+      tl.to(".co-title", { y: 0, opacity: 1, duration: 0.4, ease: "power3.out" }, 0);
       cards.forEach((card: any, i: number) => {
-        tl.to(card, {
-          y: 0,
-          opacity: 1,
-          duration: 0.5,
-          ease: 'power2.out'
-        }, i * 0.15 + 0.1);
-        
-        // Animación de volteo
-        const front = card.querySelector('.card-front');
-        const back = card.querySelector('.card-back');
-        
-        tl.to(back, {
-          rotationY: 180,
-          duration: 0.6,
-          ease: 'power2.inOut',
-          onComplete: () => {
-            card.classList.add('flipped');
-          }
-        }, i * 0.3 + 0.8);
-        
-        tl.to(front, {
-          rotationY: 0,
-          duration: 0.6,
-          ease: 'power2.inOut'
-        }, i * 0.3 + 0.8);
+        tl.to(card, { y: 0, opacity: 1, duration: 0.5, ease: "power2.out" }, 0.3 + i * 0.45);
+        tl.to(card.querySelector(".co-back"), { rotationY: 180, duration: 0.6, ease: "power2.inOut" }, 0.9 + i * 0.5);
+        tl.to(card.querySelector(".co-front"), { rotationY: 0, duration: 0.6, ease: "power2.inOut" }, 0.9 + i * 0.5);
       });
+      tl.to({}, { duration: 0.4 });
 
-      // Pausa al final
-      tl.to({}, { duration: 0.5 });
-      
-      // Pausar la animación inicialmente
-      tl.pause();
-      animationRef.current = tl;
-
-      // Limpieza
-      return () => {
-        timers.forEach(timer => clearInterval(timer));
-        try {
-          (ST as any).getById?.('counterOffers')?.kill?.();
-        } catch {}
-        if (animationRef.current) {
-          animationRef.current.kill();
-        }
+      cleanup = () => {
+        intervals.forEach(clearInterval);
+        try { (ST as any).getById?.("counterOffers")?.kill?.(); } catch {}
+        tl.kill();
       };
     };
 
-    const cleanupPromise = setup();
-
+    setup();
     return () => {
       mounted = false;
-      // cleanupPromise puede resolver a una función de limpieza
-      Promise.resolve(cleanupPromise).then((fn: any) => {
-        if (typeof fn === 'function') fn();
-      });
+      cleanup?.();
     };
   }, []);
 
-  // Función para manejar el clic en las tarjetas
-  const handleCardClick = (e: React.MouseEvent) => {
-    const card = (e.currentTarget as HTMLElement).closest('.flip-card');
-    if (!card) return;
+  // Volteo manual al tocar la carta
+  const flip = (e: React.MouseEvent) => {
     const gs = gsapRef.current;
+    const card = (e.currentTarget as HTMLElement);
     if (!gs) return;
-    
-    const front = card.querySelector('.card-front');
-    const back = card.querySelector('.card-back');
-    
-    if (card.classList.contains('flipped')) {
-      gs.to(front, { rotationY: 180, duration: 0.6, ease: 'power2.inOut' });
-      gs.to(back, { rotationY: 0, duration: 0.6, ease: 'power2.inOut' });
-      card.classList.remove('flipped');
-    } else {
-      gs.to(front, { rotationY: 0, duration: 0.6, ease: 'power2.inOut' });
-      gs.to(back, { rotationY: 180, duration: 0.6, ease: 'power2.inOut' });
-      card.classList.add('flipped');
-    }
+    const front = card.querySelector(".co-front");
+    const back = card.querySelector(".co-back");
+    const flipped = card.classList.toggle("co-flipped");
+    gs.to(front, { rotationY: flipped ? 180 : 0, duration: 0.6, ease: "power2.inOut" });
+    gs.to(back, { rotationY: flipped ? 0 : 180, duration: 0.6, ease: "power2.inOut" });
   };
 
-  const offers: Offer[] = [
-    {
-      title: "Mural Corporativo",
-      description: "Empresa tecnológica busca artista para lobby",
-      price: 3500,
-      timer: 3600,
-      suit: "",
-      color: "purple",
-      client: {
-        name: "TechCorp Solutions",
-        avatar: "/artists/artist1.svg",
-        company: "Empresa Tecnológica",
-        rating: 4.8,
-        projects: 23
-      }
-    },
-    {
-      title: "Performance Wedding",
-      description: "Pareja busca espectáculo único para boda",
-      price: 2800,
-      timer: 7200,
-      suit: "",
-      color: "pink",
-      client: {
-        name: "Sofia & Miguel",
-        avatar: "/artists/artist2.svg",
-        company: "Evento Privado",
-        rating: 5.0,
-        projects: 1
-      }
-    },
-    {
-      title: "Instalación Digital",
-      description: "Museo requiere experiencia interactiva",
-      price: 5200,
-      timer: 1800,
-      suit: "",
-      color: "purple-700",
-      client: {
-        name: "Museo de Arte Moderno",
-        avatar: "/artists/artist3.svg",
-        company: "Institución Cultural",
-        rating: 4.9,
-        projects: 15
-      }
-    }
+  const ink = isDark ? "#f5f3ff" : "#1f2937";
+  const accent = isDark ? "#a78bfa" : "#6d28d9";
+  const body = isDark ? "#b9b3cf" : "#4b5563";
+  const gridLine = isDark ? "rgba(124,58,237,0.14)" : "rgba(124,58,237,0.12)";
+
+  // Acento por carta: violeta, rosa y azul, para darle vida
+  const ACCENTS = [
+    { grad: "linear-gradient(135deg, #7c3aed, #2563eb)", timer: isDark ? "#a78bfa" : "#6d28d9", glow: "rgba(124,58,237,0.45)" },
+    { grad: "linear-gradient(135deg, #ec4899, #9333ea)", timer: isDark ? "#f9a8d4" : "#db2777", glow: "rgba(236,72,153,0.45)" },
+    { grad: "linear-gradient(135deg, #2563eb, #7c3aed)", timer: isDark ? "#93c5fd" : "#2563eb", glow: "rgba(37,99,235,0.45)" },
   ];
 
+  // Vidrio espejo translúcido: la cuadrícula y los glows se ven a través de la carta
+  const face = (glow: string) => ({
+    background: isDark
+      ? "linear-gradient(160deg, rgba(255,255,255,0.10), transparent 45%), rgba(255,255,255,0.045)"
+      : "linear-gradient(160deg, rgba(255,255,255,0.60), rgba(240,235,255,0.22) 50%), rgba(233,224,255,0.30)",
+    border: `1px solid ${isDark ? "rgba(255,255,255,0.22)" : "rgba(255,255,255,0.85)"}`,
+    boxShadow: `inset 0 1px 0 ${isDark ? "rgba(255,255,255,0.14)" : "rgba(255,255,255,0.95)"}, 0 30px 70px -30px ${glow}`,
+    backdropFilter: "blur(24px) saturate(160%)",
+    WebkitBackdropFilter: "blur(24px) saturate(160%)",
+  });
+  const faceInk = isDark ? "#f5f3ff" : "#1f2937";
+  const faceBody = isDark ? "rgba(245,243,255,0.72)" : "#4b5563";
+  const faceMuted = isDark ? "rgba(245,243,255,0.50)" : "#6b7280";
+
   return (
-    <section ref={sectionRef} className="relative py-20 bg-[#f0ebff] z-0">
-      {/* Efecto de humo */}
-      <div className="absolute inset-0 -z-10">
-        <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-[#7c3aed]/10 to-transparent animate-pulse"></div>
-        <div className="absolute bottom-0 right-0 w-full h-32 bg-gradient-to-t from-[#2563eb]/10 to-transparent animate-pulse" style={{animationDelay: '1s'}}></div>
-      </div>
-      
-      <div className="relative z-10 max-w-[1200px] mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-        <div className="counter-title text-center mb-12 md:mb-16">
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#7c3aed] via-[#9333ea] to-[#2563eb] mb-4">
-            Contraofertas en Tiempo Real
+    <section
+      ref={sectionRef}
+      className="relative overflow-hidden flex items-center transition-colors duration-300"
+      style={{ backgroundColor: isDark ? "#0a0618" : "#f0ebff", minHeight: "100svh" }}
+    >
+      {/* Cuadrícula */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backgroundImage: `linear-gradient(${gridLine} 1px, transparent 1px),
+                            linear-gradient(90deg, ${gridLine} 1px, transparent 1px)`,
+          backgroundSize: "56px 56px",
+          maskImage: "radial-gradient(110% 80% at 50% 40%, black 50%, transparent 100%)",
+          WebkitMaskImage: "radial-gradient(110% 80% at 50% 40%, black 50%, transparent 100%)",
+        }}
+      />
+      <div
+        aria-hidden
+        className="absolute pointer-events-none"
+        style={{
+          right: "-10%", top: "0%", width: "46vw", aspectRatio: "1",
+          background: `radial-gradient(closest-side, ${isDark ? "rgba(124,58,237,0.24)" : "rgba(124,58,237,0.14)"}, transparent 70%)`,
+        }}
+      />
+      {/* Glow rosa para darle vida */}
+      <div
+        aria-hidden
+        className="absolute pointer-events-none"
+        style={{
+          left: "-8%", bottom: "-12%", width: "42vw", aspectRatio: "1",
+          background: `radial-gradient(closest-side, ${isDark ? "rgba(236,72,153,0.20)" : "rgba(236,72,153,0.12)"}, transparent 70%)`,
+        }}
+      />
+
+      <div className="relative w-full max-w-[1320px] mx-auto px-4 sm:px-6 py-24 lg:py-20 z-10">
+
+        <div className="co-title text-center max-w-2xl mx-auto mb-14">
+          <h2
+            style={{
+              fontFamily: "var(--font-display), system-ui, sans-serif",
+              fontWeight: 800,
+              fontSize: "clamp(2.2rem, 4vw, 3.4rem)",
+              lineHeight: 1.06,
+              letterSpacing: "-0.02em",
+              color: ink,
+              marginBottom: 16,
+            }}
+          >
+            Contraofertas en <span style={{ color: accent }}>tiempo real</span>
           </h2>
-          <p className="text-xl text-[#6b7280] max-w-3xl mx-auto">
-            Negocia directamente con los artistas y recibe respuestas instantáneas. 
-            Encuentra el mejor talento para tu evento en tiempo real.
+          <p style={{ fontSize: 16.5, lineHeight: 1.7, color: body }}>
+            Negocia directamente con quien contrata: propuestas con tiempo límite
+            y respuestas al instante.
           </p>
         </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-          {offers.map((offer, index) => {
-            const colors = colorMap[offer.color];
-            
+
+        <div className="grid md:grid-cols-3 gap-6">
+          {OFFERS.map((offer, i) => {
+            const a = ACCENTS[i % ACCENTS.length];
             return (
-              <div 
-                key={index} 
-                className="flip-card h-64 md:h-72 relative cursor-pointer mb-8 md:mb-0" 
-                style={{ perspective: '1000px' }}
-                onClick={handleCardClick}
+            <div
+              key={offer.title}
+              className="co-card relative h-[320px] cursor-pointer"
+              style={{ perspective: "1200px" }}
+              onClick={flip}
+            >
+              {/* Cara: oferta */}
+              <div
+                className="co-front absolute inset-0 rounded-3xl p-6 flex flex-col"
+                style={{ ...face(a.glow), transformStyle: "preserve-3d" }}
               >
-                {/* Parte delantera - Detalles de la oferta */}
-                <div 
-                  className="card-front absolute inset-0 bg-gradient-to-br from-white to-[#f3f4f6] p-6 rounded-2xl border border-[#e9d5ff]"
-                  style={{ backfaceVisibility: 'hidden', transformStyle: 'preserve-3d' }}
-                >
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="relative">
-                      <div className={`w-12 h-12 ${colors.bg} rounded-full flex items-center justify-center text-xl font-bold text-white relative z-10`}>
-                        <Zap className="w-6 h-6" fill="currentColor" />
-                      </div>
-                      <div className="absolute -inset-1 bg-gradient-to-r from-[#7c3aed] to-[#2563eb] rounded-full opacity-60 blur-[6px] -z-0"></div>
-                    </div>
-                    <div className="text-right">
-                      <div className="text-sm text-[#6b7280]">Expira en</div>
-                      <div 
-                        ref={addToTimerRefs}
-                        className={`font-mono text-lg ${colors.text} font-bold`}
-                        data-timer={offer.timer}
-                      >
-                        01:00:00
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <h3 className="text-xl font-semibold text-[#1f2937] mb-3">{offer.title}</h3>
-                  <p className="text-[#6b7280] mb-6">{offer.description}</p>
-                  
-                  <div className="absolute bottom-6 left-6 right-6">
-                    <div className="flex justify-between items-center mb-4">
-                      <span 
-                        className="text-2xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-[#7c3aed] via-[#9333ea] to-[#2563eb]"
-                        suppressHydrationWarning={true}
-                      >
-                        ${formatNumber(offer.price)}
-                      </span>
-                      <button className={`bg-gradient-to-r ${colors.bg} hover:opacity-90 px-4 py-2 rounded-lg text-sm font-semibold text-white transition-all duration-300 transform hover:scale-[1.03]`}>
-                        Ofertar
-                      </button>
-                    </div>
-                    <div className="text-center text-sm text-[#9ca3af]">
-                      Haz clic para ver más
+                <div className="flex items-center justify-between mb-5">
+                  <span
+                    className="flex items-center justify-center rounded-2xl"
+                    style={{
+                      width: 44, height: 44,
+                      background: a.grad,
+                      boxShadow: `inset 0 1px 0 rgba(255,255,255,0.35), 0 0 24px ${a.glow}`,
+                    }}
+                  >
+                    <Zap size={20} color="#fff" fill="#fff" />
+                  </span>
+                  <div className="text-right">
+                    <div style={{ fontSize: 11, color: faceMuted }}>Expira en</div>
+                    <div className="co-timer font-mono" data-timer={offer.timer} style={{ fontSize: 17, fontWeight: 700, color: a.timer }}>
+                      --:--:--
                     </div>
                   </div>
                 </div>
 
-                {/* Parte trasera - Perfil del cliente */}
-                <div 
-                  className="card-back absolute inset-0 bg-gradient-to-br from-white to-[#f3f4f6] p-6 rounded-2xl border border-[#d8b4ff]"
-                  style={{ backfaceVisibility: 'hidden', transformStyle: 'preserve-3d' }}
+                <h3
+                  style={{
+                    fontFamily: "var(--font-display), system-ui, sans-serif",
+                    fontWeight: 700, fontSize: 19, color: faceInk, marginBottom: 8,
+                  }}
                 >
-                  <div className="text-center mb-6">
-                    <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4 border-2 border-[#9333ea]">
-                      <img 
-                        src={offer.client.avatar} 
-                        alt={offer.client.name}
-                        className="w-full h-full object-cover"
-                        loading="lazy"
-                      />
-                    </div>
-                    <h3 className="text-xl font-semibold text-[#1f2937] mb-1">{offer.client.name}</h3>
-                    <p className="text-[#6b7280] text-sm">{offer.client.company}</p>
-                  </div>
+                  {offer.title}
+                </h3>
+                <p style={{ fontSize: 13.5, lineHeight: 1.6, color: faceBody }}>{offer.description}</p>
 
-                  <div className="space-y-4 mb-6">
-                    <div className="flex justify-between items-center">
-                      <span className="text-[#6b7280]">Rating:</span>
-                      <div className="flex items-center">
-                        <span className="text-yellow-400 mr-1">★</span>
-                        <span className="text-[#1f2937] font-semibold">{offer.client.rating}</span>
-                      </div>
-                    </div>
-                    
-                    <div className="flex justify-between items-center">
-                      <span className="text-[#6b7280]">Proyectos:</span>
-                      <span className="text-[#1f2937] font-semibold">{formatNumber(offer.client.projects)}</span>
-                    </div>
-                  </div>
-
-                  <div className="absolute bottom-6 left-6 right-6 space-y-2">
-                    <button className="w-full bg-gradient-to-r from-[#7c3aed] via-[#9333ea] to-[#2563eb] hover:from-[#8b5cf6] hover:via-[#a78bfa] hover:to-[#3b82f6] px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-300 transform hover:scale-[1.02] text-white">
-                      Ver Oferta
-                    </button>
-                    <button 
-                      className="w-full bg-gray-200 hover:bg-gray-300 px-4 py-2 rounded-lg text-sm font-semibold text-[#1f2937] transition-all duration-300"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        const card = (e.currentTarget as HTMLElement).closest('.flip-card');
-                        if (card) {
-                          card.dispatchEvent(new Event('click'));
-                        }
-                      }}
+                <div className="mt-auto">
+                  <div className="flex items-center justify-between mb-3">
+                    <span style={{ fontSize: 22, fontWeight: 800, color: faceInk }}>{offer.price}</span>
+                    <span
+                      className="px-4 py-2 rounded-full text-[12.5px] font-bold text-white"
+                      style={{ background: a.grad, boxShadow: `0 4px 16px ${a.glow}` }}
                     >
-                      Volver
-                    </button>
+                      Ofertar
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-center gap-1.5" style={{ fontSize: 11, color: faceMuted }}>
+                    <ArrowLeftRight size={11} />
+                    Toca para ver el cliente
                   </div>
                 </div>
               </div>
+
+              {/* Cara: cliente */}
+              <div
+                className="co-back absolute inset-0 rounded-3xl p-6 flex flex-col items-center text-center"
+                style={{ ...face(a.glow), transformStyle: "preserve-3d", display: staticMode ? "none" : undefined }}
+              >
+                <span
+                  className="flex items-center justify-center rounded-full mb-3 mt-2"
+                  style={{
+                    width: 64, height: 64,
+                    background: a.grad,
+                    border: "2px solid rgba(255,255,255,0.45)",
+                    color: "#fff", fontSize: 20, fontWeight: 800,
+                    fontFamily: "var(--font-display), system-ui, sans-serif",
+                    boxShadow: `0 0 28px ${a.glow}`,
+                  }}
+                >
+                  {offer.client.initials}
+                </span>
+                <h3 style={{ fontFamily: "var(--font-display), system-ui, sans-serif", fontWeight: 700, fontSize: 17, color: faceInk }}>
+                  {offer.client.name}
+                </h3>
+                <p style={{ fontSize: 12.5, color: faceMuted, marginBottom: 16 }}>{offer.client.company}</p>
+
+                <div className="w-full flex flex-col gap-2.5 mb-5">
+                  <div className="flex items-center justify-between px-1">
+                    <span style={{ fontSize: 13, color: faceMuted }}>Calificación</span>
+                    <span className="flex items-center gap-1">
+                      <Star size={13} fill="#facc15" color="#facc15" />
+                      <span style={{ fontSize: 13, fontWeight: 700, color: faceInk }}>{offer.client.rating}</span>
+                    </span>
+                  </div>
+                  <div className="flex items-center justify-between px-1">
+                    <span style={{ fontSize: 13, color: faceMuted }}>Proyectos</span>
+                    <span className="flex items-center gap-1.5">
+                      <Briefcase size={13} color={a.timer} />
+                      <span style={{ fontSize: 13, fontWeight: 700, color: faceInk }}>{offer.client.projects}</span>
+                    </span>
+                  </div>
+                </div>
+
+                <span
+                  className="mt-auto w-full py-2.5 rounded-full text-[12.5px] font-bold"
+                  style={{
+                    background: isDark ? "rgba(255,255,255,0.10)" : "rgba(124,58,237,0.08)",
+                    border: `1px solid ${isDark ? "rgba(255,255,255,0.28)" : "rgba(124,58,237,0.30)"}`,
+                    color: isDark ? "#ffffff" : "#6d28d9",
+                  }}
+                >
+                  Volver a la oferta
+                </span>
+              </div>
+            </div>
             );
           })}
         </div>

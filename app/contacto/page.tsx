@@ -23,8 +23,8 @@ const faqs = [
 ];
 
 const fieldCls =
-  'w-full px-4 py-3.5 bg-[#0a0618]/60 border border-[#7c3aed]/25 rounded-xl text-white placeholder-[#c9bdf0]/40 focus:ring-2 focus:ring-[#8b5cf6]/50 focus:border-[#8b5cf6]/50 outline-none transition-all duration-300';
-const labelCls = 'block text-sm font-medium text-[#c9bdf0] mb-2';
+  'w-full px-4 py-3.5 rounded-xl outline-none transition-all duration-300 [background:var(--site-surface)] [border:1px_solid_var(--site-border)] [color:var(--site-ink)] placeholder:[color:var(--site-muted)] focus:[border-color:var(--site-border-hover)]';
+const labelCls = 'block text-sm font-medium mb-2 [color:var(--site-muted)]';
 
 export default function ContactoPage() {
   return (
@@ -33,7 +33,7 @@ export default function ContactoPage() {
       <section className="px-4 pt-20 pb-12 text-center">
         <div className="max-w-3xl mx-auto">
           <div className={`${cx.pill} reveal mb-8`}>
-            <Star className="w-4 h-4 text-[#a78bfa]" />
+            <Star className="w-4 h-4 [color:var(--site-accent)]" />
             Estamos aquí para ayudarte
           </div>
           <h1 className="reveal d1 text-5xl md:text-7xl font-bold mb-6">
@@ -111,16 +111,16 @@ export default function ContactoPage() {
                     href={link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center p-4 rounded-xl bg-[#0a0618]/50 border border-[#7c3aed]/15 hover:border-[#8b5cf6]/45 hover:bg-[#1a1035]/60 transition-all duration-300"
+                    className={`group flex items-center p-4 ${cx.card} ${cx.cardHover}`}
                   >
-                    <div className="w-11 h-11 rounded-lg bg-[#7c3aed]/15 border border-[#7c3aed]/25 flex items-center justify-center text-[#a78bfa] group-hover:scale-110 transition-transform">
+                    <div className="w-11 h-11 rounded-lg flex items-center justify-center [color:var(--site-accent)] group-hover:scale-110 transition-transform" style={{ background: 'var(--site-surface)', border: '1px solid var(--site-border)' }}>
                       <Icon className="w-5 h-5" />
                     </div>
                     <div className="ml-4">
                       <h3 className="font-semibold">{title}</h3>
                       <p className={`${cx.muted} text-sm`}>{desc}</p>
                     </div>
-                    <ArrowRight className="w-4 h-4 text-[#c9bdf0]/40 ml-auto group-hover:text-[#a78bfa] group-hover:translate-x-1 transition-all" />
+                    <ArrowRight className="w-4 h-4 ml-auto [color:var(--site-muted)] group-hover:[color:var(--site-accent)] group-hover:translate-x-1 transition-all" />
                   </Link>
                 ))}
               </div>
@@ -143,7 +143,7 @@ export default function ContactoPage() {
               </div>
               <Link
                 href="/preguntas-frecuentes"
-                className="group inline-flex items-center mt-7 text-[#a78bfa] font-medium hover:text-white transition-colors"
+                className="group inline-flex items-center mt-7 [color:var(--site-accent)] font-medium hover:[color:var(--site-ink)] transition-colors"
               >
                 Ver todas las preguntas frecuentes
                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />

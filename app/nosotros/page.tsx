@@ -33,10 +33,10 @@ const valores = [
 ];
 
 const impacto = [
-  { value: '3,4%', label: 'del PIB representa la economía naranja' },
-  { value: '+500K', label: 'empleos potenciales en el sector creativo' },
-  { value: '2', label: 'tipos de usuario: persona y artista' },
-  { value: '1', label: 'sola plataforma integral' },
+  { value: '3,4%', label: 'del PIB colombiano lo aporta la economía naranja' },
+  { value: '0%', label: 'de comisión para artistas durante el lanzamiento' },
+  { value: '100%', label: 'de los pagos protegidos con Mercado Pago' },
+  { value: '3', label: 'ciudades para empezar: Bogotá, Medellín y Cali' },
 ];
 
 export default function NosotrosPage() {
@@ -46,7 +46,7 @@ export default function NosotrosPage() {
       <section className="relative px-4 pt-20 pb-24">
         <div className="max-w-4xl mx-auto text-center">
           <div className={`${cx.pill} reveal mb-8`}>
-            <BadgeCheck className="w-4 h-4 text-[#a78bfa]" />
+            <BadgeCheck className="w-4 h-4 [color:var(--site-accent)]" />
             Transformando la industria creativa colombiana
           </div>
           <h1 className="reveal d1 text-5xl md:text-7xl font-bold leading-[1.05] mb-8">
@@ -110,7 +110,7 @@ export default function NosotrosPage() {
             {modulos.map(({ icon: Icon, title, desc }, i) => (
               <div key={title} className={`reveal d${(i % 3) + 1} ${cx.card} ${cx.cardHover} p-7 group`}>
                 <div className="w-12 h-12 rounded-xl bg-[#7c3aed]/15 border border-[#7c3aed]/25 flex items-center justify-center mb-5 group-hover:scale-110 transition-transform">
-                  <Icon className="w-6 h-6 text-[#a78bfa]" />
+                  <Icon className="w-6 h-6 [color:var(--site-accent)]" />
                 </div>
                 <h3 className="text-lg font-bold mb-2">{title}</h3>
                 <p className={`${cx.muted} text-sm leading-relaxed`}>{desc}</p>
@@ -162,7 +162,7 @@ export default function NosotrosPage() {
             {valores.map(({ icon: Icon, title, desc }, i) => (
               <div key={title} className={`reveal d${(i % 3) + 1} ${cx.card} ${cx.cardHover} p-7`}>
                 <div className="w-12 h-12 rounded-xl bg-[#2563eb]/15 border border-[#2563eb]/25 flex items-center justify-center mb-5">
-                  <Icon className="w-6 h-6 text-[#60a5fa]" />
+                  <Icon className="w-6 h-6 [color:var(--site-accent-2)]" />
                 </div>
                 <h3 className="text-lg font-bold mb-2">{title}</h3>
                 <p className={`${cx.muted} text-sm leading-relaxed`}>{desc}</p>
@@ -176,9 +176,10 @@ export default function NosotrosPage() {
       <section className="px-4 py-20 border-t border-[#7c3aed]/10">
         <div className="max-w-6xl mx-auto">
           <div className="reveal text-center max-w-2xl mx-auto mb-14">
-            <h2 className="text-3xl md:text-4xl font-bold mb-5">El impacto que construimos</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-5">Por qué construimos BuscArt</h2>
             <p className={`${cx.muted} text-lg`}>
-              Creemos en el potencial transformador de la economía naranja para Colombia.
+              La economía naranja mueve a Colombia y nosotros apenas empezamos:
+              estos son nuestros compromisos desde el primer día.
             </p>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">

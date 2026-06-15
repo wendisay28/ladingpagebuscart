@@ -1,8 +1,10 @@
 'use client';
 import { useEffect, useRef } from 'react';
-import { Palette, CalendarDays, Building2, Landmark, Target } from 'lucide-react';
+import { Palette, Search, Landmark, Users, Target, Repeat, ArrowRight } from 'lucide-react';
+import { useTheme } from '../../../context/ThemeContext';
 
 export default function Universe() {
+  const { isDark } = useTheme();
   const timelineRef = useRef<HTMLElement>(null);
   const itemsRef = useRef<HTMLDivElement[]>([]);
   const gsapRef = useRef<any>(null);
@@ -45,6 +47,8 @@ export default function Universe() {
               pin: true,
               pinSpacing: true,
               anticipatePin: 1,
+              invalidateOnRefresh: true,
+              id: 'universeTimeline',
             },
           });
 
@@ -74,8 +78,9 @@ export default function Universe() {
           );
 
           return () => {
-            try { gsapLib.killTweensOf('*'); } catch {}
-            try { scrollTriggerLib.getAll().forEach((st: any) => st.kill()); } catch {}
+            // Solo matar lo propio: nunca getAll() — eso destruye los triggers de toda la página
+            try { scrollTriggerLib.getById?.('universeTimeline')?.kill?.(); } catch {}
+            try { tl.kill(); } catch {}
           };
         };
 
@@ -99,24 +104,60 @@ export default function Universe() {
     return () => {
       mounted = false;
       try { ctxRef.current?.revert(); } catch {}
-      try {
-        const ScrollTrigger = scrollTriggerRef.current;
-        if (ScrollTrigger) ScrollTrigger.getAll().forEach((st: any) => st.kill());
-      } catch {}
+      try { scrollTriggerRef.current?.getById?.('universeTimeline')?.kill?.(); } catch {}
     };
   }, []);
 
   return (
     <>
       {/* Timeline */}
-      <section ref={timelineRef} className="relative py-32 overflow-hidden bg-white">
+      <section
+        ref={timelineRef}
+        className="relative py-32 overflow-hidden transition-colors duration-300"
+        style={{ backgroundColor: isDark ? '#0a0618' : '#f0ebff' }}
+      >
+        {/* Cuadrícula de marca */}
+        <div
+          aria-hidden
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            backgroundImage: `linear-gradient(${isDark ? 'rgba(124,58,237,0.14)' : 'rgba(124,58,237,0.12)'} 1px, transparent 1px),
+                              linear-gradient(90deg, ${isDark ? 'rgba(124,58,237,0.14)' : 'rgba(124,58,237,0.12)'} 1px, transparent 1px)`,
+            backgroundSize: '56px 56px',
+            maskImage: 'radial-gradient(110% 80% at 50% 45%, black 50%, transparent 100%)',
+            WebkitMaskImage: 'radial-gradient(110% 80% at 50% 45%, black 50%, transparent 100%)',
+          }}
+        />
+        <div
+          aria-hidden
+          className="absolute pointer-events-none"
+          style={{
+            left: '50%', top: '-15%', width: '54vw', aspectRatio: '1',
+            transform: 'translateX(-50%)',
+            background: `radial-gradient(closest-side, ${isDark ? 'rgba(124,58,237,0.24)' : 'rgba(124,58,237,0.14)'}, transparent 70%)`,
+          }}
+        />
+
         <div className="relative z-10 max-w-[1200px] mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-[#7c3aed] via-[#9333ea] to-[#2563eb] bg-clip-text text-transparent">
-            Todo ocurre en un mismo ecosistema
+            <h2
+              style={{
+                fontFamily: 'var(--font-display), system-ui, sans-serif',
+                fontWeight: 800,
+                fontSize: 'clamp(2.2rem, 4vw, 3.4rem)',
+                lineHeight: 1.06,
+                letterSpacing: '-0.02em',
+                color: isDark ? '#f5f3ff' : '#1f2937',
+                marginBottom: 20,
+              }}
+            >
+              Todo ocurre en un mismo <span style={{ color: isDark ? '#a78bfa' : '#6d28d9' }}>ecosistema</span>
             </h2>
-            <div className="w-32 h-1 bg-gradient-to-r from-[#7c3aed] to-[#2563eb] mx-auto mb-4" />
-            <p className="text-xl text-[#6b7280] max-w-3xl mx-auto leading-relaxed">
+            <div className="w-32 h-1 bg-gradient-to-r from-[#7c3aed] to-[#2563eb] mx-auto mb-4 rounded-full" />
+            <p
+              className="max-w-3xl mx-auto"
+              style={{ fontSize: 17, lineHeight: 1.7, color: isDark ? '#b9b3cf' : '#4b5563' }}
+            >
               La cultura funciona porque todos colaboran. BuscArt no es un directorio:
               es la infraestructura que conecta cada pieza.
             </p>
@@ -167,28 +208,28 @@ export default function Universe() {
               {[
                 {
                   icon: Palette,
-                  title: 'Artistas',
-                  desc: 'El talento que da vida a la cultura.',
+                  title: 'El artista publica',
+                  desc: 'Su talento, portafolio y tarifas quedan visibles para todos.',
                 },
                 {
-                  icon: CalendarDays,
-                  title: 'Eventos',
-                  desc: 'Donde el talento se encuentra con el público.',
-                },
-                {
-                  icon: Building2,
-                  title: 'Empresas',
-                  desc: 'Marcas que activan, contratan y patrocinan.',
+                  icon: Search,
+                  title: 'Alguien lo encuentra',
+                  desc: 'Empresas y organizadores lo contratan con pago protegido.',
                 },
                 {
                   icon: Landmark,
-                  title: 'Espacios culturales',
-                  desc: 'Los lugares que albergan la experiencia.',
+                  title: 'El espacio los recibe',
+                  desc: 'Salas, museos y escenarios abren su agenda.',
+                },
+                {
+                  icon: Users,
+                  title: 'El público asiste',
+                  desc: 'La ciudad vive la experiencia y la cultura circula.',
                 },
                 {
                   icon: Target,
-                  title: 'Oportunidades',
-                  desc: 'Contratos y colaboración para todos.',
+                  title: 'Nacen oportunidades',
+                  desc: 'Cada evento genera nuevos contratos y conexiones.',
                 },
               ].map(({ icon: Icon, title, desc }, i) => (
                 <div
@@ -205,16 +246,103 @@ export default function Universe() {
                     mb-16 md:mb-0 px-4
                   `}
                 >
+                  {/* Anillo de vidrio + esfera con luz interior */}
                   <div
-                    className="w-24 h-24 sm:w-28 sm:h-28 md:w-32 md:h-32 rounded-full bg-gradient-to-br from-[#7c3aed] to-[#2563eb] flex items-center justify-center mb-4 md:mb-6 mx-auto"
-                    style={{ boxShadow: '0 0 40px rgba(124,58,237,0.35), 0 0 70px rgba(37,99,235,0.20)' }}
+                    className="rounded-full p-2.5 mb-4 md:mb-6 mx-auto"
+                    style={{
+                      background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(255,255,255,0.45)',
+                      border: `1px solid ${isDark ? 'rgba(255,255,255,0.16)' : 'rgba(255,255,255,0.9)'}`,
+                      backdropFilter: 'blur(10px)',
+                      WebkitBackdropFilter: 'blur(10px)',
+                    }}
                   >
-                    <Icon className="w-9 h-9 sm:w-10 sm:h-10 md:w-14 md:h-14 text-white" strokeWidth={1.8} />
+                    <div
+                      className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 rounded-full bg-gradient-to-br from-[#7c3aed] to-[#2563eb] flex items-center justify-center"
+                      style={{
+                        boxShadow: 'inset 0 2px 6px rgba(255,255,255,0.35), inset 0 -6px 14px rgba(0,0,0,0.25), 0 0 40px rgba(124,58,237,0.35), 0 0 70px rgba(37,99,235,0.18)',
+                      }}
+                    >
+                      <Icon className="w-8 h-8 sm:w-9 sm:h-9 md:w-12 md:h-12 text-white" strokeWidth={1.8} />
+                    </div>
                   </div>
-                  <h3 className="text-lg md:text-xl font-bold text-[#1f2937] mb-2 px-2">{title}</h3>
-                  <p className="text-[#6b7280] text-sm sm:text-base max-w-[280px] px-2">{desc}</p>
+                  <h3
+                    className="text-lg md:text-xl font-bold mb-2 px-2"
+                    style={{ fontFamily: 'var(--font-display), system-ui, sans-serif', color: isDark ? '#f5f3ff' : '#1f2937' }}
+                  >
+                    {title}
+                  </h3>
+                  <p className="text-sm sm:text-base max-w-[280px] px-2" style={{ color: isDark ? '#b9b3cf' : '#4b5563' }}>{desc}</p>
                 </div>
               ))}
+            </div>
+
+            {/* El ciclo se cierra */}
+            <div ref={addToItemsRefs} className="flex justify-center mt-14 md:mt-16">
+              <div
+                className="inline-flex items-center gap-3 px-6 py-3.5 rounded-full"
+                style={{
+                  background: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(255,255,255,0.55)',
+                  border: `1px solid ${isDark ? 'rgba(255,255,255,0.18)' : 'rgba(255,255,255,0.85)'}`,
+                  backdropFilter: 'blur(14px)',
+                  WebkitBackdropFilter: 'blur(14px)',
+                }}
+              >
+                <Repeat
+                  size={17}
+                  className="animate-spin"
+                  style={{ color: isDark ? '#a78bfa' : '#6d28d9', animationDuration: '7s' }}
+                />
+                <span
+                  style={{
+                    fontFamily: 'var(--font-display), system-ui, sans-serif',
+                    fontWeight: 600,
+                    fontSize: 15,
+                    color: isDark ? '#f5f3ff' : '#1f2937',
+                  }}
+                >
+                  …y el ciclo vuelve a empezar.
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* CTA final de la página */}
+          <div className="text-center mt-20">
+            <p
+              style={{
+                fontFamily: 'var(--font-display), system-ui, sans-serif',
+                fontWeight: 700,
+                fontSize: 'clamp(1.3rem, 2.2vw, 1.7rem)',
+                color: isDark ? '#f5f3ff' : '#1f2937',
+                marginBottom: 22,
+              }}
+            >
+              El ecosistema te está esperando.
+            </p>
+            <div className="flex items-center justify-center gap-4 flex-wrap">
+              <a
+                href="/register"
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-[15px] font-semibold text-white transition-transform duration-200 hover:-translate-y-0.5"
+                style={
+                  isDark
+                    ? { background: 'rgba(255,255,255,0.10)', border: '1px solid rgba(255,255,255,0.28)' }
+                    : { background: 'linear-gradient(135deg, #7c3aed, #2563eb)', boxShadow: '0 12px 32px -12px rgba(124,58,237,0.55)' }
+                }
+              >
+                Crear perfil gratis
+                <ArrowRight size={16} />
+              </a>
+              <a
+                href="/explorar"
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-[15px] font-semibold transition-transform duration-200 hover:-translate-y-0.5"
+                style={{
+                  border: `1px solid ${isDark ? 'rgba(255,255,255,0.22)' : 'rgba(124,58,237,0.35)'}`,
+                  color: isDark ? '#c4b5fd' : '#6d28d9',
+                  background: 'transparent',
+                }}
+              >
+                Explorar talento
+              </a>
             </div>
           </div>
         </div>

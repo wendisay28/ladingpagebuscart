@@ -1,6 +1,6 @@
 "use client";
 import React, { useMemo, useState } from "react";
-import { MapPin, SlidersHorizontal, Star, Sparkles, ChevronLeft, ChevronRight, Search, Info, Heart, Play, Users } from "lucide-react";
+import { MapPin, SlidersHorizontal, Star, Zap, ChevronLeft, ChevronRight, Search, Info, Heart, Play, Users } from "lucide-react";
 import dynamic from 'next/dynamic';
 
 // Dynamically import the CategoriesModal to avoid SSR issues with the document object
@@ -97,7 +97,7 @@ const ScrollRow: React.FC<ScrollRowProps> = ({ children, id, className = "", sty
       <button 
         aria-label="Scroll left" 
         onClick={() => scrollBy(-1)} 
-        className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-20 h-12 w-12 items-center justify-center rounded-full bg-black/80 backdrop-blur-sm border border-gray-700/50 shadow-xl hover:bg-black/90 hover:border-purple-500/50 hover:scale-110 transition-all duration-300 opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0"
+        className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 z-20 h-12 w-12 items-center justify-center rounded-full bg-[#0a0618]/85 backdrop-blur-sm border border-[#7c3aed]/25 shadow-xl hover:bg-[#0a0618]/90 hover:border-[#8b5cf6]/60 hover:scale-110 transition-all duration-300 opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0"
       >
         <ChevronLeft className="h-6 w-6 text-white" />
       </button>
@@ -112,7 +112,7 @@ const ScrollRow: React.FC<ScrollRowProps> = ({ children, id, className = "", sty
       <button 
         aria-label="Scroll right" 
         onClick={() => scrollBy(1)} 
-        className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-20 h-12 w-12 items-center justify-center rounded-full bg-black/80 backdrop-blur-sm border border-gray-700/50 shadow-xl hover:bg-black/90 hover:border-purple-500/50 hover:scale-110 transition-all duration-300 opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0"
+        className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 z-20 h-12 w-12 items-center justify-center rounded-full bg-[#0a0618]/85 backdrop-blur-sm border border-[#7c3aed]/25 shadow-xl hover:bg-[#0a0618]/90 hover:border-[#8b5cf6]/60 hover:scale-110 transition-all duration-300 opacity-0 group-hover:opacity-100 -translate-x-4 group-hover:translate-x-0"
       >
         <ChevronRight className="h-6 w-6 text-white" />
       </button>
@@ -146,8 +146,8 @@ const PosterCard: React.FC<{
   variant?: "artist" | "event" | "place" | "category";
 }> = ({ id, title, meta, tag, image, rating, price, variant = "artist" }) => {
   const bg = {
-    artist: "from-purple-600/40 via-fuchsia-500/30 to-blue-600/30",
-    event: "from-amber-500/40 via-orange-500/30 to-rose-600/30",
+    artist: "from-[#7c3aed]/40 via-[#9333ea]/30 to-[#2563eb]/30",
+    event: "from-amber-500/35 via-orange-500/25 to-orange-600/25",
     place: "from-emerald-600/40 via-teal-500/30 to-cyan-600/30",
     category: "from-slate-600/40 via-zinc-500/30 to-stone-600/30",
   }[variant];
@@ -163,7 +163,7 @@ const PosterCard: React.FC<{
         opacity: 0
       }}
     >
-      <div className={`relative aspect-[2/3] rounded-2xl overflow-hidden border border-gray-800/50 bg-gradient-to-br ${bg} transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-purple-500/10 hover:border-purple-500/30`}>
+      <div className={`relative aspect-[2/3] rounded-2xl overflow-hidden border border-[#7c3aed]/15 bg-gradient-to-br ${bg} transition-all duration-300 hover:scale-[1.02] hover:shadow-lg hover:shadow-[#7c3aed]/10 hover:border-[#8b5cf6]/30`}>
         {/* Image with overlay */}
         <div className="absolute inset-0">
           <img 
@@ -181,13 +181,13 @@ const PosterCard: React.FC<{
         {/* Top badges */}
         <div className="absolute inset-x-3 top-3 flex items-start justify-between">
           {tag && (
-            <span className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full border border-white/20 bg-black/70 backdrop-blur-sm text-white font-medium shadow-lg transition-all duration-300 hover:bg-purple-600/80">
-              {tag === 'Nuevo' ? <Sparkles className="h-3.5 w-3.5" /> : <Star className="h-3.5 w-3.5" />} 
+            <span className="inline-flex items-center gap-1.5 text-xs px-3 py-1.5 rounded-full border border-white/20 bg-[#0a0618]/70 backdrop-blur-sm text-white font-medium shadow-lg transition-all duration-300 hover:bg-[#7c3aed]/80">
+              {tag === 'Nuevo' ? <Zap className="h-3.5 w-3.5" /> : <Star className="h-3.5 w-3.5" />} 
               {tag}
             </span>
           )}
           {rating !== undefined && (
-            <div className="flex items-center gap-1.5 text-xs bg-black/70 backdrop-blur-sm px-3 py-1.5 rounded-full text-amber-400 border border-amber-400/20 shadow-lg transition-all duration-300">
+            <div className="flex items-center gap-1.5 text-xs bg-[#0a0618]/70 backdrop-blur-sm px-3 py-1.5 rounded-full text-amber-400 border border-amber-400/20 shadow-lg transition-all duration-300">
               <Star className="h-3.5 w-3.5 fill-amber-400" />
               <span className="font-medium">{rating.toFixed(1)}</span>
             </div>
@@ -214,7 +214,7 @@ const PosterCard: React.FC<{
 const FilterPill: React.FC<{ label: string; disabled?: boolean }> = ({ label, disabled = true }) => (
   <button 
     disabled={disabled} 
-    className="inline-flex items-center gap-2 text-sm px-4 py-2.5 rounded-full border border-gray-700 bg-gray-900/60 text-gray-400 cursor-not-allowed backdrop-blur-sm hover:border-gray-600 transition-colors duration-200"
+    className="inline-flex items-center gap-2 text-sm px-4 py-2.5 rounded-full border border-[#7c3aed]/25 bg-gray-900/60 text-gray-400 cursor-not-allowed backdrop-blur-sm hover:border-[#7c3aed]/40 transition-colors duration-200"
   >
     <SlidersHorizontal className="h-4 w-4" />
     {label}
@@ -284,13 +284,13 @@ export default function ExplorarNetflixMock() {
   ), []);
 
   return (
-    <div className="min-h-[100dvh] bg-gradient-to-b from-gray-950 via-black to-gray-950 text-white">
+    <div className="min-h-[100dvh] text-white" style={{ backgroundColor: '#0a0618' }}>
       {/* HERO / Intro explicativa */}
       <section className="relative overflow-hidden">
         {/* Animated background */}
         <div className="absolute inset-0 -z-10">
-          <div className="absolute inset-0 bg-[radial-gradient(60%_80%_at_50%_20%,rgba(147,51,234,0.3),transparent),radial-gradient(40%_60%_at_80%_0%,rgba(236,72,153,0.25),transparent),radial-gradient(50%_70%_at_20%_80%,rgba(59,130,246,0.2),transparent)]" />
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60" />
+          <div className="absolute inset-0 bg-[radial-gradient(60%_80%_at_50%_20%,rgba(124,58,237,0.30),transparent),radial-gradient(45%_60%_at_80%_0%,rgba(147,51,234,0.20),transparent),radial-gradient(50%_70%_at_20%_80%,rgba(37,99,235,0.22),transparent)]" />
+          <div className="absolute inset-0" style={{ background: 'linear-gradient(to bottom, transparent, rgba(10,6,24,0.2) 50%, rgba(10,6,24,0.6))' }} />
         </div>
         
         <div className="relative w-full px-6 pt-12 pb-8 md:pt-20 md:pb-12">
@@ -299,7 +299,7 @@ export default function ExplorarNetflixMock() {
               {/* Location indicator */}
               <div className="inline-flex items-center gap-2 text-sm text-gray-400 animate-fade-in-up">
                 <div className="relative">
-                  <MapPin className="h-5 w-5 text-purple-400" />
+                  <MapPin className="h-5 w-5 text-[#a78bfa]" />
                   <div className="absolute -top-1 -right-1 w-3 h-3 bg-purple-500 rounded-full animate-pulse" />
                 </div>
                 Descubre talento cerca de <span className="font-semibold text-white">{city}</span>
@@ -308,11 +308,11 @@ export default function ExplorarNetflixMock() {
               {/* Main title */}
               <div className="space-y-4 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
                 <h1 className="text-3xl md:text-6xl font-bold leading-tight tracking-tight">
-                  <span className="bg-gradient-to-r from-white via-purple-200 to-fuchsia-200 bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-white via-[#c4b5fd] to-[#93c5fd] bg-clip-text text-transparent">
                     Conecta con el talento
                   </span>
                   <br />
-                  <span className="bg-gradient-to-r from-purple-400 via-fuchsia-500 to-pink-500 bg-clip-text text-transparent">
+                  <span className="bg-gradient-to-r from-[#a78bfa] via-[#8b5cf6] to-[#60a5fa] bg-clip-text text-transparent">
                     que buscas
                   </span>
                 </h1>
@@ -327,16 +327,16 @@ export default function ExplorarNetflixMock() {
               {/* Search bar */}
               <div className="flex flex-col sm:flex-row items-stretch gap-3 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
                 <div className="relative flex-1 max-w-2xl group">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 group-hover:text-purple-400 transition-colors duration-200" />
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400 group-hover:text-[#a78bfa] transition-colors duration-200" />
                   <input 
                     disabled 
                     placeholder="Buscar músicos, DJs, artistas..." 
-                    className="w-full pl-12 pr-4 py-4 rounded-2xl border border-gray-700 bg-black/40 backdrop-blur-sm text-white placeholder:text-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all duration-200 hover:border-gray-600"
+                    className="w-full pl-12 pr-4 py-4 rounded-2xl border border-[#7c3aed]/25 bg-[#130d2a]/50 backdrop-blur-sm text-white placeholder:text-gray-500 focus:border-[#8b5cf6] focus:ring-2 focus:ring-[#8b5cf6]/30 transition-all duration-200 hover:border-[#7c3aed]/40"
                   />
                 </div>
                 <button 
                   disabled 
-                  className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl border border-gray-700 bg-black/40 backdrop-blur-sm text-gray-400 cursor-not-allowed hover:border-gray-600 transition-all duration-200 min-w-[140px]"
+                  className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-2xl border border-[#7c3aed]/25 bg-[#130d2a]/50 backdrop-blur-sm text-gray-400 cursor-not-allowed hover:border-[#7c3aed]/40 transition-all duration-200 min-w-[140px]"
                 >
                   <SlidersHorizontal className="h-5 w-5" />
                   Filtros
@@ -345,7 +345,7 @@ export default function ExplorarNetflixMock() {
 
               {/* Info banner */}
               <div className="inline-flex items-start gap-3 p-4 rounded-xl bg-purple-500/10 border border-purple-500/20 backdrop-blur-sm animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
-                <Info className="h-5 w-5 text-purple-400 mt-0.5 flex-shrink-0" />
+                <Info className="h-5 w-5 text-[#a78bfa] mt-0.5 flex-shrink-0" />
                 <div className="text-sm text-purple-200">
                   <span className="font-medium">Vista demo:</span> En producción verás perfiles reales con disponibilidad en tiempo real, precios actualizados y sistema de reservas integrado.
                 </div>
@@ -356,15 +356,15 @@ export default function ExplorarNetflixMock() {
       </section>
 
       {/* FILTROS */}
-      <section className="border-y border-gray-800/50 bg-black/20 backdrop-blur-sm">
+      <section className="border-y border-[#7c3aed]/15 bg-[#130d2a]/30 backdrop-blur-sm">
         <div className="w-full px-6 py-6">
           <div className="max-w-6xl mx-auto">
             <SectionTitle
               title="Filtros de búsqueda"
               subtitle="Personaliza tu búsqueda para encontrar exactamente lo que necesitas."
               action={
-                <span className="text-xs text-purple-400 inline-flex items-center gap-1 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20">
-                  <Sparkles className="h-3 w-3" />
+                <span className="text-xs text-[#a78bfa] inline-flex items-center gap-1 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/20">
+                  <Zap className="h-3 w-3" />
                   Próximamente interactivo
                 </span>
               }
@@ -381,7 +381,7 @@ export default function ExplorarNetflixMock() {
             title="Talento cerca de ti"
             subtitle="Artistas y músicos disponibles en tu zona, ordenados por proximidad."
             action={
-              <button className="text-sm px-4 py-2 rounded-full border border-gray-700 text-white hover:bg-gray-800 hover:border-purple-500 transition-all duration-200">
+              <button className="text-sm px-4 py-2 rounded-full border border-[#7c3aed]/25 text-white hover:bg-gray-800 hover:border-purple-500 transition-all duration-200">
                 Ver todos
               </button>
             }
@@ -444,8 +444,8 @@ export default function ExplorarNetflixMock() {
             title="Recomendados para ti"
             subtitle="Sugerencias personalizadas basadas en tus preferencias y búsquedas anteriores."
             action={
-              <div className="inline-flex items-center gap-1.5 text-sm text-fuchsia-400 px-3 py-1 rounded-full bg-fuchsia-500/10 border border-fuchsia-500/20">
-                <Sparkles className="h-4 w-4" />
+              <div className="inline-flex items-center gap-1.5 text-sm text-[#a78bfa] px-3 py-1 rounded-full bg-[#7c3aed]/10 border border-[#7c3aed]/20">
+                <Zap className="h-4 w-4" />
                 IA Personalizada
               </div>
             }
@@ -478,7 +478,7 @@ export default function ExplorarNetflixMock() {
             action={
               <button 
                 onClick={() => setIsCategoriesModalOpen(true)}
-                className="text-sm px-4 py-2 rounded-full border border-gray-700 text-white hover:bg-gray-800 hover:border-purple-500 transition-all duration-200"
+                className="text-sm px-4 py-2 rounded-full border border-[#7c3aed]/25 text-white hover:bg-gray-800 hover:border-purple-500 transition-all duration-200"
               >
                 Ver todas las categorías
               </button>
@@ -501,11 +501,11 @@ export default function ExplorarNetflixMock() {
       </section>
 
       {/* FOOTER */}
-      <footer className="border-t border-gray-800/50 bg-black/40 backdrop-blur-sm">
+      <footer className="border-t border-[#7c3aed]/15 bg-[#130d2a]/50 backdrop-blur-sm">
         <div className="w-full px-6 py-8">
           <div className="max-w-6xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 text-sm text-gray-400 mb-2">
-              <Sparkles className="h-4 w-4 text-purple-400" />
+              <Zap className="h-4 w-4 text-[#a78bfa]" />
               Demostración del interfaz
             </div>
             <p className="text-xs text-gray-500 max-w-2xl mx-auto">

@@ -105,15 +105,22 @@ function ClientNavigation({ activeSection = '' }: ClientNavigationProps) {
   }
 
   return (
-    <nav
-      className="fixed top-0 left-0 right-0 z-40 backdrop-blur-md shadow-lg border-b transition-colors duration-300"
-      style={{
-        backgroundColor: isDark ? 'rgba(10,6,24,0.85)' : 'rgba(240,235,255,0.90)',
-        borderColor: isDark ? 'rgba(255,255,255,0.10)' : '#e9d5ff',
-      }}
-    >
-      <div className="max-w-[1200px] mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <nav className="fixed top-0 left-0 right-0 z-40">
+      <div className="max-w-[1320px] mx-auto px-4 sm:px-6 pt-3">
+        <div
+          className="flex items-center justify-between h-14 px-4 sm:px-5 rounded-full transition-colors duration-300"
+          style={{
+            background: isDark
+              ? 'linear-gradient(160deg, rgba(255,255,255,0.09), transparent 42%), rgba(17,11,38,0.55)'
+              : 'linear-gradient(160deg, rgba(255,255,255,0.45), rgba(240,235,255,0.20) 48%), rgba(233,224,255,0.35)',
+            border: isDark ? '1px solid rgba(255,255,255,0.16)' : '1px solid rgba(255,255,255,0.75)',
+            backdropFilter: 'blur(22px) saturate(150%)',
+            WebkitBackdropFilter: 'blur(22px) saturate(150%)',
+            boxShadow: isDark
+              ? 'inset 0 1px 0 rgba(255,255,255,0.12), 0 12px 40px -16px rgba(0,0,0,0.6)'
+              : 'inset 0 1px 0 rgba(255,255,255,0.9), 0 12px 40px -20px rgba(124,58,237,0.35)',
+          }}
+        >
           {/* Logo */}
           <div className="flex-shrink-0">
             <Link href="/" className="block">
@@ -132,12 +139,12 @@ function ClientNavigation({ activeSection = '' }: ClientNavigationProps) {
                   key={item.section}
                   href={`/${item.section === 'hero' ? '' : item.section}`}
                   onClick={() => handleSectionClick(item.section)}
-                  className={`px-4 py-2 text-sm font-medium transition-colors duration-200 flex items-center rounded-md ${
+                  className={`px-4 py-2 text-sm font-medium transition-colors duration-200 flex items-center rounded-full ${
                     (activeSection || currentSection) === item.section
                       ? 'text-white bg-[#7c3aed]'
                       : isDark
                         ? 'text-gray-300 hover:text-white hover:bg-white/10'
-                        : 'text-[#6b7280] hover:text-[#1f2937] hover:bg-[#f3e8ff]'
+                        : 'text-[#4b5563] hover:text-[#1f2937] hover:bg-white/50'
                   }`}
                 >
                   <span className="inline-flex items-center justify-center w-5 h-5 mr-2">
@@ -157,11 +164,11 @@ function ClientNavigation({ activeSection = '' }: ClientNavigationProps) {
                     setAuthModalTitle(item.name);
                     setShowAuthModal(true);
                   }}
-                  className={`px-4 py-2 text-sm font-medium transition-colors duration-200 flex items-center rounded-md ${
+                  className={`px-4 py-2 text-sm font-medium transition-colors duration-200 flex items-center rounded-full ${
                     item.section === 'login'
                       ? isDark
                         ? 'text-gray-300 hover:text-white hover:bg-white/10'
-                        : 'text-[#6b7280] hover:text-[#1f2937] hover:bg-[#f3e8ff]'
+                        : 'text-[#4b5563] hover:text-[#1f2937] hover:bg-white/50'
                       : 'bg-gradient-to-r from-[#7c3aed] to-[#2563eb] text-white hover:from-[#8b5cf6] hover:to-[#3b82f6]'
                   }`}
                 >
@@ -177,12 +184,19 @@ function ClientNavigation({ activeSection = '' }: ClientNavigationProps) {
           </div>
 
           {/* Menú móvil desplegable */}
-          <div className={`md:hidden absolute top-16 left-0 right-0 transition-all duration-300 ease-in-out overflow-hidden ${mobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+          <div className={`md:hidden absolute top-[72px] left-0 right-0 transition-all duration-300 ease-in-out overflow-hidden ${mobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
             <div
-              className="mx-4 mt-2 px-2 py-4 space-y-2 backdrop-blur-lg shadow-2xl border rounded-lg"
+              className="mx-4 mt-2 px-2 py-4 space-y-2 rounded-3xl"
               style={{
-                background: isDark ? 'rgba(20,14,40,0.97)' : 'rgba(255,255,255,0.95)',
-                borderColor: isDark ? 'rgba(255,255,255,0.12)' : '#e9d5ff',
+                background: isDark
+                  ? 'linear-gradient(160deg, rgba(255,255,255,0.09), transparent 42%), rgba(17,11,38,0.85)'
+                  : 'linear-gradient(160deg, rgba(255,255,255,0.65), rgba(240,235,255,0.40) 48%), rgba(233,224,255,0.55)',
+                border: isDark ? '1px solid rgba(255,255,255,0.16)' : '1px solid rgba(255,255,255,0.75)',
+                backdropFilter: 'blur(22px) saturate(150%)',
+                WebkitBackdropFilter: 'blur(22px) saturate(150%)',
+                boxShadow: isDark
+                  ? 'inset 0 1px 0 rgba(255,255,255,0.12), 0 24px 60px -20px rgba(0,0,0,0.7)'
+                  : 'inset 0 1px 0 rgba(255,255,255,0.9), 0 24px 60px -24px rgba(124,58,237,0.35)',
               }}
             >
               {menuItems.map((item) => (
@@ -281,9 +295,15 @@ export default function Navigation({ activeSection = '' }: NavigationProps) {
   // En el servidor, renderizar una versión simplificada
   if (!isClient) {
     return (
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#f0ebff]/90 backdrop-blur-md border-b border-[#e9d5ff]">
-        <div className="max-w-[1200px] mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
+      <nav className="fixed top-0 left-0 right-0 z-50">
+        <div className="max-w-[1320px] mx-auto px-4 sm:px-6 pt-3">
+          <div
+            className="flex items-center justify-between h-14 px-4 sm:px-5 rounded-full backdrop-blur-xl"
+            style={{
+              background: 'rgba(233,224,255,0.35)',
+              border: '1px solid rgba(255,255,255,0.75)',
+            }}
+          >
             {/* Logo para SSR */}
             <div className="flex-shrink-0">
               <span className="text-2xl font-bold bg-gradient-to-r from-[#7c3aed] to-[#2563eb] bg-clip-text text-transparent">

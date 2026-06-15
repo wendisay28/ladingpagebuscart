@@ -1,251 +1,336 @@
 "use client";
-import { useEffect, useRef } from "react";
-import { Palette, Ticket, Landmark, Rocket, Compass } from "lucide-react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { motion } from "framer-motion";
-import Link from "next/link";
+import { useEffect, useRef, ReactNode, CSSProperties } from "react";
+import {
+  Heart, Bookmark, Share2, BadgeCheck, MapPin, Star, Briefcase, UserPlus,
+  ShieldCheck, ArrowRight, Home, Compass, PlusCircle, User, Search,
+  Calendar, Ticket, BrainCircuit, CalendarPlus,
+} from "lucide-react";
+import { useTheme } from "../../../context/ThemeContext";
 
-// Register ScrollTrigger plugin
-gsap.registerPlugin(ScrollTrigger);
+const BULLETS = [
+  { Icon: Search, text: "Desliza entre artistas y eventos de tu ciudad, en tarjetas a pantalla completa" },
+  { Icon: BrainCircuit, text: "Nuestra IA reúne toda la oferta cultural de la ciudad en un solo lugar" },
+  { Icon: CalendarPlus, text: "¿Organizas? Publica tus propios eventos y recibe reservas" },
+  { Icon: ShieldCheck, text: "Reserva y contrata siempre con el pago protegido" },
+];
+
+// Marco de teléfono reutilizable con barra de navegación de la app
+function PhoneFrame({ children, isDark, className, style }: { children: ReactNode; isDark: boolean; className?: string; style?: CSSProperties }) {
+  return (
+    <div
+      className={`relative w-[272px] h-[565px] rounded-[42px] p-2 ${className ?? ""}`}
+      style={{
+        background: "#0c0a14",
+        border: `1px solid ${isDark ? "rgba(255,255,255,0.22)" : "rgba(255,255,255,0.9)"}`,
+        boxShadow: isDark
+          ? "0 50px 110px -35px rgba(124,58,237,0.55), 0 25px 60px -30px rgba(0,0,0,0.9)"
+          : "0 50px 110px -40px rgba(124,58,237,0.45)",
+        ...style,
+      }}
+    >
+      <div className="absolute top-4 left-1/2 -translate-x-1/2 w-22 h-[20px] rounded-full bg-black z-30" style={{ width: 88 }} />
+      <div className="relative w-full h-full rounded-[34px] overflow-hidden flex flex-col" style={{ background: "#0a0618" }}>
+        <div className="relative flex-1 m-1.5 rounded-[26px] overflow-hidden">{children}</div>
+        <div className="flex items-center justify-around px-4 pb-3 pt-1">
+          <Home size={18} color="rgba(255,255,255,0.4)" />
+          <Compass size={18} color="#a78bfa" />
+          <PlusCircle size={22} color="rgba(255,255,255,0.85)" />
+          <Heart size={18} color="rgba(255,255,255,0.4)" />
+          <User size={18} color="rgba(255,255,255,0.4)" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// Elementos compartidos de las tarjetas réplica
+function CardChrome() {
+  return (
+    <>
+      <div className="absolute left-2.5 top-1/2 -translate-y-1/2 flex flex-col items-center gap-1.5">
+        <span style={{ width: 4, height: 22, borderRadius: 3, background: "#fff" }} />
+        <span style={{ width: 4, height: 4, borderRadius: 3, background: "rgba(255,255,255,0.4)" }} />
+        <span style={{ width: 4, height: 4, borderRadius: 3, background: "rgba(255,255,255,0.4)" }} />
+      </div>
+      <div className="absolute right-3 top-[40%] -translate-y-1/2 flex flex-col items-center gap-4">
+        <Heart size={22} fill="#f87171" color="#f87171" style={{ filter: "drop-shadow(0 1px 4px rgba(0,0,0,0.6))" }} />
+        <Bookmark size={22} fill="#ffffff" color="#ffffff" style={{ filter: "drop-shadow(0 1px 4px rgba(0,0,0,0.6))" }} />
+        <Share2 size={22} fill="#ffffff" color="#ffffff" style={{ filter: "drop-shadow(0 1px 4px rgba(0,0,0,0.6))" }} />
+      </div>
+    </>
+  );
+}
+
+const tagChip = { background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.30)" };
+const glassBtn = { background: "rgba(255,255,255,0.15)", border: "1px solid rgba(255,255,255,0.35)" };
+const gradBtn = { background: "linear-gradient(135deg, #7c3aed, #2563eb)", boxShadow: "0 4px 16px rgba(124,58,237,0.55)" };
 
 export default function ForArtistsSection() {
+  const { isDark } = useTheme();
   const sectionRef = useRef<HTMLElement>(null);
-  const animationRef = useRef<gsap.core.Timeline | null>(null);
 
   useEffect(() => {
-    const el = sectionRef.current;
-    if (!el) return;
+    let mounted = true;
+    let cleanup: (() => void) | undefined;
 
-    const textItems = el.querySelectorAll(".text-reveal");
-    const imageItems = el.querySelectorAll(".image-item");
-    const section = el.querySelector("section");
+    const setup = async () => {
+      if (typeof window === "undefined") return;
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-    // Clear any existing animations
-    if (animationRef.current) {
-      animationRef.current.kill();
-      animationRef.current = null;
-    }
+      const gsapModule = await import("gsap");
+      const STModule = await import("gsap/ScrollTrigger");
+      const gs = (gsapModule as any).default || (gsapModule as any).gsap || gsapModule;
+      const ST = (STModule as any).default || (STModule as any).ScrollTrigger || STModule;
+      gs.registerPlugin(ST);
+      if (!mounted || !sectionRef.current) return;
 
-    // Reset initial state with null checks
-    gsap.set(textItems, {
-      y: 100,
-      opacity: 0,
-      willChange: 'transform, opacity'
-    });
+      gs.set(".showcase-copy", { x: -70, opacity: 0 });
+      gs.set(".showcase-phone-a", { y: 150, rotate: 7, opacity: 0 });
+      gs.set(".showcase-phone-b", { y: 190, rotate: -6, opacity: 0 });
+      gs.set(".showcase-chip", { scale: 0, opacity: 0 });
 
-    gsap.set(imageItems, {
-      y: 100,
-      opacity: 0,
-      willChange: 'transform, opacity'
-    });
-
-    // Only proceed if we have elements to animate
-    if (textItems.length === 0 && imageItems.length === 0) return;
-
-    // Create a timeline for the section
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: el,
-        start: "top 80%",
-        end: "top 30%",
-        toggleActions: "play none none none",
-        markers: false
-      }
-    });
-
-    // Only add text animation if there are text items
-    if (textItems.length > 0) {
-      tl.to(textItems, {
-        y: 0,
-        opacity: 1,
-        stagger: 0.15,
-        duration: 0.8,
-        ease: "power3.out"
-      });
-    }
-
-    // Only add image animation if there are image items
-    if (imageItems.length > 0) {
-      // Animate image grid with a slight delay after text
-      tl.to(imageItems, {
-        y: 0,
-        opacity: 1,
-        stagger: 0.1,
-        duration: 0.6,
-        ease: "back.out(1.7)"
-      }, textItems.length > 0 ? "-=0.3" : 0);
-    }
-
-    // Only add scroll effect if section exists
-    if (section) {
-      gsap.to(section, {
+      const tl = gs.timeline({
         scrollTrigger: {
-          trigger: el,
-          start: "top bottom",
-          end: "bottom top",
-          scrub: true
+          trigger: sectionRef.current,
+          start: "top 80%",
+          end: "top 10%",
+          scrub: 1,
+          invalidateOnRefresh: true,
+          id: "showcaseSection",
         },
-        scale: 0.98,
-        opacity: 0.7,
-        y: 50,
-        ease: "none"
-      });
-    }
-
-    // Hover effects for images with null check
-    imageItems.forEach((item) => {
-      const image = item.querySelector('img');
-      if (!image) return;
-
-      item.addEventListener('mouseenter', () => {
-        gsap.to(image, { scale: 1.05, duration: 0.3 });
       });
 
-      item.addEventListener('mouseleave', () => {
-        gsap.to(image, { scale: 1, duration: 0.3 });
-      });
-    });
+      tl.to(".showcase-copy", { x: 0, opacity: 1, duration: 0.6, ease: "power3.out" }, 0);
+      tl.to(".showcase-phone-a", { y: 0, rotate: -3, opacity: 1, duration: 0.9, ease: "power3.out" }, 0.15);
+      tl.to(".showcase-phone-b", { y: 0, rotate: 4, opacity: 1, duration: 0.9, ease: "power3.out" }, 0.35);
+      tl.to(".showcase-chip", { scale: 1, opacity: 1, duration: 0.35, stagger: 0.18, ease: "back.out(1.8)" }, 0.95);
 
-    animationRef.current = tl;
+      cleanup = () => {
+        try { (ST as any).getById?.("showcaseSection")?.kill?.(); } catch {}
+        tl.kill();
+      };
+    };
 
-    // Cleanup function
+    setup();
     return () => {
-      if (animationRef.current) {
-        animationRef.current.kill();
-        animationRef.current = null;
-      }
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-
-      // Cleanup hover event listeners
-      imageItems.forEach((item) => {
-        const image = item.querySelector('img');
-        if (!image) return;
-
-        item.removeEventListener('mouseenter', () => {
-          gsap.to(image, { scale: 1.05, duration: 0.3 });
-        });
-
-        item.removeEventListener('mouseleave', () => {
-          gsap.to(image, { scale: 1, duration: 0.3 });
-        });
-      });
+      mounted = false;
+      cleanup?.();
     };
   }, []);
 
-  const artistFeatures = [
-    {
-      icon: <Palette className="w-6 h-6 text-[#7c3aed]" />,
-      text: "Artistas — talento verificado para cada disciplina creativa"
-    },
-    {
-      icon: <Ticket className="w-6 h-6 text-[#9333ea]" />,
-      text: "Eventos — conciertos, festivales y experiencias cerca de ti"
-    },
-    {
-      icon: <Landmark className="w-6 h-6 text-[#7c3aed]" />,
-      text: "Espacios — lugares culturales con alma para cada ocasión"
-    },
-    {
-      icon: <Rocket className="w-6 h-6 text-[#2563eb]" />,
-      text: "Oportunidades — convocatorias, contratos y trabajo para crecer"
-    }
-  ];
+  const ink = isDark ? "#f5f3ff" : "#1f2937";
+  const accent = isDark ? "#a78bfa" : "#6d28d9";
+  const body = isDark ? "#b9b3cf" : "#4b5563";
+
+  const floatChip = {
+    background: isDark ? "rgba(17,11,38,0.72)" : "rgba(255,255,255,0.78)",
+    border: `1px solid ${isDark ? "rgba(255,255,255,0.22)" : "rgba(255,255,255,0.95)"}`,
+    backdropFilter: "blur(16px)",
+    WebkitBackdropFilter: "blur(16px)",
+    boxShadow: isDark
+      ? "0 16px 40px -16px rgba(124,58,237,0.45)"
+      : "0 16px 40px -18px rgba(124,58,237,0.35)",
+  };
 
   return (
-    <section ref={sectionRef} className="relative py-24 md:py-32 bg-white overflow-hidden">
-      <div className="relative z-10 w-full max-w-[1200px] mx-auto px-3 sm:px-4 md:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-12 items-stretch min-h-[500px]">
-          {/* Text column */}
-          <div className="flex flex-col justify-between h-full m-4">
-            <div className="space-y-4">
-              <div className="text-reveal flex items-center gap-2">
-                <Compass className="w-4 h-4 text-[#7c3aed]" />
-                <span className="uppercase tracking-widest text-xs text-[#7c3aed] font-semibold">
-                  Explora BuscArt
-                </span>
-              </div>
+    <section
+      ref={sectionRef}
+      className="relative overflow-hidden transition-colors duration-300"
+      style={{
+        // Fondo propio de esta sección: degradado profundo sin cuadrícula
+        background: isDark
+          ? "linear-gradient(175deg, #0a0618 0%, #170d33 45%, #0a0618 100%)"
+          : "linear-gradient(175deg, #f0ebff 0%, #e3d7ff 45%, #f0ebff 100%)",
+      }}
+    >
+      {/* Glows cruzados */}
+      <div
+        aria-hidden
+        className="absolute pointer-events-none"
+        style={{
+          right: "-6%", top: "6%", width: "48vw", aspectRatio: "1",
+          background: `radial-gradient(closest-side, ${isDark ? "rgba(124,58,237,0.30)" : "rgba(124,58,237,0.18)"}, transparent 70%)`,
+        }}
+      />
+      <div
+        aria-hidden
+        className="absolute pointer-events-none"
+        style={{
+          left: "-10%", bottom: "-8%", width: "42vw", aspectRatio: "1",
+          background: `radial-gradient(closest-side, ${isDark ? "rgba(37,99,235,0.22)" : "rgba(37,99,235,0.12)"}, transparent 70%)`,
+        }}
+      />
 
-              <h2 className="text-reveal font-bold text-4xl lg:text-5xl text-[#1f2937] leading-tight">
-                Descubre exactamente lo que{" "}
-                <span className="relative inline-block bg-gradient-to-r from-[#7c3aed] via-[#9333ea] to-[#2563eb] bg-clip-text text-transparent">
-                  necesitas
-                  <div className="absolute -bottom-2 left-0 right-0 h-1 bg-gradient-to-r from-[#7c3aed] via-[#9333ea] to-[#2563eb] rounded-full" />
-                </span>
-              </h2>
+      <div className="relative max-w-[1320px] mx-auto px-4 sm:px-6 py-24 lg:py-28 z-10">
+        <div className="grid lg:grid-cols-[0.9fr_1.1fr] gap-14 lg:gap-6 items-center">
 
-              <p className="text-reveal text-base text-[#6b7280] leading-relaxed max-w-lg">
-                Artistas, eventos, espacios y oportunidades en un mismo lugar. Encuentra exactamente lo que buscas y empieza a explorar.
-              </p>
-            </div>
+          {/* Texto */}
+          <div className="showcase-copy">
+            <h2
+              style={{
+                fontFamily: "var(--font-display), system-ui, sans-serif",
+                fontWeight: 800,
+                fontSize: "clamp(2.2rem, 4vw, 3.4rem)",
+                lineHeight: 1.06,
+                letterSpacing: "-0.02em",
+                color: ink,
+                marginBottom: 16,
+              }}
+            >
+              Así se ve <span style={{ color: accent }}>explorar.</span>
+            </h2>
+            <p style={{ fontSize: 16.5, lineHeight: 1.7, color: body, maxWidth: "46ch", marginBottom: 30 }}>
+              Artistas y eventos de frente: su trabajo, su tarifa y su fecha
+              en tarjetas a pantalla completa.
+            </p>
 
-            <div className="space-y-4 flex-grow flex flex-col justify-center">
-              {artistFeatures.map((feature, index) => (
-                <div
-                  key={index}
-                  className="text-reveal flex items-start gap-4 p-3 rounded-xl bg-gradient-to-r from-white/50 to-[#f3f4f6]/30 border border-[#e9d5ff] hover:border-[#7c3aed] transition-all duration-300 hover:bg-white/40"
-                >
-                  <div className="flex-shrink-0 p-2 bg-gradient-to-br from-[#7c3aed]/20 to-[#9333ea]/20 rounded-lg">
-                    {feature.icon}
-                  </div>
-                  <p className="text-[#6b7280] leading-relaxed">
-                    {feature.text}
-                  </p>
-                </div>
-              ))}
-              <Link href="/explorar" className="block w-full">
-                <motion.button
-                  whileHover={{ scale: 1.03 }}
-                  whileTap={{ scale: 0.98 }}
-                  className="w-full mt-6 px-6 py-3 rounded-xl bg-gradient-to-r from-[#7c3aed] via-[#9333ea] to-[#2563eb] text-white font-medium shadow-lg hover:shadow-xl hover:shadow-[#7c3aed]/30 transition-all duration-300 flex items-center justify-center gap-2 group"
-                >
-                  <span>Explorar</span>
-                  <svg
-                    className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
+            <div className="flex flex-col gap-4 mb-9">
+              {BULLETS.map(({ Icon, text }) => (
+                <div key={text} className="flex items-center gap-4">
+                  {/* Cápsula con gradiente de marca */}
+                  <span
+                    className="relative flex items-center justify-center rounded-2xl shrink-0"
+                    style={{
+                      width: 44,
+                      height: 44,
+                      background: "linear-gradient(135deg, #7c3aed, #2563eb)",
+                      boxShadow: `inset 0 1px 0 rgba(255,255,255,0.35), 0 10px 22px -10px ${isDark ? "rgba(124,58,237,0.65)" : "rgba(124,58,237,0.5)"}`,
+                      color: "#ffffff",
+                    }}
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
-                </motion.button>
-              </Link>
-            </div>
-          </div>
-          {/* Visual column */}
-          <div className="flex items-center justify-center h-full m-4">
-            <div className="images-grid grid grid-cols-2 gap-4 w-full h-full">
-              {[
-                { src: "/artistastop/bailarina.jpg", alt: "Artistas", category: "Artistas" },
-                { src: "/artistastop/djs.jpg", alt: "Eventos", category: "Eventos" },
-                { src: "/Medellin/PalaciodeBellasArtes.jpeg", alt: "Espacios", category: "Espacios" },
-                { src: "/artistastop/fotografo.jpg", alt: "Oportunidades", category: "Oportunidades" },
-              ].map((item, i) => (
-                <div
-                  key={i}
-                  className="image-item relative group cursor-pointer aspect-square w-full h-full flex"
-                >
-                  <div className="relative w-full h-full rounded-2xl overflow-hidden border border-[#e9d5ff] bg-gradient-to-br from-white to-[#f3f4f6] flex">
-                    <img
-                      src={item.src}
-                      alt={item.alt}
-                      className="w-full h-full object-cover transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#7c3aed]/60 via-transparent to-[#9333ea]/20" />
-                    <div className="hover-overlay absolute inset-0 bg-gradient-to-t from-[#7c3aed]/80 via-[#9333ea]/40 to-transparent opacity-0 transition-opacity duration-300">
-                      <div className="absolute bottom-3 left-3 right-3">
-                        <span className="inline-block px-2 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-medium text-white">
-                          {item.category}
-                        </span>
-                      </div>
-                    </div>
-                    <div className="absolute top-2 right-2 w-6 h-6 bg-gradient-to-br from-white/40 to-transparent rounded-full opacity-60" />
-                  </div>
-                  <div className="absolute -inset-1 bg-gradient-to-r from-[#7c3aed] to-[#2563eb] rounded-2xl opacity-0 group-hover:opacity-20 transition-opacity duration-300 blur-xl" />
+                    <Icon size={19} strokeWidth={2.2} />
+                  </span>
+                  <span style={{ fontSize: 15, lineHeight: 1.5, color: body }}>{text}</span>
                 </div>
               ))}
             </div>
+
+            <a
+              href="/explorar"
+              className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-[15px] font-semibold text-white transition-transform duration-200 hover:-translate-y-0.5"
+              style={
+                isDark
+                  ? { background: "rgba(255,255,255,0.10)", border: "1px solid rgba(255,255,255,0.28)" }
+                  : { background: "linear-gradient(135deg, #7c3aed, #2563eb)", boxShadow: "0 12px 32px -12px rgba(124,58,237,0.55)" }
+              }
+            >
+              Explorar talento
+              <ArrowRight size={16} />
+            </a>
           </div>
+
+          {/* Dúo de teléfonos: artista + evento */}
+          <div className="relative flex justify-center items-center">
+
+            {/* Chips flotantes */}
+            <div className="showcase-chip hidden xl:flex absolute -left-8 top-10 items-center gap-2.5 px-4 py-3 rounded-2xl z-30" style={floatChip}>
+              <MapPin size={17} style={{ color: accent }} />
+              <div>
+                <div style={{ fontSize: 12.5, fontWeight: 700, color: ink }}>Cerca de ti</div>
+                <div style={{ fontSize: 11, color: body }}>Bogotá · a 2,4 km</div>
+              </div>
+            </div>
+            <div className="showcase-chip hidden xl:flex absolute -left-14 bottom-24 items-center gap-2.5 px-4 py-3 rounded-2xl z-30" style={floatChip}>
+              <ShieldCheck size={17} style={{ color: "#10b981" }} />
+              <div>
+                <div style={{ fontSize: 12.5, fontWeight: 700, color: ink }}>Pago protegido</div>
+                <div style={{ fontSize: 11, color: body }}>Mercado Pago</div>
+              </div>
+            </div>
+            <div className="showcase-chip hidden xl:flex absolute -right-6 top-24 items-center gap-2.5 px-4 py-3 rounded-2xl z-30" style={floatChip}>
+              <BrainCircuit size={17} style={{ color: accent }} />
+              <div>
+                <div style={{ fontSize: 12.5, fontWeight: 700, color: ink }}>Agenda con IA</div>
+                <div style={{ fontSize: 11, color: body }}>Toda la ciudad, un lugar</div>
+              </div>
+            </div>
+
+            {/* Teléfono A: explorar artistas */}
+            <PhoneFrame isDark={isDark} className="showcase-phone-a z-20">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/artistastop/bailarina.webp" alt="Perfil de artista en BuscArt" className="absolute inset-0 w-full h-full object-cover" />
+              <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.75) 30%, rgba(0,0,0,0.15) 60%, transparent 100%)" }} />
+              <CardChrome />
+              <div className="absolute bottom-0 left-0 right-0 px-3.5 pb-4">
+                <div className="flex items-center gap-1.5 mb-1">
+                  <span className="text-[16px] font-bold text-white truncate">Valentina Rojas</span>
+                  <span className="w-[15px] h-[15px] rounded-full bg-[#7c3aed] flex items-center justify-center shrink-0">
+                    <BadgeCheck size={9} color="#fff" />
+                  </span>
+                  <span className="ml-auto flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-semibold text-white shrink-0" style={{ border: "1px solid rgba(255,255,255,0.55)", background: "rgba(255,255,255,0.15)" }}>
+                    <UserPlus size={9} color="#fff" />
+                    Seguir
+                  </span>
+                </div>
+                <div className="flex items-center gap-1.5 mb-2 flex-wrap">
+                  <Star size={10} fill="#facc15" color="#facc15" />
+                  <span className="text-[10px] font-bold text-white">4.9</span>
+                  <span className="text-white/40 text-[10px]">·</span>
+                  <span className="flex items-center gap-1 px-1.5 py-0.5 rounded-full" style={{ background: "rgba(16,185,129,0.18)", border: "1px solid rgba(16,185,129,0.4)" }}>
+                    <span className="w-1.5 h-1.5 rounded-full" style={{ background: "#10b981" }} />
+                    <span className="text-[9px] font-semibold" style={{ color: "#34d399" }}>Disponible</span>
+                  </span>
+                  <span className="text-white/40 text-[10px]">·</span>
+                  <MapPin size={10} color="rgba(255,255,255,0.8)" />
+                  <span className="text-[10px] text-white/80">Bogotá, 2,4 km</span>
+                </div>
+                <p className="text-[11px] text-white/85 leading-snug mb-2.5">
+                  Danza contemporánea para eventos, video y escena en vivo.
+                </p>
+                <div className="flex gap-1.5 mb-3">
+                  {["Danza", "Contemporáneo"].map((tag) => (
+                    <span key={tag} className="px-2 py-0.5 rounded-full text-[9px] font-semibold text-white" style={tagChip}>{tag}</span>
+                  ))}
+                </div>
+                <div className="flex gap-2">
+                  <span className="flex-1 flex items-center justify-center gap-1 py-2 rounded-xl" style={glassBtn}>
+                    <span className="text-white/70 text-[9px] font-medium">desde</span>
+                    <span className="text-white text-[10px] font-bold">$450.000</span>
+                  </span>
+                  <span className="flex-1 flex items-center justify-center gap-1 py-2 rounded-xl text-white text-[10px] font-bold" style={gradBtn}>
+                    <Briefcase size={11} color="#fff" />
+                    Contratar
+                  </span>
+                </div>
+              </div>
+            </PhoneFrame>
+
+            {/* Teléfono B: tarjeta de evento */}
+            <PhoneFrame isDark={isDark} className="showcase-phone-b z-10 hidden sm:block -ml-16 mt-14">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/artistastop/evento.webp" alt="Evento cultural en BuscArt" className="absolute inset-0 w-full h-full object-cover" />
+              <div className="absolute inset-0 pointer-events-none" style={{ background: "linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.75) 30%, rgba(0,0,0,0.15) 60%, transparent 100%)" }} />
+              <CardChrome />
+              <div className="absolute bottom-0 left-0 right-0 px-3.5 pb-4">
+                <span className="text-[16px] font-bold text-white block mb-1 truncate">Jazz al Parque</span>
+                <div className="flex items-center gap-1.5 mb-2 flex-wrap">
+                  <Calendar size={10} color="rgba(255,255,255,0.7)" />
+                  <span className="text-[10px] font-semibold text-white/85">Sáb 21 jun · 7:00 PM</span>
+                  <span className="text-white/40 text-[10px]">·</span>
+                  <MapPin size={10} color="rgba(255,255,255,0.8)" />
+                  <span className="text-[10px] text-white/80">Bogotá</span>
+                </div>
+                <p className="text-[11px] text-white/85 leading-snug mb-2.5">
+                  Festival con bandas en vivo y entrada libre al parque.
+                </p>
+                <div className="flex gap-1.5 mb-3">
+                  {["Música", "Festival"].map((tag) => (
+                    <span key={tag} className="px-2 py-0.5 rounded-full text-[9px] font-semibold text-white" style={tagChip}>{tag}</span>
+                  ))}
+                </div>
+                <div className="flex gap-2">
+                  <span className="flex-1 flex items-center justify-center py-2 rounded-xl" style={glassBtn}>
+                    <span className="text-white/80 text-[10px] font-semibold">Gratis</span>
+                  </span>
+                  <span className="flex-1 flex items-center justify-center gap-1 py-2 rounded-xl text-white text-[10px] font-bold" style={gradBtn}>
+                    <Ticket size={11} color="#fff" />
+                    Reservar
+                  </span>
+                </div>
+              </div>
+            </PhoneFrame>
+          </div>
+
         </div>
       </div>
     </section>

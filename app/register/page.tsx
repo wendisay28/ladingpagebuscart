@@ -1,8 +1,15 @@
 "use client";
 
 import { useState } from 'react';
-import { Loader2, CheckCircle, XCircle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Loader2, CheckCircle, XCircle, Star, Zap, Mail, ShieldCheck, BadgeCheck } from 'lucide-react';
+import SiteShell from '@/src/components/site/SiteShell';
+import { cx } from '@/src/components/site/theme';
+
+const PERKS = [
+  { Icon: BadgeCheck, text: 'Acceso anticipado al lanzamiento' },
+  { Icon: Zap, text: '0% de comisión para artistas fundadores' },
+  { Icon: ShieldCheck, text: 'Pagos protegidos con Mercado Pago' },
+];
 
 export default function RegisterPage() {
   const [email, setEmail] = useState('');
@@ -11,7 +18,7 @@ export default function RegisterPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (!email) {
       setMessage({ text: 'Por favor ingresa tu correo electrónico', type: 'error' });
       return;
@@ -28,13 +35,8 @@ export default function RegisterPage() {
     try {
       const response = await fetch('/api/subscribe', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email,
-          source: 'register',
-        }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, source: 'register' }),
       });
 
       if (!response.ok) {
@@ -42,11 +44,9 @@ export default function RegisterPage() {
       }
 
       setMessage({
-        text: '¡Gracias por registrarte en la lista de espera! Te notificaremos cuando estemos listos.',
+        text: '¡Listo! Te avisaremos apenas abramos. Gracias por sumarte temprano.',
         type: 'success',
       });
-      
-      // Limpiar el formulario
       setEmail('');
     } catch (error) {
       console.error('Error al suscribirse:', error);
@@ -60,79 +60,99 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-gray-900 to-black text-white">
-      <div className="container mx-auto px-4 py-16 max-w-4xl">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-6xl font-bold mb-6">Estamos en Construcción</h1>
-          <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
-            Estamos trabajando en algo increíble. ¡Regístrate en nuestra lista de espera para ser de los primeros en saber cuando estemos listos!
-          </p>
-        </div>
+    <SiteShell activeSection="register">
+      <section className="px-4 py-20 md:py-28">
+        <div className="max-w-xl mx-auto">
 
-        <div className="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 border border-gray-700 max-w-2xl mx-auto">
-          <div className="text-center mb-8">
-            <h2 className="text-2xl font-bold mb-2">Únete a la Lista de Espera</h2>
-            <p className="text-gray-400">
-              Déjanos tu correo y te notificaremos cuando lancemos nuestra plataforma.
-            </p>
-          </div>
-
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium mb-2">
-                Correo Electrónico
-              </label>
-              <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="tu@email.com"
-                className="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500"
-                disabled={isSubmitting}
-              />
-            </div>
-
-            <Button
-              type="submit"
-              className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white py-3 rounded-lg font-medium transition-all duration-200 flex items-center justify-center gap-2"
-              disabled={isSubmitting}
+          {/* Encabezado */}
+          <div className="reveal text-center mb-10">
+            <span className={`${cx.pill} mb-6`}>
+              <Star className="w-4 h-4 [color:var(--site-accent)]" />
+              Lista de espera abierta
+            </span>
+            <h1
+              className="text-4xl md:text-5xl font-bold mb-4 leading-tight"
+              style={{ fontFamily: 'var(--font-display), system-ui, sans-serif' }}
             >
-              {isSubmitting ? (
-                <>
-                  <Loader2 className="animate-spin h-5 w-5" />
-                  Procesando...
-                </>
-              ) : (
-                'Unirme a la Lista de Espera'
-              )}
-            </Button>
-          </form>
+              Sé de los <span className={cx.gradText}>primeros</span> en BuscArt
+            </h1>
+            <p className={`${cx.muted} text-lg`}>
+              Estamos afinando los últimos detalles. Déjanos tu correo y te
+              avisamos apenas abramos en tu ciudad.
+            </p>
+          </div>
 
-          {message && (
-            <div className={`mt-6 p-4 rounded-lg ${
-              message.type === 'success' 
-                ? 'bg-green-900/30 border border-green-500/50' 
-                : 'bg-red-900/30 border border-red-500/50'
-            }`}>
-              <div className="flex items-start gap-3">
-                {message.type === 'success' ? (
-                  <CheckCircle className="h-5 w-5 text-green-400 mt-0.5 flex-shrink-0" />
-                ) : (
-                  <XCircle className="h-5 w-5 text-red-400 mt-0.5 flex-shrink-0" />
-                )}
-                <p className="text-sm">{message.text}</p>
+          {/* Tarjeta del formulario */}
+          <div className={`reveal d1 ${cx.card} p-8`}>
+            <form onSubmit={handleSubmit} className="space-y-5">
+              <div>
+                <label htmlFor="email" className="block text-sm font-medium mb-2 [color:var(--site-muted)]">
+                  Correo electrónico
+                </label>
+                <div className="relative">
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 [color:var(--site-muted)]" />
+                  <input
+                    type="email"
+                    id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="tu@correo.com"
+                    disabled={isSubmitting}
+                    className="w-full pl-11 pr-4 py-3.5 rounded-xl outline-none transition-all duration-300 disabled:opacity-60 [background:var(--site-surface)] [border:1px_solid_var(--site-border)] [color:var(--site-ink)] placeholder:[color:var(--site-muted)] focus:[border-color:var(--site-border-hover)]"
+                  />
+                </div>
               </div>
-            </div>
-          )}
 
-          <div className="mt-8 pt-6 border-t border-gray-700">
-            <p className="text-sm text-gray-400 text-center">
-              Al unirte a la lista de espera, aceptas nuestra Política de Privacidad y Términos de Servicio.
+              <button type="submit" disabled={isSubmitting} className={`${cx.btnPrimary} w-full disabled:opacity-70`}>
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="animate-spin h-5 w-5" />
+                    Procesando...
+                  </>
+                ) : (
+                  'Unirme a la lista de espera'
+                )}
+              </button>
+            </form>
+
+            {message && (
+              <div
+                className="mt-5 p-4 rounded-xl flex items-start gap-3"
+                style={{
+                  background: message.type === 'success' ? 'rgba(16,185,129,0.12)' : 'rgba(239,68,68,0.12)',
+                  border: `1px solid ${message.type === 'success' ? 'rgba(16,185,129,0.4)' : 'rgba(239,68,68,0.4)'}`,
+                }}
+              >
+                {message.type === 'success' ? (
+                  <CheckCircle className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: '#34d399' }} />
+                ) : (
+                  <XCircle className="h-5 w-5 mt-0.5 flex-shrink-0" style={{ color: '#f87171' }} />
+                )}
+                <p className="text-sm" style={{ color: 'var(--site-ink)' }}>{message.text}</p>
+              </div>
+            )}
+
+            {/* Beneficios */}
+            <div className="mt-7 pt-6 flex flex-col gap-3" style={{ borderTop: '1px solid var(--site-border)' }}>
+              {PERKS.map(({ Icon, text }) => (
+                <div key={text} className="flex items-center gap-3">
+                  <span
+                    className="flex items-center justify-center rounded-lg shrink-0 [color:var(--site-accent)]"
+                    style={{ width: 28, height: 28, background: 'var(--site-surface)', border: '1px solid var(--site-border)' }}
+                  >
+                    <Icon size={15} />
+                  </span>
+                  <span className={`text-sm ${cx.muted}`}>{text}</span>
+                </div>
+              ))}
+            </div>
+
+            <p className={`mt-6 text-xs text-center ${cx.muted}`}>
+              Al unirte aceptas nuestra Política de Privacidad y Términos de Servicio.
             </p>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </SiteShell>
   );
 }
